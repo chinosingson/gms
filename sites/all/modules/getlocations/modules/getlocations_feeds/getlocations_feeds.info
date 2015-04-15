@@ -1,0 +1,15 @@
+name = Getlocations Feeds
+description = Provides getlocations_fields mappers for feed importers
+core = 7.x
+dependencies[] = feeds
+dependencies[] = getlocations_fields
+package = Feeds
+
+
+
+; Information added by  packaging script on 2013-11-17
+version = "7.x-1.10"
+core = "7.x"
+project = "getlocations"
+datestamp = "1384711706"
+

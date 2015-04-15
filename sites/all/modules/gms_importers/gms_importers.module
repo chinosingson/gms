@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the GMS Importers feature.
+ */
+
+include_once 'gms_importers.features.inc';

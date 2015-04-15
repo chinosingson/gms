@@ -1,0 +1,108 @@
+﻿<?php
+	// GMS
+	// test template for project nodes
+	$node = menu_get_object(); 
+	$nid = $node->nid;
+	
+	$editPerm = user_access('Edit any content');
+	if ($editPerm) {
+		$btnEditDetails = "<button class='btn btn-xs btn-default pull-right' id='btn-edit-proj-details'>Edit</button>";
+		$btnEditFunding = "<button class='btn btn-xs btn-default pull-right' id='btn-edit-proj-funding'>Edit</button>";
+		$btnEditPhotos  = "<button class='btn btn-xs btn-default pull-right' id='btn-edit-proj-photos'>Edit</button>";
+		$btnEditOutputs = "<button class='btn btn-xs btn-default pull-right' id='btn-edit-proj-outputs'>Edit</button>";
+		$btnEditImpacts = "<button class='btn btn-xs btn-default pull-right' id='btn-edit-proj-impacts'>Edit</button>";
+	} else {
+		$btnEditDetails = "";
+		$btnEditFunding = "";
+		$btnEditPhotos  = "";
+		$btnEditOutputs = "";
+		$btnEditImpacts = "";
+	}
+	
+	//echo "<pre>";
+	//echo print_r($node,1);
+	//echo "</pre>";
+	
+	// project locationmap
+	$view_map = views_get_view('leaflet_view_test');
+	//$view_map->set_display('block_1');
+	
+	// project details
+	$view_details = views_get_view('project_details');
+	//$view_details->set_display('block');
+	
+	// funding chart
+	$view_funding = views_get_view('project_financing');	
+	
+	// photos
+	$view_photos = views_get_view('project_photos');
+	
+	// impact stories
+	$view_stories = views_get_view('impact_stories');
+	
+	// outputs
+	$view_outputs = views_get_view('outputs');
+?>
+<!--div class="panel-group" id="accordion">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Node Info</a>
+			</h4>
+		</div>
+		<div id="collapse1" class="panel-collapse collapse">
+			<div class="panel-body"><pre><?php //echo print_r($node,1); ?></pre></div>
+		</div>
+	</div>
+</div-->
+<div class="container-fluid">
+	<div class="row">
+	
+		<div class="col-lg-12 collapse in"><?php print views_embed_view('leaflet_view_test', 'block_1', $node->nid); ?></div>
+	</div>
+	<div class="row">
+		<div class="col-sm-2">
+			<div id="project-details">
+				<h4 class=""><?php print $view_details->get_title(); ?> <?php //print $btnEditDetails ?></h4>
+				<?php //print $view_details->preview('block', $nid); ?>
+				<?php print views_embed_view('project_details', 'block', $nid); ?>
+			</div>
+			<div class="well container-fluid" id="form-project-details">
+<?php
+//$block = module_invoke('panels_mini', 'block_view', 'project_details');
+//print $block['content'];
+?>			
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<div id="project-funding-details">
+				<h4><?php print $view_funding->get_title(); ?> <?php //print $btnEditFunding ?></h4>
+				<?php print views_embed_view('project_financing', 'block_1', $nid); ?>
+			</div>
+			<div id="project-funding-chart">
+				<?php //print views_embed_view('project_financing', 'block', $nid); ?>
+			</div>
+		</div>
+		<div class="col-sm-2">
+			<div id="project-outputs">
+				<h4><?php print $view_outputs->get_title(); ?> <?php //print $btnEditOutputs ?></h4>
+				<?php print views_embed_view('outputs', 'block', $nid); ?>
+			</div>
+		</div>
+		<div class="col-sm-2">
+			<div id="project-impact-stories">
+				<h4><?php print $view_stories->get_title(); ?> <?php //print $btnEditImpacts ?></h4>
+				<?php print views_embed_view('impact_stories','block_1', $nid); ?>
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<div id="project-photos">
+				<h4><?php print $view_photos->get_title(); ?> <?php //print $btnEditPhotos ?></h4>
+				<?php print views_embed_view('project_photos','block', $nid); ?>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+	</div>
+</div>

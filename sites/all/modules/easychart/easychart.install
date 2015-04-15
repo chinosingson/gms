@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * Easy Chart install file.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function easychart_uninstall() {
+  node_type_delete('easychart');
+}
+
+/**
+ * Implements hook_field_schema().
+ */
+function easychart_field_schema($field) {
+  $columns = array(
+    'csv' => array('type' => 'text', 'size' => 'big', 'not null' => FALSE),
+    'csv_url' => array('type' => 'text', 'size' => 'medium', 'not null' => FALSE),
+    'config' => array('type' => 'text', 'size' => 'big', 'not null' => FALSE),
+    'stored' => array('type' => 'text', 'size' => 'big', 'not null' => FALSE),
+  );
+  return array(
+    'columns' => $columns,
+  );
+}
+
+/**
+ * Adds storage for an external CSV url.
+ */
+function easychart_update_7100 () {
+  $spec = array(
+    'type' => 'text',
+    'description' => '',
+    'size' => 'medium',
+    'not null' => FALSE,
+  );
+  $data_table_name = 'field_data_easychart';
+  $revision_table_name = 'field_revision_easychart';
+  $field_name = 'easychart_csv_url';
+  db_add_field($data_table_name, $field_name, $spec);
+  db_add_field($revision_table_name, $field_name, $spec);
+}

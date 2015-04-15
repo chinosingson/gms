@@ -1,0 +1,66 @@
+diff --git a/plugins/views_plugin_style_table.inc b/plugins/views_plugin_style_table.inc
+index 45ed976..e76ce75 100644
+--- a/plugins/views_plugin_style_table.inc
++++ b/plugins/views_plugin_style_table.inc
+@@ -28,6 +28,7 @@ class views_plugin_style_table extends views_plugin_style {
+     $options = parent::option_definition();
+ 
+     $options['columns'] = array('default' => array());
++    $options['class'] = array('default' => array());
+     $options['default'] = array('default' => '');
+     $options['info'] = array('default' => array());
+     $options['override'] = array('default' => TRUE, 'bool' => TRUE);
+@@ -196,6 +197,14 @@ class views_plugin_style_table extends views_plugin_style {
+       '#maxlength' => 255,
+     );
+ 
++    $form['class'] = array(
++      '#type' => 'textfield',
++      '#title' => t('Table Class'),
++      '#description' => t('The CSS class names will be added to the table. You may define multiples classes separated by spaces.'),
++      '#default_value' => $this->options['class'],
++      '#maxlength' => 255,
++    );
++
+     // Note: views UI registers this theme handler on our behalf. Your module
+     // will have to register your theme handlers if you do stuff like this.
+     $form['#theme'] = 'views_ui_style_plugin_table';
+diff --git a/theme/theme.inc b/theme/theme.inc
+index e7f7a15..b8527f0 100644
+--- a/theme/theme.inc
++++ b/theme/theme.inc
+@@ -466,10 +466,25 @@ function template_preprocess_views_view_table(&$vars) {
+   $vars['rows'] = array();
+   $vars['field_classes'] = array();
+   $vars['header'] = array();
++  $vars['classes_array'] = array();
+ 
+   $options  = $view->style_plugin->options;
+   $handler  = $view->style_plugin;
+ 
++  if (!empty($handler->options['class'])) {
++    $class = explode(' ', $handler->options['class']);
++    $class = array_map('views_clean_css_identifier', $class);
++
++    if (!empty($class)) {
++      // Trim empty class entries
++      foreach ($class as $key => $c) {
++        if (!empty($c)) {
++          $vars['classes_array'][] = $c;
++        }
++      }
++    }
++  }
++
+   $default_row_class = isset($options['default_row_class']) ? $options['default_row_class'] : TRUE;
+   $row_class_special = isset($options['row_class_special']) ? $options['row_class_special'] : TRUE;
+ 
+@@ -634,7 +649,7 @@ function template_preprocess_views_view_table(&$vars) {
+     $vars['row_classes'][count($vars['row_classes']) - 1][] = 'views-row-last';
+   }
+ 
+-  $vars['classes_array'] = array('views-table');
++  $vars['classes_array'][] = 'views-table';
+   if (empty($vars['rows']) && !empty($options['empty_table'])) {
+     $vars['rows'][0][0] = $view->display_handler->render_area('empty');
+     // Calculate the amounts of rows with output.

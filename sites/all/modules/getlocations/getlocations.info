@@ -1,0 +1,15 @@
+; getlocations-7.x-1.x
+name = Get Locations
+description = "Show locations on a Google map."
+package = "Location"
+core = 7.x
+php = 5
+dependencies[] = libraries
+files[] = "views/getlocations_plugin_style_map.inc"
+
+; Information added by  packaging script on 2013-11-17
+version = "7.x-1.10"
+core = "7.x"
+project = "getlocations"
+datestamp = "1384711706"
+

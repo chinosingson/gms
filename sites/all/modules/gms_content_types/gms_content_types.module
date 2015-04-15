@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the GMS Content Types feature.
+ */
+
+include_once 'gms_content_types.features.inc';

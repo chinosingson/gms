@@ -6,3 +6,7 @@
 #project-funding-details > div > div > table > tbody > tr > td {
 	text-align: right;
 }
+
+#edit-project-details {
+	display: none;
+}

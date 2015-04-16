@@ -10,6 +10,7 @@
 			$('button#btn-edit-proj-details').click(function() {
 				console.log('edit proj details button clicked');
 				//$('div#form-project-details').show();
+				$('div#edit-project-details').show();
 			});
 			
 			/*$('button#btn-edit-proj-funding').click(function() {

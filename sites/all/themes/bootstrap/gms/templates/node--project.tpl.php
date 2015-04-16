@@ -1,6 +1,6 @@
 ﻿<?php
 	// GMS
-	// test template for project nodes
+	// template for project nodes
 	$node = menu_get_object(); 
 	$nid = $node->nid;
 	
@@ -19,107 +19,93 @@
 		$btnEditImpacts = "";
 	}
 	
+	//echo "<pre>";
+	//echo print_r($node,1);
+	//echo "</pre>";
+	
+	// Project Views
+	$view_map = views_get_view('leaflet_view_test');			// locations
+	$view_details = views_get_view('project_details');		// details
+	$view_funding = views_get_view('project_financing');	// funding
+	$view_photos = views_get_view('project_photos');			// photos
+	$view_stories = views_get_view('impact_stories');			// impacts
+	$view_outputs = views_get_view('outputs');						// outputs
+
+	// FUNDING
+	// Pie Chart
+	// sources
+	$fundingSources = array(
+		'adb'=> (!empty($node->field_project_cost_adb) ? $node->field_project_cost_adb['und'][0]['value'] : 0),
+		'adb_jsf_jfpr'=> (!empty($node->field_project_cost_adb_jsf_jfpr) ? $node->field_project_cost_adb_jsf_jfpr['und'][0]['value'] : 0),
+		'adb_tasf'=> (!empty($node->field_project_cost_adb_tasf) ? $node->field_project_cost_adb_tasf['und'][0]['value'] : 0),
+		'gov'=> (!empty($node->field_project_cost_government) ? $node->field_project_cost_government['und'][0]['value'] : 0),
+		'cof'=> (!empty($node->field_project_cost_cofinancing_) ? $node->field_project_cost_cofinancing_['und'][0]['value'] : 0),
+	);
+
+	// settings
+	$chartSettings['chart']['chartOne'] = array(  
+		'header' => array('ADB', 'ADB-JSF/JFPR', 'ADB-TASF', 'Government', 'Cofinancing'),
+		'rows' => array(
+			array(
+				$fundingSources['adb'],
+				$fundingSources['adb_jsf_jfpr'],
+				$fundingSources['adb_tasf'],
+				$fundingSources['gov'],
+				$fundingSources['cof']
+			)
+		),
+		'columns' => array('Funding Sources'),
+		'chartType' => 'PieChart',
+		'containerId' =>  'project-funding-chart',
+		'numberFormat' => 'short',
+		'options' => array( 
+			'legend'=> array(
+				'position'=>'right',
+				'alignment'=>'center'
+			),
+			'forceIFrame' => FALSE, 
+			'pieSliceText'=> 'value',
+			'title' => '',
+			'width' => '100%',
+			'height' => '100%',
+			'colors' => ['#ff3333','#ff6600','#ffcc00','#99cc33','#33cc33','#66CCFF','#0066CC','#666699','#FF6699','#FFFF00','#00CCCC','#999999'],
+			'chartArea' => array(
+				'left'=>0,
+				'top'=>10,
+				'bottom'=>20,
+				'width'=>'100%',
+				'height'=>'100%'
+			)
+		)   
+	);
+	
+	// total - reformatted for block heading
 	if (isset($node->field_project_cost_total['und'][0]['value'])){
 		$fundingTotal = "<span>: USD ".number_format($node->field_project_cost_total['und'][0]['value']/1000)."M</span>";
 	} else {
 		$fundingTotal = "";
 	}
 	
-	//echo "<pre>";
-	//echo print_r($node,1);
-	//echo "</pre>";
-	
-	// project locationmap
-	$view_map = views_get_view('leaflet_view_test');
-	//$view_map->set_display('block_1');
-	
-	// project details
-	$view_details = views_get_view('project_details');
-	//$view_details->set_display('block');
-	
-	// funding chart
-	$view_funding = views_get_view('project_financing');	
-	
-	// photos
-	$view_photos = views_get_view('project_photos');
-	
-	// impact stories
-	$view_stories = views_get_view('impact_stories');
-	
-	// outputs
-	$view_outputs = views_get_view('outputs');
 
+	
+	
 ?>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-12 small">Last Edited <?php print date('[m/d/Y]',$node->revision_timestamp) ?> by <?php print $node->name ?></span>
-	</div>
+	</div
 	<div class="row">
 		<div class="col-lg-12"><?php print views_embed_view('leaflet_view_test', 'block_1', $node->nid); ?></div>
 	</div>
 	<div class="row">
 		<div id="project-details" class="col-sm-4">
-			<h4 class=""><?php print $view_details->get_title(); ?> <?php //print $btnEditDetails ?></h4>
-			<?php //print $view_details->preview('block', $nid); ?>
+			<h4 class=""><?php print $view_details->get_title(); ?> <?php print $btnEditDetails ?></h4>
 			<?php print views_embed_view('project_details', 'block', $nid); ?>
 		</div>
-			<!--div class="container-fluid" id="form-project-details">
-				<?php
-				//$block = module_invoke('panels_mini', 'block_view', 'project_details');
-				//print $block['content'];
-				?>			
-			</div-->
 		<div id="project-funding-details" class="col-sm-4">
 			<h4><?php print $view_funding->get_title(); ?><?php echo $fundingTotal ?><?php //print $btnEditFunding ?></h4>
-			<?php //print views_embed_view('project_financing', 'block_1', $nid); ?>
-			<?php
-				$fundingSources = array(
-					'adb'=> (!empty($node->field_project_cost_adb) ? $node->field_project_cost_adb['und'][0]['value'] : 0),
-					'adb_jsf_jfpr'=> (!empty($node->field_project_cost_adb_jsf_jfpr) ? $node->field_project_cost_adb_jsf_jfpr['und'][0]['value'] : 0),
-					'adb_tasf'=> (!empty($node->field_project_cost_adb_tasf) ? $node->field_project_cost_adb_tasf['und'][0]['value'] : 0),
-					'gov'=> (!empty($node->field_project_cost_government) ? $node->field_project_cost_government['und'][0]['value'] : 0),
-					'cof'=> (!empty($node->field_project_cost_cofinancing_) ? $node->field_project_cost_cofinancing_['und'][0]['value'] : 0),
-				);
-			
-				$sampleChartSettings['chart']['chartOne'] = array(  
-					'header' => array('ADB', 'ADB-JSF/JFPR', 'ADB-TASF', 'Government', 'Cofinancing'),
-					'rows' => array(
-						array(
-							$fundingSources['adb'],
-							$fundingSources['adb_jsf_jfpr'],
-							$fundingSources['adb_tasf'],
-							$fundingSources['gov'],
-							$fundingSources['cof']
-						)
-					),
-					'columns' => array('Funding Sources'),
-					'chartType' => 'PieChart',
-					'containerId' =>  'project-funding-chart',
-					'numberFormat' => 'short',
-					'options' => array( 
-						'legend'=> array(
-							'position'=>'right',
-							'alignment'=>'center'
-						),
-						'forceIFrame' => FALSE, 
-						'pieSliceText'=> 'value',
-						'title' => '',
-						'width' => '100%',
-						'height' => '100%',
-						'colors' => ['#ff3333','#ff6600','#ffcc00','#99cc33','#33cc33','#66CCFF','#0066CC','#666699','#FF6699','#FFFF00','#00CCCC','#999999'],
-						'chartArea' => array(
-							'left'=>0,
-							'top'=>10,
-							'bottom'=>20,
-							'width'=>'100%',
-							'height'=>'100%'
-						)
-					)   
-				);
-				$ret = draw_chart($sampleChartSettings); 
-				?>
-				<div id="project-funding-chart" class="chart">
-					<?php //print views_embed_view('project_financing', 'block', $nid); ?>
+			<div id="project-funding-chart" class="chart">
+				<?php $ret = draw_chart($chartSettings); 	?>
 			</div>
 		</div>
 		<div id="project-photos" class="col-sm-4">
@@ -137,6 +123,24 @@
 			<?php print views_embed_view('impact_stories','block_1', $nid); ?>
 		</div>
 	</div>
+	
+	<div id="edit-project-details">123
+				<?php
+					if ($editPerm) {
+						//$block = module_invoke('afb', 'block_view', 2);
+						$block = module_invoke('flexiform', 'block_view', 'project_details', $node->nid);
+						print render($block['content']); 
+					}
+				?>
+	</div>
+	
+	<div class="modal fade" id="dialog-edit-project-details" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			</div>
+		</div>
+	</div>
+
 	
 	<!--div class="row">
 		<div class="panel-group" id="accordion">

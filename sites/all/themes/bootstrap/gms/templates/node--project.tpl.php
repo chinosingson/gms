@@ -110,7 +110,7 @@
 						'chartArea' => array(
 							'left'=>0,
 							'top'=>10,
-							'bottom'=>10,
+							'bottom'=>20,
 							'width'=>'100%',
 							'height'=>'100%'
 						)

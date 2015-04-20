@@ -65,7 +65,7 @@
 			),
 			'forceIFrame' => FALSE, 
 			'pieSliceText'=> 'value',
-			'title' => '',
+			'title' => '123',
 			'width' => '100%',
 			'height' => '100%',
 			'colors' => ['#ff3333','#ff6600','#ffcc00','#99cc33','#33cc33','#66CCFF','#0066CC','#666699','#FF6699','#FFFF00','#00CCCC','#999999'],
@@ -74,7 +74,7 @@
 				'top'=>10,
 				'bottom'=>20,
 				'width'=>'100%',
-				'height'=>'100%'
+				'height'=>'500'
 			)
 		)   
 	);
@@ -90,7 +90,7 @@
 	
 	
 ?>
-<div class="container-fluid">
+<div id="project-page" class="container-fluid">
 	<div class="row">
 		<div class="col-sm-12 small">Last Edited <?php print date('[m/d/Y]',$node->revision_timestamp) ?> by <?php print $node->name ?></span>
 	</div
@@ -118,13 +118,13 @@
 			<h4><?php print $view_outputs->get_title(); ?> <?php //print $btnEditOutputs ?></h4>
 			<?php print views_embed_view('outputs', 'block', $nid); ?>
 		</div>
-		<div id="project-impact-stories" class="col-sm-4">
+		<div id="project-impact-stories" class="col-sm-8">
 			<h4><?php print $view_stories->get_title(); ?> <?php //print $btnEditImpacts ?></h4>
 			<?php print views_embed_view('impact_stories','block_1', $nid); ?>
 		</div>
 	</div>
 	
-	<div id="edit-project-details">123
+	<div id="edit-project-details">
 				<?php
 					if ($editPerm) {
 						//$block = module_invoke('afb', 'block_view', 2);

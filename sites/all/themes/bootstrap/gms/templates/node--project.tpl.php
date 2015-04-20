@@ -126,11 +126,11 @@
 	
 	<div id="edit-project-details">
 				<?php
-					if ($editPerm) {
+					//if ($editPerm) {
 						//$block = module_invoke('afb', 'block_view', 2);
-						$block = module_invoke('flexiform', 'block_view', 'project_details', $node->nid);
-						print render($block['content']); 
-					}
+						//$block = module_invoke('flexiform', 'block_view', 'project_details', $node->nid);
+						//print render($block['content']); 
+					//}
 				?>
 	</div>
 	

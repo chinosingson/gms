@@ -1,0 +1,18 @@
+
+.leaflet-container .leafet-control-reset,
+.leaflet-container .leafet-control-zoom-indicator {
+  background-color: white;
+  color: black;
+  height: 26px;
+  width: 26px !important; /* for Bootstrap glyphs */
+  line-height: 26px;
+  text-align: center;
+  text-decoration: none;
+}
+.leaflet-container .leafet-control-reset {
+  cursor: pointer;
+  font-size: larger;
+}
+.leaflet-container .leafet-control-reset:hover {
+  background-color: #f4f4f4;
+}

@@ -1,0 +1,21 @@
+
+#edit-style-options-default-marker .form-item.form-type-select,
+#edit-style-options-default-marker .form-item.form-type-textfield,
+#edit-style-options-visitor-marker .form-item.form-type-select,
+#edit-style-options-visitor-marker .form-item.form-type-textfield {
+  display: inline-table;
+  margin-right: 1em;
+  width: 30%;
+}
+
+#edit-style-options-cluster-aggregation-ranges .form-item.form-type-textfield {
+  display: inline-table;
+  margin-right: 1ex;
+  max-width: 17ex;
+}
+
+#cluster-differentiator-wrapper .form-item.form-type-textfield {
+  display: inline-table;
+  margin-right: 1em;
+  width: 47%;
+}

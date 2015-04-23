@@ -3,6 +3,7 @@ description = Bootstrap Sub-theme for the GMS Site.
 core = 7.x
 base theme = bootstrap
 
+
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Regions
 ;;;;;;;;;;;;;;;;;;;;;
@@ -23,7 +24,12 @@ regions[page_bottom]    = 'Page bottom'
 ;; Stylesheets
 ;;;;;;;;;;;;;;;;;;;;;
 
-stylesheets[all][] = css/style.css
+stylesheets[all][] = css/custom-styles.css
+
+
+; Excludes
+exclude[css][] = css/style.css
+
 
 
 ; For information on choosing the desired method, please read the Drupal

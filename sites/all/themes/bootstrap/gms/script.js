@@ -5,21 +5,27 @@
 	Drupal.behaviors.projectEdit = {
 		attach: function (context, settings) {
 			$('table').addClass('table table-condensed');
+			$('#block-menu-menu-footer-menu ul').addClass('navbar-nav');
+			$('#project-details th.views-field.views-field-field-project-adb-website').css('display','none');
+			$('#project-details td.views-field.views-field-field-project-adb-website').attr('colspan','2');
+			$('header#navbar').removeClass('container');
+			$('header#navbar').addClass('container-fluid');
 		
-		
-			$('button#btn-edit-proj-details').click(function() {
+			/*$('a#btn-edit-proj-details').click(function() {
 				console.log('edit proj details button clicked');
 				//$('div#form-project-details').show();
-				$('div#edit-project-details').show();
+				//$('div#edit-project-details').show();
 			});
 			
-			/*$('button#btn-edit-proj-funding').click(function() {
+			$('a#btn-edit-proj-funding').click(function() {
 				console.log('edit proj funding button clicked');
+				$("a[href='#funding']").parent().addClass('selected');
 				//$('div#form-project-funding').show();
 			});
 			
-			$('button#btn-edit-proj-photos').click(function() {
+			$('a#btn-edit-proj-photos').click(function() {
 				console.log('edit proj photos button clicked');
+				$("a[href='#photos']").parent().addClass('selected');
 				//$('div#form-project-photos').show();
 			});
 			

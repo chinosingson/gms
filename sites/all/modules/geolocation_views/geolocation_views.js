@@ -32,7 +32,6 @@
         // Creating markers
         Drupal.geolocationViews[mapId].markers = [];
         $.each(Drupal.settings.geolocationViewsMarkers[mapId], function() {
-					console.log('this.icon='+this.icon);
           var markerPosition = new google.maps.LatLng(this.lat, this.lng);
           var marker = new google.maps.Marker({
             position: markerPosition,

@@ -1,0 +1,51 @@
+diff --git a/plugins/layouts/bootstrap/bootstrap-admin.css b/plugins/layouts/bootstrap/bootstrap-admin.css
+index ec36ed5..75285d5 100644
+--- a/plugins/layouts/bootstrap/bootstrap-admin.css
++++ b/plugins/layouts/bootstrap/bootstrap-admin.css
+@@ -44,6 +44,15 @@ html{
+     background-color: #333333;
+ }
+ 
++/* Hide empty columns */
++.panel-bootstrap-edit-layout [class*="col"] [class*="col"]:empty,
++.panel-bootstrap-edit-layout [class*="col"] [class*="col"] [class*="col"]:empty,
++.panel-bootstrap-edit-layout [class*="col"] [class*="col"] [class*="col"] [class*="col"]:empty,
++.panel-bootstrap-edit-layout [class*="col"] [class*="col"] [class*="col"] [class*="col"] [class*="col"]:empty,
++.panel-bootstrap-edit-layout [class*="col"] [class*="col"] [class*="col"] [class*="col"] [class*="col"] [class*="col"]:empty,
++.panel-bootstrap-edit-layout [class*="col"] [class*="col"] [class*="col"] [class*="col"] [class*="col"] [class*="col"] [class*="col"]:empty {
++  display: none;
++}
+ 
+ .row-fluid > [class*="col"]{
+     margin-left: 0 !important;
+diff --git a/plugins/layouts/bootstrap/bootstrap.inc b/plugins/layouts/bootstrap/bootstrap.inc
+index 739d6b8..1f08b5d 100644
+--- a/plugins/layouts/bootstrap/bootstrap.inc
++++ b/plugins/layouts/bootstrap/bootstrap.inc
+@@ -301,7 +301,7 @@ function theme_panels_bootstrap_admin($vars) {
+ 
+   $output .= "<div class=\"row panel-bootstrap-inside " . $renderer->base['canvas'] . "-inside \">\n";
+ 
+-  $content = panels_bootstrap_render_items($renderer, $settings['items']['canvas']['children'], $renderer->base['row'] . '-canvas');
++  $content = panels_bootstrap_render_items($renderer, $settings['items']['canvas']['children'], $renderer->base['container'] . '-canvas');
+   $output .= panels_bootstrap_render_item($renderer, $settings['items']['canvas'], $content, 'canvas', 0, 0, TRUE);
+ 
+   // Wrap the whole thing up nice and snug
+@@ -353,7 +353,7 @@ function panels_bootstrap_render_items($renderer, $list, $owner_id) {
+   foreach ($groups as $position => $content) {
+     if (!empty($content) || $renderer->admin) {
+       if ($group_count > 1 || $renderer->admin) {
+-        $output .= $content;
++        $output .= '<div class="' . $owner_id . '-' . $position . '">' . $content . '</div>';
+       }
+       else {
+         $output .= $content;
+@@ -419,7 +419,7 @@ function panels_bootstrap_render_item($renderer, $item, $content, $id, $position
+   } else {
+     $element_id = 'panel-bootstrap-'. $item['type'] .'-'. $id;
+   }
+-  $output .= '  <'.$wrapper.' id="'.$element_id.'" class="' . $item_class . 'inside';
++  $output .= '  <'.$wrapper.' id="'.$element_id.'" class="' . $item_class . 'inside'  . ' ' . $renderer->base[$item['type']] . '-' . $id;
+ 	
+   if ($position == 0) $output .= ' ' . $item['type'] . '-inside-first';
+   if ($position == $max) $output .= ' ' . $item['type'] . '-inside-last';

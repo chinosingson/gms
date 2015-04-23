@@ -6,11 +6,11 @@
 	
 	$editPerm = user_access('Edit any content');
 	if ($editPerm) {
-		$btnEditDetails = "<button class='btn btn-xs btn-default pull-right' id='btn-edit-proj-details'>Edit</button>";
-		$btnEditFunding = "<button class='btn btn-xs btn-default pull-right' id='btn-edit-proj-funding'>Edit</button>";
-		$btnEditPhotos  = "<button class='btn btn-xs btn-default pull-right' id='btn-edit-proj-photos'>Edit</button>";
-		$btnEditOutputs = "<button class='btn btn-xs btn-default pull-right' id='btn-edit-proj-outputs'>Edit</button>";
-		$btnEditImpacts = "<button class='btn btn-xs btn-default pull-right' id='btn-edit-proj-impacts'>Edit</button>";
+		$btnEditDetails = "<a href=\"#overlay=node/".$nid."/edit\" class=\"btn btn-xs btn-default pull-right\" id=\"btn-edit-proj-details\">Edit</a>";
+		$btnEditFunding = "<a href=\"#overlay=node/".$nid."/edit\" class=\"btn btn-xs btn-default pull-right\" id=\"btn-edit-proj-funding\">Edit</a>";
+		$btnEditPhotos  = "<a href=\"#overlay=node/".$nid."/edit\" class=\"btn btn-xs btn-default pull-right\" id=\"btn-edit-proj-photos\">Edit</a>";
+		$btnEditOutputs = "<a class=\"btn btn-xs btn-default pull-right\" id=\"btn-edit-proj-outputs\">Edit</a>";
+		$btnEditImpacts = "<a class=\"btn btn-xs btn-default pull-right\" id=\"btn-edit-proj-impacts\">Edit</a>";
 	} else {
 		$btnEditDetails = "";
 		$btnEditFunding = "";
@@ -41,6 +41,7 @@
 		'gov'=> (!empty($node->field_project_cost_government) ? $node->field_project_cost_government['und'][0]['value'] : 0),
 		'cof'=> (!empty($node->field_project_cost_cofinancing_) ? $node->field_project_cost_cofinancing_['und'][0]['value'] : 0),
 	);
+	
 
 	// settings
 	$chartSettings['chart']['chartOne'] = array(  
@@ -60,21 +61,20 @@
 		'numberFormat' => 'short',
 		'options' => array( 
 			'legend'=> array(
-				'position'=>'right',
+				'position'=>'bottom',
 				'alignment'=>'center'
 			),
 			'forceIFrame' => FALSE, 
 			'pieSliceText'=> 'value',
-			'title' => '123',
-			'width' => '100%',
-			'height' => '100%',
+			'title' => '',
+			'width' => 'auto',
+			'height' => '300',
 			'colors' => ['#ff3333','#ff6600','#ffcc00','#99cc33','#33cc33','#66CCFF','#0066CC','#666699','#FF6699','#FFFF00','#00CCCC','#999999'],
 			'chartArea' => array(
-				'left'=>0,
-				'top'=>10,
-				'bottom'=>20,
-				'width'=>'100%',
-				'height'=>'500'
+				'left'=>5,
+				'top'=>7,
+				'width'=>'auto',
+				'height'=>'82%'
 			)
 		)   
 	);
@@ -92,36 +92,38 @@
 ?>
 <div id="project-page" class="container-fluid">
 	<div class="row">
-		<div class="col-sm-12 small">Last Edited <?php print date('[m/d/Y]',$node->revision_timestamp) ?> by <?php print $node->name ?></span>
-	</div
-	<div class="row">
-		<div class="col-lg-12"><?php print views_embed_view('leaflet_view_test', 'block_1', $node->nid); ?></div>
+		<div id="project-authoring" class="col-sm-12 small">Last Edited <?php print date('[m/d/Y]',$node->revision_timestamp) ?> by <?php print $node->name ?></span>
 	</div>
 	<div class="row">
-		<div id="project-details" class="col-sm-4">
-			<h4 class=""><?php print $view_details->get_title(); ?> <?php print $btnEditDetails ?></h4>
-			<?php print views_embed_view('project_details', 'block', $nid); ?>
-		</div>
-		<div id="project-funding-details" class="col-sm-4">
-			<h4><?php print $view_funding->get_title(); ?><?php echo $fundingTotal ?><?php //print $btnEditFunding ?></h4>
-			<div id="project-funding-chart" class="chart">
-				<?php $ret = draw_chart($chartSettings); 	?>
+		<div id="project-map" class="col-lg-12"><?php print views_embed_view('leaflet_view_test', 'block_1', $node->nid); ?></div>
+	</div>
+	<div class="project-info">
+		<div class="row">
+			<div id="project-details" class="col-sm-4">
+				<h4 class=""><?php print $view_details->get_title(); ?> <?php //print $btnEditDetails ?></h4>
+				<?php print views_embed_view('project_details', 'block', $nid); ?>
+			</div>
+			<div id="project-funding-details" class="col-sm-4">
+				<h4><?php print $view_funding->get_title(); ?><?php echo $fundingTotal ?><?php //print $btnEditFunding ?></h4>
+				<div id="project-funding-chart" class="chart">
+					<?php $ret = draw_chart($chartSettings); 	?>
+				</div>
+			</div>
+			<div id="project-photos" class="col-sm-4">
+				<h4><?php print $view_photos->get_title(); ?> <?php //print $btnEditPhotos ?></h4>
+				<?php print views_embed_view('project_photos','block', $nid); ?>
 			</div>
 		</div>
-		<div id="project-photos" class="col-sm-4">
-			<h4><?php print $view_photos->get_title(); ?> <?php //print $btnEditPhotos ?></h4>
-			<?php print views_embed_view('project_photos','block', $nid); ?>
-		</div>
-	</div>
-	<div class="row">
-		<div id="project-outputs" class="col-sm-4">
-			<h4><?php print $view_outputs->get_title(); ?> <?php //print $btnEditOutputs ?></h4>
-			<?php print views_embed_view('outputs', 'block', $nid); ?>
-		</div>
-		<div id="project-impact-stories" class="col-sm-8">
-			<h4><?php print $view_stories->get_title(); ?> <?php //print $btnEditImpacts ?></h4>
-			<?php print views_embed_view('impact_stories','block_1', $nid); ?>
-		</div>
+		<div class="row">
+			<div id="project-outputs" class="col-sm-4">
+				<h4><?php print $view_outputs->get_title(); ?> <?php //print $btnEditOutputs ?></h4>
+				<?php print views_embed_view('outputs', 'block', $nid); ?>
+			</div>
+			<div id="project-impact-stories" class="col-sm-8">
+				<h4><?php print $view_stories->get_title(); ?> <?php //print $btnEditImpacts ?></h4>
+				<?php print views_embed_view('impact_stories','block_1', $nid); ?>
+			</div>
+		</div>	
 	</div>
 	
 	<div id="edit-project-details">

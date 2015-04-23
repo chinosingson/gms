@@ -59,10 +59,14 @@
 		'chartType' => 'PieChart',
 		'containerId' =>  'project-funding-chart',
 		'numberFormat' => 'short',
-		'options' => array( 
+		'options' => array(
+			'backgroundColor'=>'#3b444c',
 			'legend'=> array(
 				'position'=>'bottom',
-				'alignment'=>'center'
+				'alignment'=>'center',
+				'textStyle'=>array(
+					'color'=>'#ffffff'
+				)
 			),
 			'forceIFrame' => FALSE, 
 			'pieSliceText'=> 'value',

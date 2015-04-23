@@ -1,5 +1,38 @@
-﻿.project-info{
+﻿body {
+	background-color: #3b444c;
+}
+
+.project-info {
 	padding: 20px 20px;
 	background:#3b444c;
 	color:#fff;
+}
+
+/* temporary style for project titles */
+h2.page-header {
+ color: #01aad5;
+ font-family: 'lato',arial,verdana;
+ font-weight: 700;
+}
+
+
+/* project info headers*/
+.project-info h4
+{
+  font-size: 30px;
+ color: #01aad5;
+ font-family: 'lato',arial,verdana;
+ font-weight: 700;
+
+}
+
+.project-info .field-content{
+  font-family: 'lato',arial,verdana;
+  color:#000;
+  font-size:13px;
+
+}
+
+#project-details th.views-field {
+	color: #01aad5;
 }

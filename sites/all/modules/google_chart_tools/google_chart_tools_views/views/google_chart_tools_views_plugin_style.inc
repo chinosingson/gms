@@ -11,7 +11,9 @@
  */
 class google_chart_tools_views_plugin_style extends views_plugin_style {
 
-  function option_definition() {
+	private static $chartAreas = array('left', 'top', 'width', 'height');
+  
+	function option_definition() {
     $options = parent::option_definition();
 
     $options['title'] = array('default' => '');
@@ -25,7 +27,17 @@ class google_chart_tools_views_plugin_style extends views_plugin_style {
     $options['isstacked'] = array('default' => FALSE);
     $options['pointsize'] = array('default' => 0);
     $options['colors'] = array('default' => '');
-
+    $options['legend'] = array(
+      'legend_position' => '',
+      'legend_alignment' => '',
+    );
+    $options['chartArea'] = array(
+      'left' => '',
+      'top' => '',
+      'width' => '',
+      'height' => '',
+    );
+    
     return $options;
   }
 
@@ -111,6 +123,52 @@ class google_chart_tools_views_plugin_style extends views_plugin_style {
       '#size' => 32,
       '#default_value' => $this->options['colors'],
     );
+    
+    // Legend
+    
+    $form['legend']['position'] = array(
+      '#type' => 'select',
+      '#title' => t('Legend position'),
+      '#options' => array(
+        '' => t('Automatic'),
+        'right' => t('Right'),
+        'top' => t('Top'),
+        'bottom' => t('Bottom'),
+        'in' => t('In'),
+        'none' => t('None'),
+      ),
+      '#default_value' => $this->options['legend']['position'],
+    );
+    
+    $form['legend']['alignment'] = array(
+      '#type' => 'select',
+      '#title' => t('Legend alignment'),
+      '#options' => array(
+        'automatic' => t('Automatic'),
+        'start' => t('Start'),
+        'center' => t('Center'),
+        'end' => t('End'),
+      ),
+      '#default_value' => $this->options['legend']['alignment'],
+    );
+    
+    // Chart area
+    
+    $form['chartArea'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Chart area'),
+      '#tree' => TRUE,
+      '#collapsible' => TRUE,
+    );
+    
+    foreach (google_chart_tools_views_plugin_style::$chartAreas as $area) {
+      $form['chartArea'][$area] = array(
+        '#type' => 'textfield',
+        '#title' => ucfirst($area),
+        '#description' => t('Two formats are supported: a number, or a number followed by %. A simple number is a value in pixels; a number followed by % is a percentage. Leave blank for auto size.'),
+        '#default_value' => $this->options['chartArea'][$area],
+      );
+    }
   }
 
   function render() {
@@ -200,6 +258,20 @@ class google_chart_tools_views_plugin_style extends views_plugin_style {
       )
     );
 
+    if (isset($this->options['legend']['position']) && $this->options['legend']['position'] != '') {
+      $settings['chart'][drupal_clean_css_identifier($this->view->name . '-' . $this->display->id)]['options']['legend']['position'] = $this->options['legend']['position'];
+    }
+    
+    if (isset($this->options['legend']['alignment']) && $this->options['legend']['alignment'] != 'automatic') {
+      $settings['chart'][drupal_clean_css_identifier($this->view->name . '-' . $this->display->id)]['options']['legend']['alignment'] = $this->options['legend']['alignment'];
+    }
+    
+    foreach (google_chart_tools_views_plugin_style::$chartAreas as $area) {
+      if (isset($this->options['chartArea'][$area]) && $this->options['chartArea'][$area] != '') {
+        $settings['chart'][drupal_clean_css_identifier($this->view->name . '-' . $this->display->id)]['options']['chartArea'][$area] = $this->options['chartArea'][$area];
+      }
+    }
+    
     if (strpos($_GET['q'], 'admin/structure/views/nojs/preview') === FALSE) {
        // Draw it.
       $ret = draw_chart($settings);

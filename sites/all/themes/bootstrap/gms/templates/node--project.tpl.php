@@ -89,14 +89,14 @@
 	} else {
 		$fundingTotal = "";
 	}
-	
 
-	
-	
+	$show_title = $variables['title'];
 ?>
 <div id="project-page" class="container-fluid">
-	<div class="row">
-		<div id="project-authoring" class="col-sm-12 small">Last Edited <?php print date('[m/d/Y]',$node->revision_timestamp) ?> by <?php print $node->name ?></span>
+	<div class="row" id="project-title-authoring">
+		<?php //echo "<pre>123<br/>".print_r($variables['show_title'],1)."</pre>"; ?>
+		<div id="project-title" class="col-sm-8"><?php if ($show_title && $title): ?><h2 class="title" id="page-title"><?php print $title; ?></h2><?php endif; ?></div>
+		<div id="project-authoring" class="col-sm-4 small">Last Edited <?php print date('[m/d/Y]',$node->revision_timestamp) ?> by <?php print $node->name ?></span></div>
 	</div>
 	<div class="row">
 		<div id="project-map" class="col-lg-12"><?php print views_embed_view('leaflet_view_test', 'block_1', $node->nid); ?></div>

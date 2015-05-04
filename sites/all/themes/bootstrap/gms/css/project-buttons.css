@@ -1,0 +1,27 @@
+﻿#project-function-buttons {
+	display: inline-block;
+	text-align: right;
+}
+
+.project-btn {
+	height: 25px;
+	display: inline-block;
+	background-position: center center;
+	padding: 0;
+}
+
+
+.project-btn-edit {
+	width: 25px;
+	background-image: url("../../../../../default/files/images/buttons/edit-icon.png");
+}
+
+.project-btn-print {
+	width: 31px;
+	background-image: url("../../../../../default/files/images/buttons/print-icon.png");
+}
+
+.project-btn-portfolio {
+	width: 29px;
+	background-image: url("../../../../../default/files/images/buttons/back-to-portfolio-icon.png");
+}

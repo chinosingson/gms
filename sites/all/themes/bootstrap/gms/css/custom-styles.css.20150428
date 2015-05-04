@@ -1,0 +1,266 @@
+﻿body {
+	font-family:'lato',arial,sans serif;
+  background: #e7e8ea;
+}
+
+#navbar{
+  background:#3b444d !important; 
+  border-radius:0px;  
+}
+
+
+.name{
+  color:#fff !important;
+  font-family: 'lato',arial,verdana;
+  font-weight: 700;
+}
+
+#navbar li {
+  margin-right:5px;
+ 
+}
+#navbar li a{
+  background: #4b5861;
+  padding: 10px 10px;
+  color: #fff;
+  border-radius: 5px 5px;
+  margin-top: 5px;
+  font-family: 'lato',verdana,arial;
+}
+
+
+.active{
+  background:none !important;
+}
+
+#project-page .project-info {
+  padding: 20px 20px;
+  background:#3b444c;
+  color:#fff;
+}
+
+h2.page-header, h2.pane-title {
+ color: #01aad5;
+ font-family: 'lato',arial,verdana;
+ font-weight: 700;
+}
+
+
+#project-page .project-info h4
+{
+  font-size: 17px;
+ color: #01aad5;
+ font-family: 'lato',arial,verdana;
+ font-weight: 700;
+
+}
+
+.project-info .field-content{
+  font-family: 'lato',arial,verdana;
+  color:#000;
+  font-size:13px;
+
+}
+
+#project-details th.views-field {
+  color: #01aad5;
+}
+
+#project-page .row{
+margin-right:0px !important;
+margin-left:0px !important;
+}
+
+#project-page .col-sm-12{
+margin-right:15px !important;
+margin-left:15px !important;
+}
+
+
+#panel-bootstrap-region-photos_and_indicators .pane-1{
+  border-radius: 5px 5px 0px 0px;
+  background: #fff;
+  border-bottom: 1px solid #b5b9bc;
+}
+
+
+#panel-bootstrap-region-photos_and_indicators .pane-content {
+  padding:10px 10px
+  font-size:18px;
+  font-family:'lato',arial,sans serif;
+}
+
+#mini-panel-dashboard_charts h2.pane-title{
+  color: #3f4448 !important;
+  font-family: 'lato',arial,verdana;
+  font-weight: 700;
+  background: #d1d6da !important;
+  font-size: 30px;
+  padding: 10px;
+  border-radius: 5px 5px 0px 0px;
+  box-shadow: 0px 0px 1px #000;
+  border-bottom: 1px solid #eeeeee;
+}
+
+
+#panel-bootstrap-region-photos_and_indicators .pane-title {
+ color: #3f4448;
+  font-family: 'lato',arial,verdana;
+  font-weight: 700;
+  background: #d1d6da;
+  font-size: 30px;
+  padding: 10px;
+  border-radius: 5px 5px 0px 0px;
+  box-shadow: 0px 0px 1px #000;
+  border-bottom: 1px solid #eeeeee
+}
+
+
+#panel-bootstrap-region-photos_and_indicators .field-content{
+  color: #000;
+  font-size:18px;
+  font-family:'lato',arial,sans serif;
+}
+
+
+#panel-bootstrap-region-photos_and_indicators .field-content a{
+  font-weight:700;
+  font-weight:700;
+  color: #4a5559;
+  font-size:25px;
+}
+
+#panel-bootstrap-region-photos_and_indicators .views-field-title-1 a{
+  color:#01aad5;
+  font-size:11px;
+}
+
+#panel-bootstrap-region-photos_and_indicators .view-project-photos {
+  background:#fff;
+}
+
+
+#panel-bootstrap-region-photos_and_indicators .field-content .colorbox{
+  background:red;
+  width:700px;
+}
+
+
+#panel-bootstrap-region-photos_and_indicators .field-content{
+ width:850px;
+}
+
+
+#panel-bootstrap-region-photos_and_indicators .field-content img{
+ float:left;
+ margin-right:20px;
+}
+
+.views-slideshow-cycle-main-frame .views_slideshow_cycle_teaser_section{
+  height:280px;
+}
+
+#views_slideshow_cycle_teaser_section_project_photos-block_2{
+  height:280px !important;
+}
+
+
+
+.popup-element-title{
+  background:#4b5861;
+  padding:10px 10px;
+  color:#fff;
+  border-radius:5px 5px;
+  margin-top:5px;
+  font-family:'lato',verdana,arial;
+}
+
+
+.popup-element-title{
+  text-decoration:none;
+}
+
+.popup-element-title:hover{
+  text-decoration:none;
+  color:#fff;
+  background:#58636d;
+}
+
+.popup-layout .table .table-condensed{
+  background:red;
+}
+
+
+.views-widget .form-item-c select{
+  width:185px;;
+}
+
+.views-widget .form-item-t select{
+  width:185px;
+}
+
+.views-widget .form-item-st select{
+  width:185px;
+}
+
+#edit-submit-project-locations{
+  margin-top:0px;
+  margin-right:0px;
+}
+
+.views-submit-button{
+  padding:0px !important;
+  margin-right:5px;
+  margin-top:5px;
+}
+
+#edit-reset{
+   margin-top:0px;
+}
+
+.views-submit-button{
+  padding:0px !important;
+  margin-right:5px;
+  margin-top:5px;
+}
+
+.views-reset-button{
+   padding:0px !important;
+  margin-right:5px;
+  margin-top:5px;
+}
+
+
+.footer{
+  padding:0px;
+  margin:0px;
+  background:#4a575f;
+  border:none;
+}
+
+.footer li a {
+ color:#fff;
+ font-family:'lato',arial,verdana;
+}
+
+#page-title {
+	font-size:20px;
+	padding-top:-10px; 
+	font-weight: 700;
+	font-family:'lato',arial,sans serif;
+}
+
+
+#project-authoring{
+ color:#000;
+ padding-top:20px;
+ text-align:right;  
+}
+
+
+#project-title-authoring{
+ background:#fff;
+ box-shadow:0px 0px 1px #000;
+ margin-top:-40px;
+ margin-bottom:2px;
+}

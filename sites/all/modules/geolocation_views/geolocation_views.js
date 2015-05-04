@@ -68,7 +68,7 @@
          if ($this.data('use-marker-clusterer')) {
 					var markerClastererOptions = {gridSize: parseInt($this.data('marker-clusterer-grid-size'))};
           if ($this.data('marker-clusterer-max-zoom')) {
-						console.log('marker clusterer max zoom: '+ $this.data('marker-clusterer-max-zoom'));
+						//console.log('marker clusterer max zoom: '+ $this.data('marker-clusterer-max-zoom'));
             markerClastererOptions.maxZoom = parseInt($this.data('marker-clusterer-max-zoom'));
           }
           if ($this.data('marker-clusterer-icon-url')) {

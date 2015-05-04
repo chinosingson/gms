@@ -1,0 +1,56 @@
+diff --git a/google_chart_tools.js b/google_chart_tools.js
+index 681072b..c07d2f4 100644
+--- a/google_chart_tools.js
++++ b/google_chart_tools.js
+@@ -57,7 +57,15 @@ google.load("visualization", "1", {packages:["corechart", "gauge", "orgchart"]})
+ 
+           // Set chart options
+           var options = settings.chart[chartId].options;
+-
++          // provide responsive chart support
++          if (settings.responsive) {
++            // calculate the width to responsive width ratio
++            var aspectRatio = ($('#'+ settings.chart[chartId].containerId).width() / settings.chart[chartId].options.width);
++            // set width to the container's width
++            settings.chart[chartId].options.width = $('#'+ settings.chart[chartId].containerId).width();
++            // use aspect ratio from width to generate height to scale
++            settings.chart[chartId].options.height = Math.round(settings.chart[chartId].options.height * aspectRatio);
++          }
+           // Instantiate and draw our chart, passing in some options.
+           var chart = new Object;
+           var element = document.getElementById(settings.chart[chartId].containerId);
+diff --git a/google_chart_tools_views/views/google_chart_tools_views_plugin_style.inc b/google_chart_tools_views/views/google_chart_tools_views_plugin_style.inc
+index 4643680..7e29544 100644
+--- a/google_chart_tools_views/views/google_chart_tools_views_plugin_style.inc
++++ b/google_chart_tools_views/views/google_chart_tools_views_plugin_style.inc
+@@ -20,6 +20,7 @@ class google_chart_tools_views_plugin_style extends views_plugin_style {
+     $options['type'] = array('default' => GOOGLE_CHART_TOOLS_DEFAULT_CHART);
+     $options['width'] = array('default' => 600);
+     $options['height'] = array('default' => 400);
++    $options['responsive'] = array('default' => TRUE);
+     $options['curve'] = array('default' => 0);
+     $options['3d'] = array('default' => 0);
+     $options['isstacked'] = array('default' => FALSE);
+@@ -79,6 +80,12 @@ class google_chart_tools_views_plugin_style extends views_plugin_style {
+       '#required' => TRUE,
+       '#default_value' => $this->options['height'],
+     );
++    $form['responsive'] = array(
++      '#type' => 'checkbox',
++      '#title' => t('Responsive chart'),
++      '#description' => t('Look at container on load and render to match the size.  This enables support for smaller devices.'),
++      '#default_value' => $this->options['responsive'],
++    );
+     $form['curve'] = array(
+       '#type' => 'checkbox',
+       '#title' => t('Curve'),
+@@ -178,7 +185,8 @@ class google_chart_tools_views_plugin_style extends views_plugin_style {
+     foreach ($option_substitutions as $option_name) {
+       $this->options[$option_name] = str_replace(array_keys($tokens), array_values($tokens), $this->options[$option_name]);
+     }
+-
++    // responsive chart support
++    $settings['responsive'] = $this->options['responsive'];
+     $settings['chart'][drupal_clean_css_identifier($this->view->name . '-' . $this->display->id)] = array(
+       'header' => !empty($header) ? $header : '',
+       'rows' => $item,

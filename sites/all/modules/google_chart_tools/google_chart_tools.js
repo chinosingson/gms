@@ -10,6 +10,10 @@ google.load("visualization", "1", {packages:["corechart", "gauge", "orgchart", "
   Drupal.behaviors.googleChart = {
     attach: function(context, settings) {
       google.setOnLoadCallback(drawChart);
+			//window.addEventListener('resize',function(){
+				//console.log('window resized');
+				//drawChart();
+			//});
       // Callback that creates and populates a data table,
       // instantiates the chart, passes in the data and
       // draws it.
@@ -63,7 +67,13 @@ google.load("visualization", "1", {packages:["corechart", "gauge", "orgchart", "
           var element = document.getElementById(settings.chart[chartId].containerId);
           if (element) {
             chart[settings.chart[chartId]] = new google.visualization[settings.chart[chartId].chartType](element);
-            chart[settings.chart[chartId]].draw(data, options);
+						chart[settings.chart[chartId]].draw(data, options);
+						// automatically resize chart on window resize
+						// added by Chino 2015-05-04
+						window.addEventListener('resize',function(){
+							//console.log('window resize - google chart');
+							chart[settings.chart[chartId]].draw(data, options);
+						});
           }
         }
       }   

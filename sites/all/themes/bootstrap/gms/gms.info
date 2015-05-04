@@ -25,6 +25,7 @@ regions[page_bottom]    = 'Page bottom'
 ;;;;;;;;;;;;;;;;;;;;;
 
 stylesheets[all][] = css/custom-styles.css
+stylesheets[all][] = css/project-buttons.css
 
 
 ; Excludes

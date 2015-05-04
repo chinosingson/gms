@@ -5,7 +5,7 @@
  * template.php
  */
 
-//drupal_add_js(libraries_get_path('highcharts') .'/js/highcharts.js');
+drupal_add_js(libraries_get_path('highcharts') .'/js/highcharts.js');
 //drupal_add_js(drupal_get_path('theme', 'gms') .'/chart.js');
 drupal_add_js(drupal_get_path('theme', 'gms') .'/script.js');
 drupal_add_js(libraries_get_path('bcarousel').'/carousel.js',array('group' => JS_THEME, 'every_page' => TRUE));
@@ -30,7 +30,7 @@ drupal_add_js(libraries_get_path('bcarousel').'/carousel.js',array('group' => JS
 }*/
 
 function gms_preprocess_html(&$variables) {
-	drupal_add_css('http://fonts.googleapis.com/css?family=Lato:400,700%27', array('type' => 'external'));
+	drupal_add_css('http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' , array('type' => 'external'));
 }
 
 function gms_preprocess_page(&$variables) {
@@ -38,6 +38,8 @@ function gms_preprocess_page(&$variables) {
     //$variables['show_title'] = FALSE;
 		$variables['title'] = FALSE;
   }
+	
+
 }
 
 /*function gms_preprocess_views_exposed_form(&$vars, $hook) {

@@ -26,10 +26,15 @@
 	// Project Views
 	$view_map = views_get_view('leaflet_view_test');			// locations
 	$view_details = views_get_view('project_details');		// details
+	$view_details->set_display('block');
 	$view_funding = views_get_view('project_financing');	// funding
+	
 	$view_photos = views_get_view('project_photos');			// photos
+	$view_photos->set_display('carousel1');
 	$view_stories = views_get_view('impact_stories');			// impacts
+	$view_stories->set_display('block_1');
 	$view_outputs = views_get_view('outputs');						// outputs
+	$view_outputs->set_display('block');
 
 	// FUNDING
 	// Pie Chart
@@ -60,9 +65,11 @@
 		'containerId' =>  'project-funding-chart',
 		'numberFormat' => 'short',
 		'options' => array(
+			'fontSize'=>'16',
+			'fontName'=>'Source Sans Pro',
 			'backgroundColor'=>'#3b444c',
 			'legend'=> array(
-				'position'=>'bottom',
+				'position'=>'right',
 				'alignment'=>'center',
 				'textStyle'=>array(
 					'color'=>'#ffffff'
@@ -77,15 +84,16 @@
 			'chartArea' => array(
 				'left'=>5,
 				'top'=>7,
-				'width'=>'auto',
+				'width'=>'82%',
 				'height'=>'82%'
 			)
 		)   
 	);
 	
+	
 	// total - reformatted for block heading
 	if (isset($node->field_project_cost_total['und'][0]['value'])){
-		$fundingTotal = "<span>: USD ".number_format($node->field_project_cost_total['und'][0]['value']/1000)."M</span>";
+		$fundingTotal = "US$('000) ".number_format($node->field_project_cost_total['und'][0]['value']);
 	} else {
 		$fundingTotal = "";
 	}
@@ -93,10 +101,13 @@
 	$show_title = $variables['title'];
 ?>
 <div id="project-page" class="container-fluid">
-	<div class="row" id="project-title-authoring">
-		<?php //echo "<pre>123<br/>".print_r($variables['show_title'],1)."</pre>"; ?>
-		<div id="project-title" class="col-sm-8"><?php if ($show_title && $title): ?><h2 class="title" id="page-title"><?php print $title; ?></h2><?php endif; ?></div>
-		<div id="project-authoring" class="col-sm-4 small">Last Edited <?php print date('[m/d/Y]',$node->revision_timestamp) ?> by <?php print $node->name ?></span></div>
+	<div class="row" id="project-title-container">
+		<div id="project-title" class="col-sm-9"><?php if ($show_title && $title): ?><h2 class="title" id="page-title"><?php print $title; ?></h2><?php endif; ?></div>
+		<div id="project-function-buttons" class="col-sm-3 pull-right">
+			<a href="#" class="btn btn-xs btn-primary disabled" id="btn-edit"><i class="project-btn project-btn-edit" data-toggle="tooltip" data-placement="auto" title="Edit Project Details">&nbsp;</i></a>
+			<a href="#" class="btn btn-xs btn-primary disabled" id="btn-print"><i class="project-btn project-btn-print" data-toggle="tooltip" data-placement="top" title="Print Factsheet">&nbsp;</i></a>
+			<a href="<?php print base_path(); ?>" class="btn btn-xs btn-primary" id="btn-home"><i class="project-btn project-btn-portfolio" data-toggle="tooltip" data-placement="auto" title="Back to Portfolio View">&nbsp;</i></a>
+		</div>
 	</div>
 	<div class="row">
 		<div id="project-map" class="col-lg-12"><?php print views_embed_view('leaflet_view_test', 'block_1', $node->nid); ?></div>
@@ -105,61 +116,32 @@
 		<div class="row">
 			<div id="project-details" class="col-sm-4">
 				<h4 class=""><?php print $view_details->get_title(); ?> <?php //print $btnEditDetails ?></h4>
-				<?php print views_embed_view('project_details', 'block', $nid); ?>
+				<?php $view_details->set_arguments(array($node->nid)); $view_details->pre_execute(); $view_details->execute(); print $view_details->render(); ?>
 			</div>
 			<div id="project-funding-details" class="col-sm-4">
-				<h4><?php print $view_funding->get_title(); ?><?php echo $fundingTotal ?><?php //print $btnEditFunding ?></h4>
+				<h4><?php print $view_funding->get_title(); ?><?php //print $btnEditFunding ?></h4>
+				<div id="project-funding-total">
+					<span class='funding-total'><?php echo $fundingTotal ?></span>
+				</div>
 				<div id="project-funding-chart" class="chart">
+					<?php //$view_funding->set_display('block'); $view_funding->set_arguments(array($node->nid)); $view_funding->pre_execute(); $view_funding->execute(); print $view_funding->render(); ?>
 					<?php $ret = draw_chart($chartSettings); 	?>
 				</div>
 			</div>
 			<div id="project-photos" class="col-sm-4">
 				<h4><?php print $view_photos->get_title(); ?> <?php //print $btnEditPhotos ?></h4>
-				<?php print views_embed_view('project_photos','block', $nid); ?>
+				<?php $view_photos->set_arguments(array($node->nid)); $view_photos->pre_execute(); $view_photos->execute(); print $view_photos->render(); ?>
 			</div>
 		</div>
 		<div class="row">
 			<div id="project-outputs" class="col-sm-4">
 				<h4><?php print $view_outputs->get_title(); ?> <?php //print $btnEditOutputs ?></h4>
-				<?php print views_embed_view('outputs', 'block', $nid); ?>
+				<?php $view_outputs->set_arguments(array($node->nid)); $view_outputs->pre_execute(); $view_outputs->execute(); print $view_outputs->render(); ?>
 			</div>
 			<div id="project-impact-stories" class="col-sm-8">
 				<h4><?php print $view_stories->get_title(); ?> <?php //print $btnEditImpacts ?></h4>
-				<?php print views_embed_view('impact_stories','block_1', $nid); ?>
+				<?php $view_stories->set_arguments(array($node->nid)); $view_stories->pre_execute(); $view_stories->execute(); print $view_stories->render(); ?>
 			</div>
 		</div>	
 	</div>
-	
-	<div id="edit-project-details">
-				<?php
-					//if ($editPerm) {
-						//$block = module_invoke('afb', 'block_view', 2);
-						//$block = module_invoke('flexiform', 'block_view', 'project_details', $node->nid);
-						//print render($block['content']); 
-					//}
-				?>
-	</div>
-	
-	<div class="modal fade" id="dialog-edit-project-details" tabindex="-1" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-			</div>
-		</div>
-	</div>
-
-	
-	<!--div class="row">
-		<div class="panel-group" id="accordion">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Node Info</a>
-					</h4>
-				</div>
-				<div id="collapse1" class="panel-collapse collapse">
-					<div class="panel-body"><pre><?php echo print_r($node,1); ?></pre></div>
-				</div>
-			</div>
-		</div>
-	</div-->
 </div>

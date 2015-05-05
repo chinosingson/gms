@@ -11,16 +11,17 @@
 			$('div.view-project-details table th').addClass('col-sm-5');
 			$('div.view-project-details table td').addClass('col-sm-7');
 
-			//$('#project-details th.views-field.views-field-field-project-adb-website').css('display','none');
-			//$('#project-details td.views-field.views-field-field-project-adb-website').attr('colspan','2');
-
 			$('#block-menu-menu-footer-menu').removeClass('clearfix');
 			$('#block-menu-menu-footer-menu ul').addClass('navbar-nav');
 			
-			//$(window).on("throttledresize", function (event){
-			//window.addEventListener('resize',function(){
-			//	console.log('window resized');
-			//});
+			//console.log('window.innerHeight:' + window.innerHeight);
+			$('#geolocation-views-project-locations-maps-projects').css('height',window.innerHeight);
+			window.addEventListener('resize', function(){
+				//console.log('window inner width: ' + window.innerWidth);
+				//console.log('window inner height: ' + window.innerHeight);
+				$('#geolocation-views-project-locations-maps-projects').css('width',window.innerWidth);
+				$('#geolocation-views-project-locations-maps-projects').css('height',window.innerHeight);
+			});
 		}
 	};
 	

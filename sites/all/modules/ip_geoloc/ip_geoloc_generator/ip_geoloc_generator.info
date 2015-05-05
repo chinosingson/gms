@@ -4,9 +4,9 @@ core = 7.x
 configure = admin/config/system/ip_geoloc_generator
 dependencies[] = views
 
-; Information added by Drupal.org packaging script on 2014-11-13
-version = "7.x-1.26"
+; Information added by Drupal.org packaging script on 2015-05-03
+version = "7.x-1.27"
 core = "7.x"
 project = "ip_geoloc"
-datestamp = "1415869104"
+datestamp = "1430693001"
 

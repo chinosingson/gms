@@ -1,0 +1,19 @@
+﻿.page-maps-projects #navbar {
+	box-shadow: 0px 0px 30px #000 !important;
+	z-index: 1;
+}
+
+#project-title-container {
+	position: relative;
+	box-shadow: 0px 0px 30px #000 !important;
+	z-index: 9999;
+	margin-bottom: 0px !important;
+}
+
+/*.panel-pane.pane-panels-mini.pane-dashboard-charts{
+	box-shadow: 0 13px 26px -15px #000 !important;
+}*/
+
+#geolocation-views-project-locations-maps-projects {
+	border: 2px dashed red;
+}

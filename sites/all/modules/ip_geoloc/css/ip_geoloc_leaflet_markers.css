@@ -51,7 +51,7 @@
 .leaflet-tagged-marker i[class*=" icon-"]:before {
   position: relative;
   top: -2px;
-  let: 1px;
+  left: 1px;
 }
 
 /* Adjust for the Google-style markers that live in the /markers directory */

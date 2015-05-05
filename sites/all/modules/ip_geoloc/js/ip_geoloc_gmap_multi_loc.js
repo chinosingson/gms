@@ -148,14 +148,13 @@
         }
       }
 
-			var infowindow;
       function addMarkerBalloon(map, marker, infoText) {
         google.maps.event.addListener(marker, 'click', function(event) {
-					  // See [#1777664].
-					//console.log('infowindow clicked');
-					if (infowindow) infowindow.close();
-          infowindow = new google.maps.InfoWindow({content: infoText,maxWidth: 200});
-					infowindow.open(map, marker);
+          new google.maps.InfoWindow({
+            content: infoText,
+            // See [#1777664].
+            maxWidth: 200
+          }).open(map, marker);
         });
       }
 

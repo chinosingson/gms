@@ -36,57 +36,59 @@ function ip_geoloc_store_location($location) {
   // hook_get_ip_geolocation_alter()
   drupal_alter('get_ip_geolocation', $location);
 
-  $result = 0;
+  if (!variable_get('ip_geoloc_store_addresses', TRUE)) {
+    return;
+  }
+
   if (empty($location['ip_address']) || empty($location['formatted_address'])) {
     // ip_geoloc_debug('IPGV&M: location object must contain both IP address
     // and formatted address -- not stored.');
+    return 0;
+  }
+  if ($location['ip_address'] != '127.0.0.1' && (!isset($location['latitude']) || !isset($location['latitude']))) {
+    watchdog('IPGV&M', 'latitude or longitude missing for IP address %ip (location still stored)', array('%ip' => $location['ip_address']), WATCHDOG_WARNING);
+  }
+  // See if this IP is already on the db.
+  $result = db_query('SELECT * FROM {ip_geoloc} WHERE ip_address = :ip', array(':ip' => $location['ip_address']));
+  $existing_location = $result->fetchAssoc();
+
+  if (!$existing_location) {
+    // New entry, insert.
+    $location['city'] = utf8_encode($location['city']);
+    $location['formatted_address'] = utf8_encode($location['formatted_address']);
+    ip_geoloc_debug(t('IP Geolocaton: adding new record to db: !location', array('!location' => ip_geoloc_pretty_print($location))));
+    $full_location = &$location;
   }
   else {
-    if ($location['ip_address'] != '127.0.0.1' && (!isset($location['latitude']) || !isset($location['latitude']))) {
-      watchdog('IPGV&M', 'latitude or longitude missing for IP address %ip (location still stored)', array('%ip' => $location['ip_address']), WATCHDOG_WARNING);
-    }
-    // See if this IP is already on the db.
-    $result = db_query('SELECT * FROM {ip_geoloc} WHERE ip_address = :ip', array(':ip' => $location['ip_address']));
-    $existing_location = $result->fetchAssoc();
-
-    if (!$existing_location) {
-      // New entry, insert.
-      $location['city'] = utf8_encode($location['city']);
-      $location['formatted_address'] = utf8_encode($location['formatted_address']);
-      ip_geoloc_debug(t('IP Geolocaton: adding new record to db: !location', array('!location' => ip_geoloc_pretty_print($location))));
-      $full_location = &$location;
-    }
-    else {
-      // When updating, drupal_write_record() does not erase fields not present
-      // in $location.
-      $empty_location['latitude'] = '';
-      $empty_location['longitude'] = '';
-      $empty_location['country'] = '';
-      $empty_location['country_code'] = '';
-      $empty_location['region'] = '';
-      $empty_location['region_code'] = '';
-      $empty_location['city'] = '';
-      $empty_location['locality'] = '';
-      $empty_location['route'] = '';
-      $empty_location['street_number'] = '';
-      $empty_location['postal_code'] = '';
-      $empty_location['administrative_area_level_1'] = '';
-      $empty_location['formatted_address'] = '';
-      $location['id'] = $existing_location['id'];
-      $full_location = array_merge($empty_location, $location);
-      ip_geoloc_debug(t('IPGV&M: updating db with above location'));
-    }
-    try {
-      $result = drupal_write_record('ip_geoloc', $full_location, $existing_location ? array('id') : array());
-    }
-    catch (PDOException $e) {
-      // May happen when a fields contains illegal characters.
-      drupal_set_message(check_plain($e->getMessage()), 'error');
-      $result = FALSE;
-    }
-    if ($result === FALSE) {
-      drupal_set_message(t('IPGV&M: could not save location to db: !location', array('!location' => ip_geoloc_pretty_print($full_location))), 'error');
-    }
+    // When updating, drupal_write_record() does not erase fields not present
+    // in $location.
+    $empty_location['latitude'] = '';
+    $empty_location['longitude'] = '';
+    $empty_location['country'] = '';
+    $empty_location['country_code'] = '';
+    $empty_location['region'] = '';
+    $empty_location['region_code'] = '';
+    $empty_location['city'] = '';
+    $empty_location['locality'] = '';
+    $empty_location['route'] = '';
+    $empty_location['street_number'] = '';
+    $empty_location['postal_code'] = '';
+    $empty_location['administrative_area_level_1'] = '';
+    $empty_location['formatted_address'] = '';
+    $location['id'] = $existing_location['id'];
+    $full_location = array_merge($empty_location, $location);
+    ip_geoloc_debug(t('IPGV&M: updating db with above location'));
+  }
+  try {
+    $result = drupal_write_record('ip_geoloc', $full_location, $existing_location ? array('id') : array());
+  }
+  catch (PDOException $e) {
+    // May happen when a fields contains illegal characters.
+    drupal_set_message(check_plain($e->getMessage()), 'error');
+    $result = FALSE;
+  }
+  if ($result === FALSE) {
+    drupal_set_message(t('IPGV&M: could not save location to db: !location', array('!location' => ip_geoloc_pretty_print($full_location))), 'error');
   }
   return $result;
 }
@@ -359,24 +361,39 @@ function ip_geoloc_output_map_multi_location($locations, $div_id = 'ip-geoloc-ma
  * This works via an asynchronous javascript call, so the result is not
  * immediately available on return from this function, hence the $menu_callback.
  * Upon page load the included javascript will, when ready, instigate an AJAX
- * call to the $menu_callback, which should invoke a function to retrieve the
- * lat/long and address values from the $_POST variable.
+ * call to the $menu_callback, which should invoke a function to pull the
+ * lat/long and address values out of the $_POST variable.
  * See ip_geoloc_current_location_ajax_recipient() for an example.
  *
  * Note: will result in a HTTP error 503 when the site is in maintenance mode,
  *       as in maintenance mode menu items are not available.
  */
-function ip_geoloc_get_current_location($menu_callback = 'js/ip_geoloc/current_location') {
-  ip_geoloc_debug(t('IPGV&M: initiating service to locate current position and reverse-geocode to address...'));
+function ip_geoloc_get_current_location($menu_callback = NULL, $reverse_geocode = NULL, $refresh_page = NULL) {
+
+  $throbber_text = variable_get('ip_geoloc_throbber_text2', IP_GEOLOC_THROBBER_DEFAULT_TEXT);
+  if ($throbber_text !== '<none>') {
+    drupal_set_message(filter_xss_admin($throbber_text));
+  }
+  _ip_geoloc_set_session_value('last_position_check', time());
   _ip_geoloc_set_session_value('position_pending_since', microtime(TRUE));
 
   drupal_add_js(IP_GEOLOC_GOOGLE_MAPS_GPS, array('group' => JS_LIBRARY));
   drupal_add_js(drupal_get_path('module', 'ip_geoloc') . '/js/ip_geoloc_current_location.js');
 
-  $refresh_page = variable_get('ip_geoloc_page_refresh', FALSE) && !path_is_admin($_GET['q']);
+  if (!isset($menu_callback)) {
+    global $base_url;
+    $menu_callback = "$base_url/" . (variable_get('clean_url', 0) ? 'js/ip_geoloc/current_location' : '?q=js/ip_geoloc/current_location');
+  }
+  if (!isset($reverse_geocode)) {
+    $reverse_geocode = variable_get('ip_geoloc_visitor_reverse_geocode', TRUE);
+  }
+  if (!isset($refresh_page)) {
+    $refresh_page = variable_get('ip_geoloc_page_refresh', TRUE) && !path_is_admin($_GET['q']);
+  }
   $settings = array(
     'ip_geoloc_menu_callback' => $menu_callback,
     'ip_geoloc_refresh_page' => $refresh_page,
+    'ip_geoloc_reverse_geocode' => $reverse_geocode,
   );
   drupal_add_js($settings, 'setting');
 }

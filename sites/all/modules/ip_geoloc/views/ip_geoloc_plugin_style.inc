@@ -24,7 +24,7 @@ define('IP_GEOLOC_MAP_CENTER_ON_LOCATION_FROM_ARGUMENT', 5);
 /**
  * The bulk of the plugin style form.
  */
-function ip_geoloc_plugin_style_bulk_of_form($views_plugin_style, &$form, &$form_state) {
+function ip_geoloc_plugin_style_bulk_of_form($views_plugin_style, &$weight, &$form, &$form_state) {
 
   // We only ever want to offer at most 1 grouping field.
   if (!empty($form['grouping']) && count($form['grouping']) > 1) {
@@ -40,7 +40,9 @@ function ip_geoloc_plugin_style_bulk_of_form($views_plugin_style, &$form, &$form
   if (!is_array($selected_options)) {
     $selected_options = array($selected_options);
   }
+  $default_text = '';
   if (!empty($views_plugin_style->options['ip_geoloc_views_plugin_latitude_text'])) {
+    $default_text = $views_plugin_style->options['ip_geoloc_views_plugin_latitude_text'];
     $selected_options['---'] = '---';
   }
   $form['ip_geoloc_views_plugin_latitude'] = array(
@@ -49,11 +51,11 @@ function ip_geoloc_plugin_style_bulk_of_form($views_plugin_style, &$form, &$form
     '#multiple' => TRUE,
     '#options' => $field_options,
     '#default_value' => $selected_options,
-    '#weight' => 10,
+    '#weight' => $weight++,
   );
   $form['ip_geoloc_views_plugin_latitude_text'] = array(
     '#type' => 'textfield',
-    '#default_value' => $views_plugin_style->options['ip_geoloc_views_plugin_latitude_text'],
+    '#default_value' => $default_text,
     '#states' => array(
       // Doesn't work on multi-selects, unless with patch from http://drupal.org/node/1149078
       //'visible' => array(
@@ -62,7 +64,7 @@ function ip_geoloc_plugin_style_bulk_of_form($views_plugin_style, &$form, &$form
       //),
     ),
     '#description' => t("If you have multiple fields to enter, separate these by comma's."),
-    '#weight' => 11,
+    '#weight' => $weight++,
   );
   $explanation1 = t("Select the field(s) holding latitude from the select-box above. Make sure you have added it to the Fields list of this View or it won't show up above. Fields from the <strong>Geofield, Get Locations</strong> and <strong>Geolocation</strong> modules can all be selected this way.");
   $explanation2 = t('Your latitude may reside in a field with a special name. This is the case when using the <strong>Location</strong> module or when you have used <strong>relationships</strong> to pull in lat & lon. To input special names, select <em>[Type a field name below]</em> and enter the field\'s machine name. This <a target="_field_names" href="!url">list of all field names</a> may help in figuring out the correct name.', array(
@@ -72,10 +74,12 @@ function ip_geoloc_plugin_style_bulk_of_form($views_plugin_style, &$form, &$form
   $form['ip_geoloc_views_plugin_latitude_desc'] = array(
     '#type' => 'item',
     '#markup' => $explanation1 . '<br/><strong>' . t('Special names') . ': </strong>' . "$explanation2<br/>$explanation3",
-    '#weight' => 12,
+    '#weight' => $weight++,
   );
+  $default_text = '';
   $selected_option = $views_plugin_style->options['ip_geoloc_views_plugin_longitude'];
   if (!empty($views_plugin_style->options['ip_geoloc_views_plugin_longitude_text'])) {
+    $default_text = $views_plugin_style->options['ip_geoloc_views_plugin_longitude_text'];
     $selected_option = '---';
   }
   $form['ip_geoloc_views_plugin_longitude'] = array(
@@ -83,22 +87,22 @@ function ip_geoloc_plugin_style_bulk_of_form($views_plugin_style, &$form, &$form
     '#type' => 'select',
     '#options' => $field_options,
     '#default_value' => $selected_option,
-    '#weight' => 15,
+    '#weight' => $weight++,
   );
   $form['ip_geoloc_views_plugin_longitude_text'] = array(
     '#type' => 'textfield',
-    '#default_value' => $views_plugin_style->options['ip_geoloc_views_plugin_longitude_text'],
+    '#default_value' => $default_text,
     '#states' => array(
       'visible' => array(
         ':input[name="style_options[ip_geoloc_views_plugin_longitude]"]' => array('value' => '---'),
       ),
     ),
-    '#weight' => 16,
+    '#weight' => $weight++,
   );
   $form['ip_geoloc_views_plugin_longitude_desc'] = array(
     '#type' => 'item',
     '#markup' => t('Select <em>&lt;none&gt;</em>, except when latitude and longitude are separate fields, as in the <strong>Location</strong> module. In these cases, select <em>[Type a field name below]</em> and enter the field name. For the Location module, enter <strong>location_longitude</strong>.'),
-    '#weight' => 17,
+    '#weight' => $weight++,
   );
 
   $differentiator = isset($form_state['differentiator']) ? $form_state['differentiator'] : $views_plugin_style->options['differentiator']['differentiator_field'];
@@ -129,7 +133,7 @@ function ip_geoloc_plugin_style_bulk_of_form($views_plugin_style, &$form, &$form
       '#description' => t('Select an image to use for all location markers whose images are not overridden by the <strong>location differentiator</strong> below.'),
       '#attributes' => array(
         'class' => $is_openlayers ? array('marker-color-ol') : array('marker-color')),
-      '#weight' => 20,
+      '#weight' => $weight++,
     );
   }
   if (!$is_openlayers) {
@@ -147,7 +151,7 @@ function ip_geoloc_plugin_style_bulk_of_form($views_plugin_style, &$form, &$form
     '#description' => $descr,
     '#prefix' => '<div id="differentiator-wrapper">',
     '#suffix' => '</div>',
-    '#weight' => 30,
+    '#weight' => $weight++,
   );
 
   $instances = ip_geoloc_get_field_instances($differentiator);
@@ -246,7 +250,7 @@ function ip_geoloc_plugin_style_bulk_of_form($views_plugin_style, &$form, &$form
       IP_GEOLOC_MAP_CENTER_OF_LOCATIONS_WEIGHTED => t('Use the center of gravity based on all locations, except the visitor location (this option is sensitive to location clusters)'),
     ),
     '#description' => $desc,
-    '#weight' => 40,
+    '#weight' => $weight++,
   );
   $form['empty_map_center'] = array(
     '#title' => t('No locations behaviour'),
@@ -255,7 +259,7 @@ function ip_geoloc_plugin_style_bulk_of_form($views_plugin_style, &$form, &$form
     '#default_value' => $views_plugin_style->options['empty_map_center'],
     '#description' => t('a) Show empty map: enter <em>latitude, longitude</em> of the map center.<br/>b) Show empty map centered on visitor location: enter the word %visitor.<br/>c) Show nothing: if this field is left blank, the map canvas will be suppressed when there are no locations to show. If you wish, you may use the <strong>No results behavior</strong> panel in the Advanced section of the Views UI to show an alternative text or content.', array(
       '%visitor' => t('visitor'))),
-    '#weight' => 110,
+    '#weight' => $weight++,
   );
   return $form;
 }
@@ -650,9 +654,20 @@ function ip_geoloc_plugin_style_extract_locations($views_plugin_style) {
     // @todo - Add support for multiple grouping fields?
     $group_field = $views_plugin_style->options['grouping'][0]['field'];
   }
-  $separator = isset($views_plugin_style->options['map_options']['separator'])
-    ? filter_xss_admin($views_plugin_style->options['map_options']['separator'])
-    : '<br/>';
+
+  $separator = '<br/>';
+  if (is_a($views_plugin_style, 'ip_geoloc_plugin_style_map')) {
+    // Google Map options come as a JSON string.
+    if ($map_options = json_decode($views_plugin_style->options['map_options'])) {
+      if (isset($map_options->separator)) {
+        $separator = filter_xss_admin($map_options->separator);
+      }
+    }
+  }
+  elseif (isset($views_plugin_style->options['map_options']['separator'])) {
+    $separator = filter_xss_admin($views_plugin_style->options['map_options']['separator']);
+  }
+  
   foreach ($sets as $set) {
     // Render as a grouping set.
     if (!empty($set['group'])) {
@@ -661,13 +676,14 @@ function ip_geoloc_plugin_style_extract_locations($views_plugin_style) {
 
       $loc_field_name = reset($loc_field_names);
       $loc_field_alias = reset($loc_field_aliases);
+      $j = 0;
       $row = reset($set['rows']);
-
       foreach ($latitudes as $latitude) {
 
         $base = _ip_geoloc_plugin_style_get_base1($row, $loc_field_name, $loc_field_alias);
+        $location = new stdClass();
 
-        if ($location = _ip_geoloc_plugin_style_extract_lat_lng($row, $latitude, $longitude, $base)) {
+        if (_ip_geoloc_plugin_style_extract_lat_lng($location, $row, $latitude, $longitude, $base)) {
           // Remaining row values go into the balloon.
           if (!empty($views_plugin_style->rendered_fields[$i])) {
             $location->balloon_text = $views_plugin_style->rendered_fields[$i][$group_field];
@@ -686,16 +702,15 @@ function ip_geoloc_plugin_style_extract_locations($views_plugin_style) {
             $value = ip_geoloc_get_view_result($views_plugin_style, $aggregation_field, $i);
             $location->aggregation_value = reset($value);
           }
-          $locations[$i] = $location;
-          break;
+          $locations[$j ? "$i.$j" : $i] = $location;
+          $j++;
         }
+
         $loc_field_name = next($loc_field_names);
         $loc_field_alias = next($loc_field_aliases);
-        if (empty($location)) {
-          if ($error_count++ == 0) {
-            $first_error = $i;
-          }
-        }
+      }
+      if ($j === 0 && $error_count++ === 0) {
+        $first_error = $i;
       }
     }
     // Render as a record set.
@@ -706,11 +721,13 @@ function ip_geoloc_plugin_style_extract_locations($views_plugin_style) {
 
         $loc_field_name = reset($loc_field_names);
         $loc_field_alias = reset($loc_field_aliases);
+        $j = 0;
         foreach ($latitudes as $latitude) {
 
           $base = _ip_geoloc_plugin_style_get_base1($row, $loc_field_name, $loc_field_alias);
+          $location = new stdClass();
 
-          if ($location = _ip_geoloc_plugin_style_extract_lat_lng($row, $latitude, $longitude, $base)) {
+          if (_ip_geoloc_plugin_style_extract_lat_lng($location, $row, $latitude, $longitude, $base)) {
             // Remaining row values go into the balloon.
             if (!empty($views_plugin_style->rendered_fields[$i])) {
               $location->balloon_text = implode($separator, $views_plugin_style->rendered_fields[$i]);
@@ -723,22 +740,20 @@ function ip_geoloc_plugin_style_extract_locations($views_plugin_style) {
               $value = ip_geoloc_get_view_result($views_plugin_style, $aggregation_field, $i);
               $location->aggregation_value = reset($value);
             }
-            $locations[$i] = $location;
-            break;
+            $locations[$j ? "$i.$j" : $i] = $location;
+            $j++;
           }
           $loc_field_name = next($loc_field_names);
           $loc_field_alias = next($loc_field_aliases);
         }
-        if (empty($location)) {
-          if ($error_count++ == 0) {
-            $first_error = $i;
-          }
+        if ($j === 0 && $error_count++ === 0) {
+          $first_error = $i;
         }
       }
     }
   }
   global $user;
-  if ($error_count > 0 && ($user->uid === 1 || ($is_debug = ip_geoloc_debug_flag()))) {
+  if ($error_count > 0 && (($is_debug = ip_geoloc_debug_flag()) || $user->uid == 1)) {
     $row_count = count($view->result);
     $title = empty($views_plugin_style->display->display_options['title']) ? $view->get_human_name() . ' (' . $views_plugin_style->display->display_title . ')' : $views_plugin_style->display->display_options['title'];
     $t_args = array(
@@ -757,7 +772,7 @@ function ip_geoloc_plugin_style_extract_locations($views_plugin_style) {
       $row_contents = t('First error row:') . '<br/>';
       foreach ((array) $view->result[$first_error] as $field_name => $value) {
         if ($field_name != '_field_data') {
-          $output = print_r(filter_xss_admin($value), TRUE);
+          $output = filter_xss_admin(print_r($value, TRUE));
           $output = drupal_substr($output, 0, 255) . (strlen($output) > 255 ? '...' : '');
           $row_contents .= "<strong>$field_name</strong> = $output<br/>";
         }
@@ -826,6 +841,8 @@ function _ip_geoloc_plugin_style_get_base2($row, $field_name, $delta) {
  *
  * @todo This function is in flux and a bit messy at the moment....
  *
+ * @param array $location
+ *   The object to receive the extracted lat and lng
  * @param array $row
  *   View result row
  * @param string $latitude
@@ -836,7 +853,7 @@ function _ip_geoloc_plugin_style_get_base2($row, $field_name, $delta) {
  * @return object|NULL
  *   location -- @todo return array for consistency with Leaflet?
  */
-function _ip_geoloc_plugin_style_extract_lat_lng($row, $latitude, $longitude, $loc_field_value = NULL) {
+function _ip_geoloc_plugin_style_extract_lat_lng(&$location, $row, $latitude, $longitude, $loc_field_value = NULL) {
 
   $delta = &drupal_static(__FUNCTION__);
   if (isset($delta)) {
@@ -855,7 +872,6 @@ function _ip_geoloc_plugin_style_extract_lat_lng($row, $latitude, $longitude, $l
   if (!isset($delta) || !isset($row->{$field_name}) || $delta >= count($row->{$field_name})) {
     $delta = 0;
   }
-  $location = new stdClass();
 
   $base = _ip_geoloc_plugin_style_get_base2($row, $field_name, $delta);
   if (empty($base)) {
@@ -889,12 +905,9 @@ function _ip_geoloc_plugin_style_extract_lat_lng($row, $latitude, $longitude, $l
         // Support WKT lines and polygons in Leaflet. Call requires:
         // $base['geo_type'] eg 'point' or 'linestring'
         // $base['geom'] eg. 'POINT(145 -37)' or 'LINESTRING(145 -37, 146, -38)'
-        if (!isset($base['wkt'])) {
-          // Until fixed in leaflet_process_geofield().
-          $base['wkt'] = $base['geom'];
-        }
-        $location = leaflet_process_geofield(array($base));
-        $location = (object) reset($location);
+        $loc = leaflet_process_geofield(array($base));
+        $location = (object) reset($loc);
+
         // @todo get rid of this duality, use lat/lon throughout
         if (isset($location->lat)) {
           $location->latitude = $location->lat;
@@ -942,7 +955,7 @@ function _ip_geoloc_plugin_style_extract_lat_lng($row, $latitude, $longitude, $l
       $location->longitude = $row->{'field_' . $longitude}[$delta]['raw']['value'];
     }
   }
-  return isset($location->type) || (isset($location->latitude) && $location->latitude != '') ? $location : NULL;
+  return isset($location->type) || (isset($location->latitude) && $location->latitude != '');
 }
 
 /**

@@ -53,14 +53,16 @@ function ip_geoloc_admin_configure() {
     '#default_value' => variable_get('ip_geoloc_num_location_marker_layers', IP_GEOLOC_DEF_NUM_MARKER_LAYERS),
     '#description' => t('Only relevant when you have selected "differentiator" fields in your view.'),
   );
-
+  $benefits = t('Some of the benefits of font icons are explained <a target="flink" href="!url_flink">here</a>.', array(
+    '!url_flink' => url('http://flink.com.au/ramblings/spruce-your-map-markers-font-icons')
+  ));
   $form['font_icons'] = array(
     '#type' => 'fieldset',
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
     '#title' => t('Font icons (Leaflet only)'),
-    '#description' => t('Some of the benefits of font icons are explained <a target="flink" href="!url_flink">here</a>. <br/>If you decide to use them, a good spot to put the font icon libraries you choose to download is in subdirectories of %url_libs.<br/>Each font icon library normally contains a CSS file through which other files in the library are referred. Type the filespec of those CSS files below, one per library. After you have saved the configuration, check the <a target="status" href="!url_status">status report</a> page for errors.<br/><strong>Example 1</strong>, <a target="fontawesome" href="!url_fontawesome">Font Awesome</a>: %css_file1 <br/><strong>Example 2</strong>, <a target="flaticon" href="!url_flaticon">flaticon</a>: %css_file2', array(
-      '!url_flink' => url('http://flink.com.au/ramblings/spruce-your-map-markers-font-icons'),
+    '#description' => $benefits . '<br/>' .
+      t('If you decide to use them, a good spot to put the font icon libraries you choose to download is in subdirectories of %url_libs.<br/>Each font icon library normally contains a CSS file through which other files in the library are found. Type the filespec of those CSS files below, one per library. After you have saved the configuration, check the <a target="status" href="!url_status">status report</a> page for errors.<br/><strong>Example 1</strong>, <a target="fontawesome" href="!url_fontawesome">Font Awesome</a>: %css_file1 <br/><strong>Example 2</strong>, <a target="flaticon" href="!url_flaticon">flaticon</a>: %css_file2', array(
       '%url_libs' => '/sites/all/libraries',
       '!url_fontawesome' => url('http://fortawesome.github.io/Font-Awesome'),
       '%css_file1' => 'sites/all/libraries/font-awesome/css/font-awesome.min.css',
@@ -79,9 +81,9 @@ function ip_geoloc_admin_configure() {
       '#default_value' => empty($libs[$i]) ? '' : $libs[$i],
     );
   }
-  $form['font_icons']["ip_geoloc_font_icon_lib$count"]['#description']
-    = t('<strong>Note:</strong> as explained in this <a target="issue" href="!url_issue">issue</a>, you cannot have identical leaf names amongst the CSS filespecs. Rename .css files if there are clashes.', array(
-      '!url_issue' => url('http://drupal.org/node/1885838'),
+  $form['font_icons']["ip_geoloc_font_icon_lib$count"]['#description'] =
+    t('<strong>Note:</strong> as explained in this <a target="issue" href="!url_issue">issue</a>, you cannot have identical leaf names amongst the CSS filespecs. Rename .css files if there are clashes.', array(
+      '!url_issue' => url('https://www.drupal.org/node/1885838#comment-8996119'),
     ));
 
   if (ip_geoloc_diagnose() > 0) {
@@ -113,12 +115,28 @@ function ip_geoloc_admin_configure() {
     '#collapsed' => TRUE,
     '#title' => t('Data collection options'),
   );
+  $form['ip_geoloc_data_collection_options']['ip_geoloc_allow_session_storage'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Allow session storage'),
+    '#default_value' => variable_get('ip_geoloc_allow_session_storage', TRUE),
+    '#description' => t('The current visitor\'s location data is temporarily stored in either the $_SESSION variable or via the module <a target="_project" href="@url_project">Session Cache API</a>, if enabled. <br/>To disable both of these session storage functions, untick this box. However unticking this box means you will lose all functions regarding Wifi/GPS-based visitor geolocation. Location of the visitor based on IP address through either the <strong>Smart IP</strong> or <strong>GeoIP</strong> modules will continue to operate normally, if enabled.', array(
+      '@url_project' => url('http://drupal.org/project/session_cache'),
+    )),
+  );
+  $form['ip_geoloc_data_collection_options']['ip_geoloc_store_addresses'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Store reverse-geocoded addresses with their corresponding latitude/longitude on the database'),
+    '#default_value' => variable_get('ip_geoloc_store_addresses', TRUE),
+    '#description' => t('This allows you create maps of recent visitors to your site.'),
+  );
+  $note = t('If you are using this module mainly for its mapping features, then you can safely untick this box.');
   $form['ip_geoloc_data_collection_options']['ip_geoloc_google_to_reverse_geocode'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Employ the free Google service to reverse-geocode HTML5 visitor locations to street addresses before storing these on the database'),
+    '#title' => t('Employ a free Google service to <em>periodically</em> auto reverse-geocode visitor locations to street addresses'),
     '#default_value' => variable_get('ip_geoloc_google_to_reverse_geocode', FALSE),
-    '#description' => t('If you are using this module mainly for its mapping features, then you can safely untick this box.<br/>Reverse-geocoding takes place via the Javascript version of the Google Maps API and the HTML5 way of obtaining a visitor\'s location. This involves visitors being prompted to accept sharing of their location.<br/>For the upload of historic visitor location data the server-side version of the Google Maps API is used. The latter is subject to a Google-imposed daily limit on the number of calls coming from the same server. <br/>This option requires <a href="!url">Clean URLs</a> to be enabled.', array(
-      '!url' => url('admin/config/search/clean-urls'))
+    '#description' => "<strong>$note</strong><br>" . t('Reverse-geocoding takes place via the Javascript version of the Google Maps API and the HTML5 way of obtaining a visitor\'s location. This involves visitors being prompted to accept sharing of their location.<br/>For the upload of historic visitor location data the server-side version of the Google Maps API is used. The latter is subject to a Google-imposed daily limit on the number of calls coming from the same server.'),
+    '#states' => array(
+      'visible' => array('input[name="ip_geoloc_allow_session_storage"]' => array('checked' => TRUE)),
     ),
   );
   $form['ip_geoloc_data_collection_options']['ip_geoloc_include_pages'] = array(
@@ -127,6 +145,9 @@ function ip_geoloc_admin_configure() {
     '#title' => t("Pages on which the visitor's HTML5 location may be sampled and reverse-geocoded to a street address"),
     '#default_value' => variable_get('ip_geoloc_include_pages', '*'),
     '#description' => t("Enter relative paths, one per line. Where they exist use the URL aliases rather than the node numbers. <strong>&lt;front&gt;</strong> means the front page.<br/>The asterisk <em>*</em> is the wildcard character, i.e. <em>recipes/mains*</em> denotes all pages that have a path starting with <em>recipes/mains</em><br/>The asterisk by itself means any page on your site."),
+    '#states' => array(
+      'visible' => array('input[name="ip_geoloc_allow_session_storage"]' => array('checked' => TRUE)),
+    ),
   );
   $form['ip_geoloc_data_collection_options']['ip_geoloc_exclude_pages'] = array(
     '#type' => 'textarea',
@@ -134,6 +155,9 @@ function ip_geoloc_admin_configure() {
     '#title' => t('Exceptions: pages excluded from the set of pages specified above'),
     '#default_value' => variable_get('ip_geoloc_exclude_pages', IP_GEOLOC_DEFAULT_PAGE_EXCLUSIONS),
     '#description' => t('As above, one path specification per line.'),
+    '#states' => array(
+      'visible' => array('input[name="ip_geoloc_allow_session_storage"]' => array('checked' => TRUE)),
+    ),
   );
   $form['ip_geoloc_data_collection_options']['ip_geoloc_roles_to_reverse_geocode'] = array(
     '#type' => 'checkboxes',
@@ -141,6 +165,9 @@ function ip_geoloc_admin_configure() {
     '#default_value' => variable_get('ip_geoloc_roles_to_reverse_geocode', array(DRUPAL_ANONYMOUS_RID, DRUPAL_AUTHENTICATED_RID)),
     '#options' => user_roles(),
     '#description' => t('Selected roles are effective only when the check box on the data collection option above is also ticked.'),
+    '#states' => array(
+      'visible' => array('input[name="ip_geoloc_allow_session_storage"]' => array('checked' => TRUE)),
+    ),
   );
 
   $form['ip_geoloc_data_collection_options']['ip_geoloc_smart_ip_as_backup'] = array(
@@ -150,14 +177,29 @@ function ip_geoloc_admin_configure() {
     '#description' => t('This refers to situations where the lat/long coords could not be established. An example is the user declining to share their location. Another is when the Google Maps API reverse-geocode function fails or is not enabled through the tick box at the top of this section.<br/>Smart IP lookups tend to be less detailed than the Google Maps reverse-geocoded results.<br/>If this box is <strong>not</strong> ticked, but the <a href="@geoip">GeoIP API module</a> is enabled, then GeoIP will be used as the Google Maps API fallback and to load historic lat/long coordinates.', array(
       '@geoip' => url('http://drupal.org/project/geoip'),
     )),
+    '#states' => array(
+      'visible' => array('input[name="ip_geoloc_allow_session_storage"]' => array('checked' => TRUE)),
+    ),
   );
   $form['ip_geoloc_data_collection_options']['ip_geoloc_location_check_interval'] = array(
     '#type' => 'textfield',
     '#size' => 10,
     '#field_suffix' => t('seconds'),
-    '#title' => t('Minimum elapsed time before geolocation data for the same user will be collected again.'),
+    '#title' => t('Minimum elapsed time before geolocation data for the same user will be collected again'),
     '#default_value' => variable_get('ip_geoloc_location_check_interval', IP_GEOLOC_LOCATION_CHECK_INTERVAL),
-    '#description' => t('Geolocation information associated with an IP address may change over time, for instance when the visitor is using a mobile device and is moving. Use zero to stop repeat location collection.'),
+    '#description' => t('Geolocation information associated with an IP address may change over time, for instance when the visitor is using a mobile device and is moving. Use zero to geolocate the visitor <em>once</em> and then refrain from repeat location collection until their session has expired.'),
+    '#states' => array(
+      'visible' => array('input[name="ip_geoloc_allow_session_storage"]' => array('checked' => TRUE)),
+    ),
+  );
+  $form['ip_geoloc_data_collection_options']['ip_geoloc_throbber_text2'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Message displayed while visitor is being geolocated'),
+    '#size' => 30,
+    '#default_value' => filter_xss_admin(variable_get('ip_geoloc_throbber_text2', '')),
+    '#description' => t('A standard status message to show the visitor that geolocation was initiated and is in progress. </br/>Defaults to %default <br/>You may use most HTML tags. Use <em>&lt;none&gt;</em> to have no message shown, which is probably the preferred choice if the <strong>Auto-refresh</strong> box below is unticked.', array(
+      '%default' => IP_GEOLOC_THROBBER_DEFAULT_TEXT,
+    )),
   );
 
   $form['ip_geoloc_advanced'] = array(
@@ -169,7 +211,7 @@ function ip_geoloc_admin_configure() {
   $form['ip_geoloc_advanced']['ip_geoloc_page_refresh'] = array(
     '#type' => 'checkbox',
     '#title' => t('Auto-refresh the page as soon as an HTML5 location update has come in'),
-    '#default_value' => variable_get('ip_geoloc_page_refresh', FALSE),
+    '#default_value' => variable_get('ip_geoloc_page_refresh', TRUE),
     '#description' => t('The above tick box does not apply to administration pages.'),
   );
   $form['ip_geoloc_advanced']['ip_geoloc_debug'] = array(

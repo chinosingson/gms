@@ -11,7 +11,7 @@
     latLng = latLng.wrap();
     lMap.bounds.push(latLng);
 
-    var options = { title: marker.tooltip };
+    var options = { title: marker.tooltip, riseOnHover: true };
     if (marker.regions) {
       options.regions = marker.regions;
     }

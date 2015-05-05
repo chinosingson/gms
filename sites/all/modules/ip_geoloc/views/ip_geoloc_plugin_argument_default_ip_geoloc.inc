@@ -6,7 +6,7 @@
  */
 
 /**
- * Default argument plugin to extract a user via menu_get_object
+ * Default argument plugin to inject attributes from the visitor's location.
  */
 class ip_geoloc_plugin_argument_default_ip_geoloc extends views_plugin_argument_default {
 
@@ -36,19 +36,19 @@ class ip_geoloc_plugin_argument_default_ip_geoloc extends views_plugin_argument_
     if (!empty($location)) {
       switch ($this->options['type']) {
         case 'postal_code':
-          return $location['postal_code'];
+          return isset($location['postal_code']) ? $location['postal_code'] : '';
 
         case 'city_state':
-          return $location['city'] . ', ' . $location['region'];
+          return isset($location['city']) && isset($location['region']) ? $location['city'] . ', ' . $location['region'] : '';
 
         case 'country':
-          return $location['country'];
+          return isset($location['country']) ? $location['country'] : '';
 
         case 'lat_long':
-          return $location['latitude'] . ',' . $location['longitude'];
+          return isset($location['latitude']) && isset($location['longitude']) ? $location['latitude'] . ',' . $location['longitude'] : '';
 
         case 'formatted_address':
-          return $location['formatted_address'];
+          return isset($location['formatted_address']) ? $location['formatted_address'] : '';
       }
     }
     return NULL;

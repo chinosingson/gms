@@ -40,7 +40,7 @@ function ip_geoloc_generator_ip_geoloc_marker_locations_alter(&$marker_locations
   $range_lon = variable_get('ip_geoloc_generator_range_lon', 0.12);
 
   $no_points = variable_get('ip_geoloc_generator_no_points', 10);
-  $separator = variable_get('ip_geoloc_balloon_separator', '<br/>');
+  $separator = filter_xss_admin(variable_get('ip_geoloc_balloon_separator', '<br/>'));
   for ($i = 1; $i <= $no_points; $i++) {
     $marker = new stdClass();
     //$marker->id = $i;

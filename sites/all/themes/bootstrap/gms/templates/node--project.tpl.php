@@ -77,6 +77,7 @@
 			),
 			'forceIFrame' => FALSE, 
 			'pieSliceText'=> 'value',
+			'pieSliceBorderColor' => 'transparent',
 			'title' => '',
 			'width' => 'auto',
 			'height' => '300',

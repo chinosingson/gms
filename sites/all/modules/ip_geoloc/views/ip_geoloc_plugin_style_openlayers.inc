@@ -52,7 +52,8 @@ class ip_geoloc_plugin_style_openlayers extends views_plugin_style {
     );
 
     $form_state['renderer'] = 'openlayers';
-    ip_geoloc_plugin_style_bulk_of_form($this, $form, $form_state);
+    $weight = 10;
+    ip_geoloc_plugin_style_bulk_of_form($this, $weight, $form, $form_state);
     // OpenLayers has "Hide empty map for Views" for this.
     unset($form['empty_map_center']);
 

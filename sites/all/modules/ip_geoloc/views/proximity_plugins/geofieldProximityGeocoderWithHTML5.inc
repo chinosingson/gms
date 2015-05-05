@@ -51,9 +51,11 @@ class geofieldProximityGeocoderWithHTML5 extends geofieldProximityGeocoder {
         ':input[name="options[geofield_proximity_geocoder]"]' => array('value' => ''),
       ),
     );
-
-    $exposed_geofields = array();
+    if (empty($views_plugin->view->display_handler->handlers['filter'])) {
+      return;
+    }
     $filters = $views_plugin->view->display_handler->handlers['filter'];
+    $exposed_geofields = array();
     foreach ($filters as $name => $filter) {
       if ($filter->definition['handler'] == 'geofield_handler_filter' && !empty($filter->options['exposed'])) {
         $exposed_geofields[$name] = $filter->ui_name();

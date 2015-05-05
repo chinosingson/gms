@@ -17,6 +17,7 @@
           minZoom: parseInt($this.data('map-min-zoom'), 10) || null,
           mapTypeId: google.maps.MapTypeId[$this.data('map-type')],
           scrollwheel: $this.data('scroll-wheel'),
+					streetViewControl: false,
           disableDoubleClickZoom: $this.data('disable-double-click-zoom')
         });
 

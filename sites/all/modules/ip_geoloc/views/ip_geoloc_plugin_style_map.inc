@@ -51,7 +51,8 @@ class ip_geoloc_plugin_style_map extends views_plugin_style {
     parent::options_form($form, $form_state);
 
     $form_state['renderer'] = 'google';
-    ip_geoloc_plugin_style_bulk_of_form($this, $form, $form_state);
+    $weight = 10;
+    ip_geoloc_plugin_style_bulk_of_form($this, $weight, $form, $form_state);
 
     unset($form['center_option']['#options'][IP_GEOLOC_MAP_CENTER_OF_LOCATIONS]);
     $form['center_option']['#options'][IP_GEOLOC_MAP_CENTER_ON_VISITOR_AND_LOCATIONS] =  t('Auto-box and zoom to fit all locations, including the visitor location.');
@@ -62,7 +63,7 @@ class ip_geoloc_plugin_style_map extends views_plugin_style {
       '#type' => 'textarea',
       '#size' => 3,
       '#default_value' => $this->options['map_options'],
-      '#description' => t("If left blank, the default %default_options will produce a world map zoomed in to level 2 (subject to the centering option selected). A list of map options can be found <a href='!google_map_docs'>here</a>. Remember to separate options with comma's, not semi-colons, and make sure your (double) quotes match.<br/>These options apply a grey hue to all roads:<br/>%example_options", array(
+      '#description' => t("If left blank, the default %default_options will produce a world map zoomed in to level 2 (subject to the centering option selected). A list of map options can be found <a href='!google_map_docs'>here</a>. Remember to separate options with comma's, not semi-colons, and make sure your (double) quotes match.<br/>These options apply a grey hue to all roads and set the marker balloon separator as well:<br/>%example_options", array(
         '%default_options' => IP_GEOLOC_RECENT_VISITORS_MAP_OPTIONS,
         '%example_options' => IP_GEOLOC_EXAMPLE_MAP_OPTIONS,
         '!google_map_docs' => IP_GEOLOC_DOC_GOOGLE_MAP_OPTIONS)),

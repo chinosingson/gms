@@ -15,12 +15,16 @@
  *   if NULL the array of all IPGV&M session variables is returned.
  *
  * @param mixed $value
- *   The value to set.
+ *   The value to set. Use NULL to wipe the existing value.
  *
  * @return array|null
  *   The requested or all session variables from ip_geoloc
  */
 function _ip_geoloc_set_session_value($name, $value = NULL) {
+
+  if (!variable_get('ip_geoloc_allow_session_storage', TRUE)) {
+    return NULL;
+  }
 
   if (module_exists('context_session') && $name == 'location') {
     _ip_geoloc_set_location_on_context_session($value);
@@ -31,7 +35,9 @@ function _ip_geoloc_set_session_value($name, $value = NULL) {
       unset($_SESSION['ip_geoloc']);
     }
     elseif (isset($name)) {
-      $_SESSION['ip_geoloc'][$name] = $value;
+      $_SESSION['ip_geoloc'][$name] = isset($_SESSION) && isset($_SESSION['ip_geoloc'][$name]) && is_array($_SESSION['ip_geoloc'][$name]) && is_array($value)
+        ? array_merge($_SESSION['ip_geoloc'][$name], $value)
+        : $value;
     }
     return isset($_SESSION) && isset($_SESSION['ip_geoloc']) ? $_SESSION['ip_geoloc'] : NULL;
   }
@@ -41,14 +47,12 @@ function _ip_geoloc_set_session_value($name, $value = NULL) {
     return NULL;
   }
 
-  // Efficiency: for multiple get's during the same request avoid having to go
-  // to the storage mechanism each time.
-  $variables = &drupal_static(__FUNCTION__, array());
-  if (empty($variables)) {
-    $variables = session_cache_get('ip_geoloc');
-  }
+  $variables = session_cache_get('ip_geoloc');
   if (isset($name)) {
-    $variables[$name] = $value;
+    // Merge/override the session with the supplied value
+    $variables[$name] = isset($variables[$name]) && is_array($variables[$name]) && is_array($value)
+      ? array_merge($variables[$name], $value)
+      : $value;
     session_cache_set('ip_geoloc', $variables);
   }
   return $variables;

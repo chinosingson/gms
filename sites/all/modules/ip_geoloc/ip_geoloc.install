@@ -9,7 +9,7 @@
  * Implments hook_enable().
  */
 function ip_geoloc_enable() {
-  drupal_set_message(t('IP Geolocation Views & Maps is now enabled. Please note that some of the canned Views that come with this module require the <a target="project_page" href="!views_php">Views PHP</a> module. The "Set my location" block requires <a target="project_page" href="!geocoder">Geocoder</a>. <br/>Modules <a target="project_page" href="!session_cache">Session Cache API</a> and <a target="project_page" href="!js">High-performance JS Callback Handler</a> are optional and recommended.', array(
+  drupal_set_message(t('IP Geolocation Views & Maps is now enabled. Please note that some of the canned Views that come with this module require the "<a target="project_page" href="!views_php">Views PHP</a>" module. The "Set my location" block requires <a target="project_page" href="!geocoder">Geocoder</a>. <br/>Modules "<a target="project_page" href="!session_cache">Session Cache API</a>" and "<a target="project_page" href="!js">High-performance JS Callback Handler</a>" are optional and recommended.', array(
     '!views_php' => url('http://drupal.org/project/views_php'),
     '!geocoder' => url('http://drupal.org/project/geocoder'),
     '!session_cache' => url('http://drupal.org/project/session_cache'),
@@ -53,13 +53,13 @@ function ip_geoloc_requirements($phase) {
   $requirements['ip_geoloc_lbs']['title'] = $t('IP Geolocation Views & Maps,<br/>data collection methods employed');
   $requirements['ip_geoloc_lbs']['value'] = implode(', ', $geolocation_methods);
   if (empty($geolocation_methods)) {
-    $warning = $t('You currently have no data collection methods enabled. Therefore no new address information can be added to the IP geolocation database.');
+    $note = $t('You currently have no data collection methods enabled. Therefore no new address information can be added to the IP geolocation database.');
     if (empty($requirements['ip_geoloc']['description'])) {
-      $requirements['ip_geoloc_lbs']['severity'] = REQUIREMENT_INFO;
-      $requirements['ip_geoloc_lbs']['description'] = $warning;
+      $requirements['ip_geoloc_lbs']['severity'] = REQUIREMENT_OK;
+      $requirements['ip_geoloc_lbs']['description'] = $note;
     }
     else {
-      $requirements['ip_geoloc_lbs']['description'] .= ' ' . $warning;
+      $requirements['ip_geoloc_lbs']['description'] .= ' ' . $note;
     }
   }
 
@@ -81,7 +81,7 @@ function ip_geoloc_requirements($phase) {
 
   $requirements['ip_geoloc_font_libs']['title'] = $t('IP Geolocation Views & Maps,<br/>font icon libraries');
   $requirements['ip_geoloc_font_libs']['severity'] = REQUIREMENT_OK;
-  $requirements['ip_geoloc_font_libs']['description'] = $t('When using Leafet you may superimpose font icons on your markers. <a target="fsymbols" href="!url_fsymbols">fsymbols</a> do not require any files to be downloaded. Other font icons like those from <a target="fontello" href="!url_fontello">Fontello</a> do. See the <a target="readme" href="!url_readme">README</a> for more details on font icon repositories.', array(
+  $requirements['ip_geoloc_font_libs']['description'] = $t('When using Leaflet you may superimpose font icons on your markers. <a target="fsymbols" href="!url_fsymbols">fsymbols</a> do not require any files to be downloaded. Other font icons like those from <a target="fontello" href="!url_fontello">Fontello</a> do. See the <a target="readme" href="!url_readme">README</a> for more details on font icon repositories.', array(
     '!url_fsymbols' => url('http://text-symbols.com'),
     '!url_fontello' => url('http://fontello.com'),
     '!url_readme' => url(drupal_get_path('module', 'ip_geoloc') . '/README.txt'),

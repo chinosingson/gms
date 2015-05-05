@@ -14,6 +14,7 @@ files[] = views/proximity_plugins/geofieldProximityGeocoderWithHTML5.inc
 dependencies[] = libraries
 ; The following aren't dependencies but are highly recommended to realise a
 ; rich feature set:
+;   Geocoder
 ;   Statistics (core)
 ;   Views
 ;   Views-PHP
@@ -23,9 +24,9 @@ dependencies[] = libraries
 ; Naturally to use OpenLayers or Leaflet maps, you'll need the OpenLayers and/or
 ; Leaflet modules.
 
-; Information added by Drupal.org packaging script on 2014-11-13
-version = "7.x-1.26"
+; Information added by Drupal.org packaging script on 2015-05-03
+version = "7.x-1.27"
 core = "7.x"
 project = "ip_geoloc"
-datestamp = "1415869104"
+datestamp = "1430693001"
 

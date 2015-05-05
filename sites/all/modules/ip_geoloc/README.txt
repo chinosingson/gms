@@ -58,7 +58,7 @@ The core module Statistics must be enabled also when you wish to collect visitor
 data. It is not required for maps in general.
 
 The "Session Cache API" and "High-performance Javascript callback handler"
-modules are optional, but recommended.
+(7.x-2.x) modules are optional, but recommended.
 
 If you want to center the map on the visitor's location, but don't want to use
 the HTML5 style of location retrieval involving a browser prompt, you an UNtick
@@ -231,7 +231,7 @@ Find on the web a marker icon set you like, eg http://mapicons.nicolasmollet.com
 Download and extract the icon image files, which must have extension .png,
 into a directory anywhere in your Drupal install, maybe
 sites/all/libraries/map_markers1.
-Now visit the the IPGV&M configuration page at admin/config/system/ip_geoloc.
+Now visit the IPGV&M configuration page at admin/config/system/ip_geoloc.
 Expand the "Alternative markers" fieldset.
 Enter the path to your markers directory and the dimensions of your markers.
 The marker set will now be available in your map settings, in particular in the
@@ -286,11 +286,11 @@ sites/all/libraries/leaflet_markercluster/dist the .js file from the
 regionbound.com download.
 Check the Status Report page to see if IPGV&M automatically detected the new JS.
 Now you can configure the region-aware clustering algorithm by filling out the
-cluster differentiator panel on the IPGV&M Views UI.
-Your View, and therefore the content type that has a lat/lon associated with it,
-must feature one of the following.
+Cluster Region Differentiator panel on the IPGV&M Views UI.
+Your View, and subsequently the content type that has a lat/lon associated with
+it, must feature ONE of the following.
 1a An AddressField (as in the http://drupal.org/project/addressfield module)
-   in this case IPGV&M will automatically use for differenetiation the
+   in this case IPGV&M will automatically use for differentiation the
    region-hierarchy of the address field components country, administrative
    area, locality and postcode
 1b Selected AddressField components: single out the ones you want to use
@@ -345,20 +345,46 @@ reverse-geocode HTML5 visitor locations to street addresses".
 HIGH PERFORMANCE AJAX
 =====================
 IPGV&M will take advantage of the "High-performance Javascript callback
-handler", if installed.
+handler" (7.x-2.x), if installed.
 Installation instructions for Nginx: http://drupal.org/node/1876418
 Installation instructions for Apache: 
-o download and enable https://drupal.org/project/js
-o find the .htacess in your document root, where your index.php lives
-o visit admin/config/system/js which displays a number of lines tailored for
-  your server
+o download and enable https://drupal.org/project/js, version 7.x-2.x
+o find the .htacess in your document root -- the same folder as index.php
+o visit admin/config/system/js; it displays 5 lines tailored for your server
 o copy those lines and paste them into .htaccess below the line
   "RewriteEngine on".
 
-IPGV&M will now perform its AJAX calls more efficiently. To switch this feature
-off, comment out the newly added lines from the .htaccess file (put a # in front
-of each line).
+IPGV&M will now perform its AJAX calls more efficiently. Results vary and 
+depend not so much on IPGV&M but on the complexity and speed of your site during
+initialisation. For an "average" site, expect a reduction of the page load time
+of about 0.3s for the "Find me" function of the "Set my location" block, which
+currently is the only place where the Javascript callback handler is used.
 
+To switch this feature off, comment out the newly added lines from the
+.htaccess file by putting a # in front of each of the 5 lines.
+
+CONDITIONAL LOCATION FIELDS
+===========================
+Here's a great example on how to use IPGV&M in combination with the Views
+Conditional module https://www.drupal.org/node/2470265 (solution in entry #4).
+
+CONTEXT SESSION MODULE
+======================
+You can switch context (as in the https://www.drupal.org/project/context module)
+based on any location component, if you also enable
+https://www.drupal.org/project/context_session.
+
+Example: "location.locality=Melbourne"
+
+context_session does not support the Session Cache API module, so the $_SESSION
+variable will be used internally for storage.
+
+ALTERNATIVE THROBBER
+====================
+Out of the box the "Set my location" block uses core's small throbber. If you
+wish to use an alternative one, simply comment out the relevant lines in
+file ip_geoloc/css/ip_geoloc_all.css
+Depending on your theme, you may want to tweak your CSS a little.
 
 FOR SITE BUILDERS AND PROGRAMMERS
 =================================

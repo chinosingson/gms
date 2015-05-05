@@ -17,9 +17,12 @@ class google_chart_tools_views_plugin_style extends views_plugin_style {
     $options = parent::option_definition();
 
     $options['title'] = array('default' => '');
+		$options['titlecolor'] = array('default' => '');
     $options['haxis_title'] = array('default' => '');
     $options['vaxis_title'] = array('default' => '');
     $options['type'] = array('default' => GOOGLE_CHART_TOOLS_DEFAULT_CHART);
+		$options['backgroundcolor'] = array('default' => '');
+		$options['fontname'] = array('default' => '');
     $options['width'] = array('default' => 600);
     $options['height'] = array('default' => 400);
     $options['curve'] = array('default' => 0);
@@ -30,7 +33,8 @@ class google_chart_tools_views_plugin_style extends views_plugin_style {
     $options['legend'] = array(
       'legend_position' => '',
       'legend_alignment' => '',
-    );
+			'textcolor' => '',
+		);
     $options['chartArea'] = array(
       'left' => '',
       'top' => '',
@@ -54,6 +58,12 @@ class google_chart_tools_views_plugin_style extends views_plugin_style {
       '#description' => t('Chart title. You may use "%" in your text to represent values that will be used for contextual filters.'),
       '#default_value' => $this->options['title'],
     );
+		$form['titlecolor'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Title Text Color'),
+      '#description' => t('The text color of the chart title. Use a hex value #ff00ff.'),
+      '#default_value' => $this->options['titlecolor'],
+		);
     $form['haxis_title'] = array(
       '#type' => 'textfield',
       '#title' => t('hAxis Title'),
@@ -91,6 +101,22 @@ class google_chart_tools_views_plugin_style extends views_plugin_style {
       '#required' => TRUE,
       '#default_value' => $this->options['height'],
     );
+		
+		$form['backgroundcolor'] = array(
+			'#type' => 'textfield',
+			'#title' => t('Background Color'),
+			'#description' => t('The background color of the chart area. Use a hex value #ff00ff.'),
+			'#default_value' => $this->options['backgroundcolor'],
+		);
+		
+		$form['fontname'] = array(
+			'#type' => 'textfield',
+			'#title' => t('Font Name'),
+			'#description' => t('The font face to use for this chart.'),
+			'#default_value' => $this->options['fontname'],
+		);
+		
+		
     $form['curve'] = array(
       '#type' => 'checkbox',
       '#title' => t('Curve'),
@@ -151,6 +177,13 @@ class google_chart_tools_views_plugin_style extends views_plugin_style {
       ),
       '#default_value' => $this->options['legend']['alignment'],
     );
+		
+		$form['legend']['textcolor'] = array(
+			'#type' => 'textfield',
+			'#title' => t('Legend Text Color'),
+			//'#description' => t('The color of the text inside the legend. Use a hex value #ff00ff'),
+			'#default_value' => $this->options['legend']['textcolor'],
+		);
     
     // Chart area
     
@@ -246,12 +279,16 @@ class google_chart_tools_views_plugin_style extends views_plugin_style {
         'vAxis' => array('title' => $this->options['vaxis_title']),
         'hAxis' => array('title' => $this->options['haxis_title']),
         'forceIFrame' => FALSE,
+				'pieSliceBorderColor' => 'transparent',
         'curveType' => $this->options['curve'] ? "function" : "none",
         'is3D' => $this->options['3d'],
         'isStacked' => $this->options['isstacked'],
         'pointSize' => $this->options['pointsize'],  
         'colors' => $this->options['colors'] ? explode(",", str_replace(' ', '', $this->options['colors'])) : NULL,
         'title' => $this->options['title'],
+				'titleTextStyle' => array('color'=>$this->options['titlecolor']),
+				'backgroundColor' => $this->options['backgroundcolor'],
+				'fontName' => $this->options['fontname'],
         'width' => $this->options['width'],
         'height' => $this->options['height'],
         'allowHtml' => TRUE
@@ -265,6 +302,10 @@ class google_chart_tools_views_plugin_style extends views_plugin_style {
     if (isset($this->options['legend']['alignment']) && $this->options['legend']['alignment'] != 'automatic') {
       $settings['chart'][drupal_clean_css_identifier($this->view->name . '-' . $this->display->id)]['options']['legend']['alignment'] = $this->options['legend']['alignment'];
     }
+		
+		if (isset($this->options['legend']['textcolor']) && $this->options['legend']['textcolor'] != ''){
+      $settings['chart'][drupal_clean_css_identifier($this->view->name . '-' . $this->display->id)]['options']['legend']['textStyle']['color'] = $this->options['legend']['textcolor'];
+		}
     
     foreach (google_chart_tools_views_plugin_style::$chartAreas as $area) {
       if (isset($this->options['chartArea'][$area]) && $this->options['chartArea'][$area] != '') {

@@ -1,6 +1,3 @@
-.ip-geoloc-address .form-type-textfield {
-  display: inline-block;
-}
 
 /* Geofield proximity exposed filter. Make the distance input shorter.
    Included only when the "Set my location"" block is shown. */
@@ -26,19 +23,34 @@ span.geofield-proximity-origin-from,
  * a single slim line, if the horizontal space allows it.
  * Depending on the theme used, these rules may need tweaking.
  */
-#block-ip-geoloc-geocode-address > div,
 #block-ip-geoloc-geocode-address > h2,
-form#ip-geoloc-geocode-address > div .form-item,
-#edit-fixed-address {
+.ip-geoloc-address .form-control,
+.ip-geoloc-address > div > .form-item,
+.ip-geoloc-address > div > button {
   display: inline-table;
 }
-#edit-fixed-address > .form-item-fixed-address {
-  padding-left: 2px;
-  padding-right: 6px;
-}
-form.ip-geoloc-address {
-  margin-bottom: 0;
-}
+
 textarea#edit-street-address {
   resize: horizontal; /* horizontal is not supported in many browsers */
 }
+
+/* Throbber from ctools module -- uncomment if you wish to use it over core's.
+#set-location-form .ajax-progress.ajax-progress-throbber {
+  background: white;
+  color: #555;
+  border: 1px solid #ccc;
+  display: inline-table;
+  width: 99%;
+}
+#set-location-form .ajax-progress.ajax-progress-throbber .throbber {
+  background: transparent url("../../ctools/images/throbber.gif") no-repeat center;
+  height: 35px;
+  width: 35px;
+  margin: 0;
+  padding: 1px;
+}
+#set-location-form .ajax-progress.ajax-progress-throbber .message {
+  margin-top: 8px;
+  white-space: nowrap;
+}
+*/

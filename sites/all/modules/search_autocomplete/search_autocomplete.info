@@ -6,9 +6,9 @@ files[] = views/plugins/search_autocomplete.views_plugin_style.inc
 dependencies[] = views
 configure = admin/config/search/search_autocomplete
 
-; Information added by Drupal.org packaging script on 2015-04-23
-version = "7.x-4.5"
+; Information added by Drupal.org packaging script on 2015-05-04
+version = "7.x-4.6"
 core = "7.x"
 project = "search_autocomplete"
-datestamp = "1429813446"
+datestamp = "1430766482"
 

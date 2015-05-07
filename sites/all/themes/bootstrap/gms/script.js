@@ -14,6 +14,8 @@
 			$('#block-menu-menu-footer-menu').removeClass('clearfix');
 			$('#block-menu-menu-footer-menu ul').addClass('navbar-nav');
 			
+			$('#block-user-login a.popup-element-title').addClass('btn disabled');
+			
 			//console.log('window.innerHeight:' + window.innerHeight);
 			$('#geolocation-views-project-locations-maps-projects').css('height',window.innerHeight);
 			window.addEventListener('resize', function(){

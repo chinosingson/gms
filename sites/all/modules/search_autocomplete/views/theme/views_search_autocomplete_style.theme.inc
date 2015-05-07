@@ -53,7 +53,7 @@ function template_preprocess_views_search_autocomplete_style(&$vars) {
     // Extract the URL...
     $regexp = "<a\s[^>]*href=(\"??)([^\" >]*?)\\1[^>]*>(.*)<\/a>";
     $link_value = $row[$style_options['input_link']]->raw;
-    if (preg_match("/$regexp/siU", htmlspecialchars_decode($row[$style_options['input_link']]->raw, ENT_QUOTES), $matches)) {
+    if (preg_match("/$regexp/siU", htmlspecialchars_decode($row[$style_options['input_link']]->content, ENT_QUOTES), $matches)) {
         $link_value = $matches[2];
     }
     if (url_is_external($link_value) || valid_url($link_value, TRUE)) {
@@ -76,8 +76,8 @@ function template_preprocess_views_search_autocomplete_style(&$vars) {
     $object['fields'] = array();
     foreach ($style_options['output_fields'] as $field_name) {
       // Add the field if the value is not null.
-      if (array_key_exists($field_name, $row) && $row[$field_name] && $row[$field_name]->raw) {
-        $object['fields'][$field_name] = trim($row[$field_name]->label . ' ' . $row[$field_name]->raw);
+      if (array_key_exists($field_name, $row) && $row[$field_name] && $row[$field_name]->content) {
+        $object['fields'][$field_name] = htmlspecialchars_decode(trim($row[$field_name]->label . ' ' . $row[$field_name]->content), ENT_QUOTES);
       }
     }
 
@@ -86,7 +86,7 @@ function template_preprocess_views_search_autocomplete_style(&$vars) {
      * ----------------  */
     if ($style_options['group_by']) {
       $group_type = $style_options['group_by'];
-      $group_name = $row[$group_type]->raw;
+      $group_name = $row[$group_type]->content;
       if (!isset($objects[$group_name])) {
         $objects[$group_name] = array();
       }

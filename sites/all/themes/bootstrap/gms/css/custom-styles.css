@@ -613,13 +613,14 @@ background: #768188 !important;
 
 #edit-search-block-form--2{
  width: 220px;
- margin-top: 6px;
+ margin-top: 10px;
  padding: 5px 5px;
  height: 25px;
 }
 
 #block-search-form{
-  width: 400px;
+  width: 450px;
+  padding-right: 50px;
 }
 
 .panel-pane .pane-panels-mini .pane-dashboard-charts .pane-content{
@@ -747,6 +748,8 @@ background: #768188 !important;
   position:absolute;
   top:5%;
   right:2%;
+  box-shadow:1px 1px 10px #000;
+  border-radius:5px 5px;
 }
 
 
@@ -872,8 +875,8 @@ background: #768188 !important;
 
 @media (max-width:991px){
     #block-search-form h2{
-      padding-left: 10px !important;
-      width: 90px;
+      
+      
     }
 
     #project-page .project-info h4{
@@ -888,8 +891,10 @@ background: #768188 !important;
       margin:0px !important;
     }
     .navbar #block-search-form{
-      float:none;
-    }
+      float: right;
+      margin-top: 2px;
+      margin-left:
+}
 
       
 }
@@ -911,7 +916,7 @@ background: #768188 !important;
     }
 
   .navbar-default .navbar-collapse, .navbar-default .navbar-form {
-    height:140px !important;
+    height: 200px !important;
   }
   .name{
     padding-left: 30px;
@@ -945,6 +950,14 @@ background: #768188 !important;
       top: 0%;
       right: 0%
     }
+
+   #block-views-bdf766b2688aacfd098c2a01fd5660bd
+   
+    {
+      box-shadow:none !important;
+      border-radius:0px 0px !important;
+    }
+
     #views-exposed-form-project-locations-maps-projects{
       width: 260px;
       padding-left: 20px;
@@ -979,4 +992,15 @@ background: #768188 !important;
 
 .field-content a.link-read-more{
  color:#698db1 !important;
+}
+
+.ui-autocomplete{position:absolute;top:0;left:0;cursor:default;z-index: 99999999999999999999999;background: none !important; border:none !important;}
+.ui-autocomplete li a{padding:10px 10px !important;margin:0px !important; border-radius:0px 0px !important; }
+.ui-autocomplete li a:hover{border:none !important;}
+
+
+.popup-element{
+   position: absolute !important;
+   right: 0 !important;
+   padding-right: 10px !important;
 }

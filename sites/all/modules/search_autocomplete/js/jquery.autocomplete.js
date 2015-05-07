@@ -28,8 +28,11 @@
         var output = Drupal.checkPlain(value);
         if (value.indexOf('src=') == -1 && value.indexOf('href=') == -1) {
           output = output.replace(regex, "<span class='ui-autocomplete-field-term'>$1</span>");
+          innerHTML += ('<div class="ui-autocomplete-field-' + key + '">' + output + '</div>');
+        } else {
+          innerHTML += ('<div class="ui-autocomplete-field-' + key + '">' + value + '</div>');
         }
-        innerHTML += ('<div class="ui-autocomplete-field-' + key + '">' + output + '</div>');
+        
       });
     } else {
       innerHTML += ('<div class="ui-autocomplete-field">' + item.label + '</div>');

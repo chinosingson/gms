@@ -135,13 +135,13 @@
       <?php if (!empty($page['highlighted'])): ?>
         <div class="highlighted jumbotron"><?php print render($page['highlighted']); ?></div>
       <?php endif; ?>
-      <?php if (!empty($breadcrumb)): print $breadcrumb; endif;?>
+      <?php //if (!empty($breadcrumb)): print $breadcrumb; endif;?>
       <a id="main-content"></a>
       <?php print render($title_suffix); ?>
       <?php print $messages; ?>
-      <?php if (!empty($tabs)): ?>
-        <?php print render($tabs); ?>
-      <?php endif; ?>
+      <?php //if (!empty($tabs)): ?>
+        <?php //print render($tabs); ?>
+      <?php //endif; ?>
       <?php print render($title_prefix); ?>
       <?php if (!empty($title)): ?>
         <h2 class="page-header"><?php print $title; ?></h2>

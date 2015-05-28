@@ -81,7 +81,8 @@
 			'title' => '',
 			'width' => 'auto',
 			'height' => '300',
-			'colors' => ['#ff3333','#ff6600','#ffcc00','#99cc33','#33cc33','#66CCFF','#0066CC','#666699','#FF6699','#FFFF00','#00CCCC','#999999'],
+			//'colors' => ['#ff3333','#ff6600','#ffcc00','#99cc33','#33cc33','#66CCFF','#0066CC','#666699','#FF6699','#FFFF00','#00CCCC','#999999'],
+			'colors' => ['#64994B','#3CB6A3','#188AD2','#356FAB','#9279BA','#7C569A','#A25462','#E25279','#E08255','#E2BB3C','#FBED90','#AFB363'],
 			'chartArea' => array(
 				'left'=>5,
 				'top'=>7,
@@ -90,7 +91,6 @@
 			)
 		)   
 	);
-	
 	
 	// total - reformatted for block heading
 	if (isset($node->field_project_cost_total['und'][0]['value'])){
@@ -104,10 +104,13 @@
 <div id="project-page" class="container-fluid">
 	<div class="row" id="project-title-container">
 		<div id="project-title" class="col-sm-9"><?php if ($show_title && $title): ?><h2 class="title" id="page-title"><?php print $title; ?></h2><?php endif; ?></div>
-		<div id="project-function-buttons" class="col-sm-3 pull-right">
+		<!--div id="project-function-buttons" class="col-sm-3 pull-right">
 			<a href="#" class="btn btn-xs btn-primary disabled" id="btn-edit"><i class="project-btn project-btn-edit" data-toggle="tooltip" data-placement="auto" title="Edit Project Details">&nbsp;</i></a>
 			<a href="#" class="btn btn-xs btn-primary disabled" id="btn-print"><i class="project-btn project-btn-print" data-toggle="tooltip" data-placement="top" title="Print Factsheet">&nbsp;</i></a>
-			<a href="<?php print base_path(); ?>" class="btn btn-xs btn-primary" id="btn-home"><i class="project-btn project-btn-portfolio" data-toggle="tooltip" data-placement="auto" title="Back to Portfolio View">&nbsp;</i></a>
+			<a href="<?php //print base_path(); ?>" class="btn btn-xs btn-primary" id="btn-home"><i class="project-btn project-btn-portfolio" data-toggle="tooltip" data-placement="auto" title="Back to Portfolio View">&nbsp;</i></a>
+		</div-->
+		<div id="project-function-buttons" class="col-sm-3 pull-right">
+			<a href="#" id="btn-edit" class="disabled">Edit</a>
 		</div>
 	</div>
 	<div class="row">
@@ -126,7 +129,16 @@
 				</div>
 				<div id="project-funding-chart" class="chart">
 					<?php //$view_funding->set_display('block'); $view_funding->set_arguments(array($node->nid)); $view_funding->pre_execute(); $view_funding->execute(); print $view_funding->render(); ?>
-					<?php $ret = draw_chart($chartSettings); 	?>
+					
+					<?php 
+						if (array_sum($fundingSources) != 0) {
+							$ret = draw_chart($chartSettings); 
+							//echo "meron<br/>";
+							echo "";
+						} else {
+							echo "<div id=\"project-no-funding-sources\">Funding sources for this project have not been determined.<br/></div>";
+						//echo print_r($fundingSources,1)."<br/>";
+						}	?>
 				</div>
 			</div>
 			<div id="project-photos" class="col-sm-4">

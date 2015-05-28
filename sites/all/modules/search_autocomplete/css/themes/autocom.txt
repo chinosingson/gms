@@ -1,0 +1,7 @@
+/*! jQuery UI - v1.10.2 - 2013-03-14
+* http://jqueryui.com
+* Copyright 2013 jQuery Foundation and other contributors; Licensed MIT */
+
+.ui-autocomplete{position:absolute;top:0;left:0;cursor:default;z-index: 99999999999999999999999;background: none !important; border:none !important;}
+.ui-autocomplete li a{padding:10px 10px !important;margin:0px !important; border-radius:0px 0px !important; }
+.ui-autocomplete li a:hover{border:none !important;}

@@ -10,16 +10,20 @@ google.load("visualization", "1", {packages:["corechart", "gauge", "orgchart", "
   Drupal.behaviors.googleChart = {
     attach: function(context, settings) {
       google.setOnLoadCallback(drawChart);
+			// redraw all charts on window resize
+			// added by chino 2015-05-18
 			//window.addEventListener('resize',function(){
+			$(window).on('resize', function(){
 				//console.log('window resized');
-				//drawChart();
-			//});
+				drawChart();
+			});
       // Callback that creates and populates a data table,
       // instantiates the chart, passes in the data and
       // draws it.
       function drawChart() {
         // Loop on the charts in the settings.
         for (var chartId in settings.chart) {
+					//console.log('chartId: ' + chartId);
           // Create the data table.
           var data = new google.visualization.DataTable();
           // OrgChart charts need a different format data table.
@@ -61,19 +65,18 @@ google.load("visualization", "1", {packages:["corechart", "gauge", "orgchart", "
 
           // Set chart options
           var options = settings.chart[chartId].options;
+					//options['width'] = '90%';
+					//options['height'] = '90%';
+					//console.log(options['width']);
 
           // Instantiate and draw our chart, passing in some options.
           var chart = new Object;
           var element = document.getElementById(settings.chart[chartId].containerId);
+					//console.log(element);
+					//options['height'] = element.width;
           if (element) {
             chart[settings.chart[chartId]] = new google.visualization[settings.chart[chartId].chartType](element);
 						chart[settings.chart[chartId]].draw(data, options);
-						// automatically resize chart on window resize
-						// added by Chino 2015-05-04
-						window.addEventListener('resize',function(){
-							//console.log('window resize - google chart');
-							chart[settings.chart[chartId]].draw(data, options);
-						});
           }
         }
       }   

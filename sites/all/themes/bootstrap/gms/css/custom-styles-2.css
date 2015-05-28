@@ -6,7 +6,7 @@
 #project-title-container {
 	position: relative;
 	box-shadow: 0px 0px 30px #000 !important;
-	z-index: 9999;
+	z-index: 1;
 	margin-bottom: 0px !important;
 }
 
@@ -17,3 +17,36 @@
 /*#geolocation-views-project-locations-maps-projects {
 	border: 2px dashed red;
 }*/
+body.page-search .main-container {
+	overflow-y: scroll;
+}
+
+
+body.page-maps-projects #navbar,
+body.page-search #navbar {
+	margin-bottom: 0px !important;
+}
+
+body.page-maps-projects footer.footer,
+body.page-search footer.footer {
+	position: absolute;
+	width: 100%;
+}
+
+header#navbar {
+	z-index: 2;
+}
+
+
+body.page-dashboard table.outcome-table-section {
+	margin-bottom: 0px;
+}
+
+/*div#projects-per-country-block-1 > div > div {
+	border: 1px dashed red;
+	height: 500px !important;
+}*/
+
+body.page-dashboard #mini-panel-dashboard_charts .chart-container .pane-content {
+	padding-top: 0px;
+}

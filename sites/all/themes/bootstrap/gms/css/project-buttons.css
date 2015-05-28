@@ -1,27 +1,97 @@
-﻿#project-function-buttons {
+﻿/* main menu buttons */
+
+  /*height: 25px;
+  width: 46px;
+  padding: 20px 10px 15px 10px !important;*/
+/*.menu_icon.menu-dashboard.menu-915 {
+  display: inline-block;
+	margin-top: 15px !important;
+	padding-left: 22px !important;
+  padding-right: 22px !important;
+  padding-top: 3px !important;
+  padding-bottom: 2px !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-image: url('../../../../../default/files/images/buttons/dashboard-icon.png') !important;
+}*/
+
+  /*height: 25px;
+  width: 46px;*/
+  /*padding: 20px 10px 15px 10px !important;*/
+/*#block-user-login div a.btn {
+  display: inline-block;
+	height: 16px;
+	width: 16px;
+	margin-top: 15px;
+	padding-top: 13px;
+  padding-bottom: 10px;
+  padding-left: 22px;
+  padding-right: 22px;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-image: url('../../../../../default/files/images/buttons/login.png') !important;
+}*/
+
+#block-menu-menu-add-project ul li a,
+#block-menu-menu-add-project ul li a:hover {
+  display: inline-block;
+  height: 25px;
+	width: 46px;
+  /*background-image: url('../../../../../default/files/images/buttons/add_project.png') !important;*/
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+#block-menu-menu-add-project {
+	width: 46px !important;
+  float: right;
+  margin-top: 10px;
+}
+
+/* project page buttons */
+/*#project-function-buttons {
 	display: inline-block;
 	text-align: right;
 }
 
-.project-btn {
-	height: 25px;
+#project-function-buttons a i {
+	padding-bottom: 3px;
+}*/
+
+	/*height: 25px;*/
+/*.project-btn {
 	display: inline-block;
 	background-position: center center;
-	padding: 0;
-}
+  background-repeat: no-repeat;
+	padding: 0px;
+}*/
 
 
-.project-btn-edit {
-	width: 25px;
+/*.project-btn-edit {
+	width: 19px;
 	background-image: url("../../../../../default/files/images/buttons/edit-icon.png");
 }
 
 .project-btn-print {
-	width: 31px;
+	width: 23px;
 	background-image: url("../../../../../default/files/images/buttons/print-icon.png");
 }
 
 .project-btn-portfolio {
-	width: 29px;
+	width: 18px;
 	background-image: url("../../../../../default/files/images/buttons/back-to-portfolio-icon.png");
+}*/
+
+/*#btn-home, #btn-edit {
+	padding-top: 2px !important;
+  padding-bottom: 1px !important;
+  padding-left: 14px !important;
+  padding-right: 13px !important;
 }
+
+#btn-print {
+	padding-top: 2px !important;
+  padding-bottom: 1px !important;
+  padding-left: 14px !important;
+  padding-right: 13px !important;
+}*/

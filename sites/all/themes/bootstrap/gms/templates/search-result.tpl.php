@@ -1,0 +1,1 @@
+<li class="search-result"><h3 class="title search-result-title"><a href="<?php print $url ?>" class="search-result-link"><?php print $title ?></a></h3></li>

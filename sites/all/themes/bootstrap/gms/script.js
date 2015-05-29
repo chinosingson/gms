@@ -20,17 +20,17 @@
 			//$('a.menu_icon.menu-dashboard.menu-915').prop("title", "Dashboard");
 			
 			// login icon
-			$('#menu-link-login').addClass('btn disabled');
+			//$('#menu-link-login').addClass('btn disabled');
 			//$('#block-user-login div a.btn').html('&nbsp;');
 			//$('#block-user-login div a.btn').attr("data-toggle","tooltip");
 			//$('#block-user-login div a.btn').attr("data-placement","auto");
 			//$('#block-user-login div a.btn').prop("title","Login");
 			
 			// add project
-			$('#menu-link-add-project').addClass('btn disabled');
+			//$('#menu-link-add-project').addClass('btn disabled');
 
 			// print
-			$('#menu-link-print').addClass('btn disabled');
+			//$('#menu-link-print').addClass('btn disabled');
 			//$('#block-menu-menu-add-project ul li a').html('&nbsp');
 			//$('#block-menu-menu-add-project ul li a').addClass('btn disabled');
 			//$('#block-menu-menu-add-project ul li a').attr("data-toggle", "tooltip");

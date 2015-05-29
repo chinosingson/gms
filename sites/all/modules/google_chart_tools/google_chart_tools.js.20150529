@@ -75,8 +75,8 @@ google.load("visualization", "1", {packages:["corechart", "gauge", "orgchart", "
           // Instantiate and draw our chart, passing in some options.
           var chart = new Object;
           var element = document.getElementById(settings.chart[chartId].containerId);
-					var formatter = new google.visualization.NumberFormat({pattern: '###,###'});
-					formatter.format(data, 1);   
+					//var formatter = new google.visualization.NumberFormat({pattern: '###,###'});
+					//formatter.format(data, 1);   
 					//console.log(element);
 					//options['height'] = element.width;
           if (element) {

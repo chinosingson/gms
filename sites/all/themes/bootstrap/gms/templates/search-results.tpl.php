@@ -35,7 +35,7 @@
   </ul>
   <?php print $pager; ?>
 <?php else : ?>
-  <h4 id="search-no-results-header"><?php print t('Your search yielded no results');?></h4>
+  <h3 id="search-no-results-header"><?php print t('Your search yielded no results');?></h3>
 	<div id="search-no-results-help">
   <?php print search_help('search#noresults', drupal_help_arg()); ?>
 	</div>

@@ -63,8 +63,8 @@
 		'columns' => array('Funding Sources'),
 		'chartType' => 'PieChart',
 		'containerId' =>  'project-funding-chart',
-		'numberFormat' => 'short',
 		'options' => array(
+			'format' => '###,###',
 			'fontSize'=>'16',
 			'fontName'=>'Source Sans Pro',
 			'backgroundColor'=>'#3b444c',
@@ -110,7 +110,7 @@
 			<a href="<?php //print base_path(); ?>" class="btn btn-xs btn-primary" id="btn-home"><i class="project-btn project-btn-portfolio" data-toggle="tooltip" data-placement="auto" title="Back to Portfolio View">&nbsp;</i></a>
 		</div-->
 		<div id="project-function-buttons" class="col-sm-3 pull-right">
-			<a href="#" id="btn-edit" class="disabled">Edit</a>
+			<a href="#" class="btn btn-primary" id="btn-edit" class="disabled">Edit</a>
 		</div>
 	</div>
 	<div class="row">

@@ -22,11 +22,11 @@
           disableDoubleClickZoom: $this.data('disable-double-click-zoom'),
 					mapTypeControlOptions: {
 						style: google.maps.MapTypeControlStyle.DEFAULT,
-						position: google.maps.ControlPosition.TOP_RIGHT
+						position: google.maps.ControlPosition.RIGHT_BOTTOM
 					},
 					zoomControlOptions: {
 						style: google.maps.ZoomControlStyle.DEFAULT,
-						position: google.maps.ControlPosition.TOP_LEFT
+						position: google.maps.ControlPosition.RIGHT_BOTTOM
 					},
         });
 
@@ -102,9 +102,8 @@
             Drupal.geolocationViews[mapId].map.fitBounds(Drupal.geolocationViews[mapId].markersBounds)
           );
         }
-
 				$(window).on('resize', function(){
-					//console.log('geolocation_views.js: window resized');
+					console.log('geolocation_views.js: window resized');
           Drupal.geolocationViews[mapId].map.setCenter(
             Drupal.geolocationViews[mapId].markersBounds.getCenter(),
             Drupal.geolocationViews[mapId].map.fitBounds(Drupal.geolocationViews[mapId].markersBounds)

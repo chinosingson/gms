@@ -57,7 +57,7 @@ function gms_preprocess_search_results(&$vars) {
 	//echo "THIS: ".$GLOBALS['pager_total_items'][0];
 	//echo "THIS: ".$GLOBALS['pager_limits'][0];
 	//echo "<pre>".print_r($GLOBALS,1)."</pre>";
-	$itemsPerPage = $GLOBALS['pager_limits'][0];
+	$itemsPerPage = @$GLOBALS['pager_limits'][0];
   $currentPage = isset($_REQUEST['page']) ? $_REQUEST['page']+1 : 1;
 
 	// Get the total number of results from the global pager
@@ -94,12 +94,12 @@ function gms_preprocess_search_results(&$vars) {
 
 function gms_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'search_block_form') {
-    $form['search_block_form']['#title'] = t(''); // Change the text on the label element
+    /*$form['search_block_form']['#title'] = t(''); // Change the text on the label element
     $form['search_block_form']['#title_display'] = 'invisible'; // Toggle label visibility
     $form['search_block_form']['#default_value'] = t(''); // Set a default value for the textfield
     //$form['actions']['submit']['#type'] = 'submit'; 
     //$form['actions']['submit']['#value'] = t('GO!'); // Change the text on the submit button
-    $form['actions']['submit']['#attributes']['alt'] = "Search"; //add alt tag
+    $form['actions']['submit']['#attributes']['alt'] = "Search"; //add alt tag*/
     $form['search_block_form']['#attributes'] = array("title"=>"Search project portfolio", 'placeholder'=>'');
     //unset($form['actions']['submit']['#value']); // Remove the value attribute from the input tag, since it is not valid when input type = image
 

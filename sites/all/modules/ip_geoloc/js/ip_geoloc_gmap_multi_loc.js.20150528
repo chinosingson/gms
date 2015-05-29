@@ -15,8 +15,7 @@
 
       $(settings, context).each(function() {
 
-			for (var m in settings) {
-				//console.log('m: ' + m);
+       for (var m in settings) {
 
         if (isNaN(m)) {
           continue;
@@ -42,7 +41,6 @@
         if (mapOptions.centerLat && mapOptions.centerLng) {
           maps[m].setCenter(new google.maps.LatLng(mapOptions.centerLat, mapOptions.centerLng));
         }
-				
         var locations     = ip_geoloc_locations[divId];
         var visitorMarker = settings[m].ip_geoloc_multi_location_visitor_marker;
         var centerOption  = settings[m].ip_geoloc_multi_location_center_option;
@@ -65,7 +63,6 @@
 
         var center = null;
         mapBounds[m] = new google.maps.LatLngBounds();
-
         for (var key in locations) {
           var br = locations[key].balloon_text.indexOf('<br/>');
           var mouseOverText = (br > 0) ? locations[key].balloon_text.substring(0, br) : locations[key].balloon_text.trim();
@@ -85,7 +82,6 @@
             maps[m].setCenter(position);
             center = position;
           }
-
           var pinImage = defaultPinImage;
           if (locations[key].marker_color) {
             pinImage = new google.maps.MarkerImage(
@@ -113,14 +109,6 @@
           //maps[m].panToBounds(mapBounds[m]);
         }
 
-				google.maps.event.addDomListener(window, 'resize', function() {
-					//console.log('resize');
-					//console.log(mapBounds[0]);
-					//console.log(mapBounds[0].getCenter());
-					maps[0].setCenter(mapBounds[0].getCenter());
-					maps[0].fitBounds(mapBounds[0]);
-				});
-
         if (visitorMarker || centerOption === 2 /* center on visitor */ || centerOption === 6 /* auto-box incl. visitor*/) {
           // Retrieve visitor's location, fall back on supplied location, if not found.
           if (use_gps && navigator.geolocation) {
@@ -136,7 +124,7 @@
         }
        }
       });
-			
+
       function handleMapCenterAndVisitorMarker1(visitorPosition) {
         handleMapCenterAndVisitorMarker2(visitorPosition.coords.latitude, visitorPosition.coords.longitude);
       }
@@ -160,7 +148,6 @@
         }
       }
 			
-			//console.log(maps);
 			// modified by Chino on 2015-05-19
 			var infowindow;
       function addMarkerBalloon(map, marker, infoText) {

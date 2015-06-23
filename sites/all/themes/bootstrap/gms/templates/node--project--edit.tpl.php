@@ -18,10 +18,9 @@
 	//echo "<pre>".print_r($form,1)."</pre>";
   //print drupal_render_children($form['field_custom_image']);
   
-	//hide($form);
-	//hide($form['title']['#title']);
 	//hide($form['field_project_number']);
-	$form['title']['#title'] = t('Project Name');
+	hide($form['field_outputs']['#title']); //['#title_display'] = 'invisible';
+	hide($form['field_impact_stories']['#title']); //['#title_display'] = 'invisible';
 	//$form['field_project_year_start']['und'][0]['#title'] = t('Start');
 	//$form['field_project_year_end']['#title'] = t('End');
 	//hide($form['group_tab_general']);
@@ -62,18 +61,19 @@
 				<div id="project-details" class="col-sm-4">
 					<h4 class="">Details</h4>
 					<?php //echo "DETAILS" ?>
-					<?php print drupal_render($form['field_project_number']);?>
+					<?php print drupal_render($form['field_project_number']['und'][0]['value']);?>
 					<?php print drupal_render($form['field_project_type']);?>
 					<?php print drupal_render($form['field_adb_sector']);?>
 					<?php print drupal_render($form['field_country']);?>
 					<?php print drupal_render($form['field_project_year_start']['und'][0]['value']['year']);?>
 					<?php print drupal_render($form['field_project_year_end']['und'][0]['value']['year']);?>
 					<?php print drupal_render($form['field_project_status']);?>
+					<?php print drupal_render($form['field_project_adb_website']);?>
 				</div>
 				<div id="project-funding-details" class="col-sm-4">
 					<h4>Funding</h4>
 					<div id="project-funding-total">
-						<span class='funding-total'><?php print drupal_render($form['field_project_cost_total']); ?></span>
+						<span class='funding-total'><?php //print drupal_render($form['field_project_cost_total']); ?></span>
 					</div>
 					<div id="project-funding-chart" class="chart">
 						<?php print drupal_render($form['field_project_cost_adb']); ?>

@@ -171,6 +171,43 @@ color: #fff;
 }
 
 
-#project-node-form {
-	margin-top: -20px;
+body.page-node-edit.node-type-project .form-item {
+	display: table-row;
+	width: 100%;
 }
+body.page-node-edit.node-type-project label {
+	color: #80dcfc;
+	white-space: nowrap;
+	display: table-cell;
+	width: 120px;
+	max-width: 120px;
+	float: left;
+}
+
+body.page-node-edit.node-type-project input.form-text,
+body.page-node-edit.node-type-project select.form-select {
+	display: table-cell;
+	border : 0px dotted red;
+	width: 100%;
+	float: left;
+}
+
+table#field-outputs-values, table#field-impact-stories-values {
+	width: 100%;
+}
+table#field-outputs-values td, table#field-impact-stories-values td {
+	background-color: #3b444c;
+}
+
+#field-outputs-values .field-label,
+#field-impact-stories-values .field-label {
+	display: none;
+}
+
+.tabledrag-toggle-weight-wrapper {
+	display: none;
+}
+
+/*#project-node-form {
+	margin-top: -20px;
+}*/

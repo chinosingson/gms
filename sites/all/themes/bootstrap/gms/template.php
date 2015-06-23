@@ -8,7 +8,7 @@
 //drupal_add_js(libraries_get_path('highcharts') .'/js/highcharts.js');
 //drupal_add_js(drupal_get_path('theme', 'gms') .'/chart.js');
 drupal_add_js(drupal_get_path('theme', 'gms') .'/script.js');
-drupal_add_js(libraries_get_path('bcarousel').'/carousel.js',array('group' => JS_THEME, 'every_page' => TRUE));
+//drupal_add_js(libraries_get_path('bcarousel').'/carousel.js',array('group' => JS_THEME, 'every_page' => TRUE));
 
 
 /*function gms_theme()
@@ -88,6 +88,10 @@ function gms_preprocess_page(&$variables) {
 		$variables['title'] = FALSE;
   }
 	
+	if ($variables['node']->type == 'project') {
+		drupal_add_js(libraries_get_path('bcarousel').'/carousel.js',array('group' => JS_THEME, 'every_page' => FALSE));
+	}
+	
 	// search results title message
 	$itemsPerPage = @$GLOBALS['pager_limits'][0];
 	$total = isset($GLOBALS['pager_total_items'][0]) ? $GLOBALS['pager_total_items'][0] : 0;
@@ -116,6 +120,8 @@ function gms_preprocess_project_node_form(&$variables){
 	$form = $variables['form'];
 	//$form['title']['#title'] = t("Project Name");
 	$variables['myvar'] = "hello";
+	//hide ($form['title']['#title']);
+
 	//$variables['form_title'] = $form['title'];
 	//$variables['buttons'] = $variables['form']['actions'];
 }
@@ -173,6 +179,7 @@ function gms_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'search_block_form') {
     $form['search_block_form']['#attributes'] = array("title"=>"Search project portfolio", 'placeholder'=>'');
     $form['actions']['submit'] = array('#type' => 'submit', '#value' => 'Search');
+    $form['actions']['submit']['#attributes'] = array('id' => 'search-submit');
     /*$form['search_block_form']['#title'] = t(''); // Change the text on the label element
     $form['search_block_form']['#title_display'] = 'invisible'; // Toggle label visibility
     $form['search_block_form']['#default_value'] = t(''); // Set a default value for the textfield
@@ -190,7 +197,27 @@ function gms_form_alter(&$form, &$form_state, $form_id) {
   }
 	
 	if ($form_id == 'project_node_form'){
-		dpm($form); //['#label'] = t('Start');
+		//dpm($form); //['#label'] = t('Start');
+		/*$form['field_project_number'] = array(
+			'#prefix' => '',
+			'#suffix' => '',
+		);*/
+		//$form['field_project_number']['und'][0]['value']['#title'] = t('Proj No');
+		$form['title']['#title_display'] = 'invisible';
+		$form['field_project_type']['und']['#title'] = t('Type');
+		$form['field_adb_sector']['und']['#title'] = t('Sector');
+		$form['field_project_cost_total']['und'][0]['value']['#title'] = t('Total');
+		$form['field_project_cost_adb']['und'][0]['value']['#title'] = t('ADB');
+		$form['field_project_cost_government']['und'][0]['value']['#title'] = t('Government');
+		$form['field_project_cost_cofinancing_']['und'][0]['value']['#title'] = t('Cofinancing');
+		$form['field_project_year_start']['und'][0]['value']['#title'] = t('Start');
+		//$form['field_outputs']['#title_display'] = 'invisible';
+		//$form['field_impact_stories']['#title_display'] = 'invisible';
+		//$form['field_project_number']['und'][0]['value']['#prefix'] = '<div class="my-class">';
+		//$form['field_project_number']['und'][0]['value']['#suffix'] = '</div>';
+		//$form['field_project_number']['#title']['#prefix'] = '<div class="title-class">';
+		//$form['field_project_number']['#title']['#suffix'] = '</div>';
+		//$form['field_project_number']['und'][0]['value']['#attributes']['class'][] = 'input_class';
 	}
 }
 

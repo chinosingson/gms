@@ -419,6 +419,7 @@ background: #768188 !important;
   padding-right: 0px !important;
   padding-left: 0px !important;
 }
+#project-function-buttons button,
 #project-function-buttons a{
   /* background: #4b5861; */
   padding: 3px 10px;
@@ -1069,12 +1070,12 @@ nav .navbar-nav{/*float: right !important;
   margin-right: 230px !important;*/}
 #block-search-form{width:250px !important;}
 
-body.node-type-project #edit-submit {
+/*body.node-type-project #edit-submit {
 	margin-top: 17px !important;
 	margin-left: 10px !important;
-}
+}*/
 
-#edit-submit, #edit-submit--2 {float: right !important;
+#search-submit {float: right !important;
     float: right !important;
   position: absolute !important;
   margin-top: -27px !important;
@@ -1157,7 +1158,7 @@ margin-bottom:10px !important;}
 #chart-projects-per-sector .pane-title {
   text-align:center !important; color:#80dcfc !important;  font-size: 20px;
 }
-#edit-submit--2
+#search-submit
 {
 float: right !important;
   position: absolute !important;

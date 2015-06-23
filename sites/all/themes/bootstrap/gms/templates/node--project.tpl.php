@@ -10,9 +10,12 @@
 	//$args = arg($_GET['url']);
 	//print_r($args);
 	
+	//print_r($page);
+	
 	
 	$editPerm = user_access('Edit any content');
 	if ($editPerm) {
+		//echo "123";
 		$btnEditDetails = "<a href=\"#overlay=node/".$nid."/edit\" class=\"btn btn-xs btn-default pull-right\" id=\"btn-edit-proj-details\">Edit</a>";
 		$btnEditFunding = "<a href=\"#overlay=node/".$nid."/edit\" class=\"btn btn-xs btn-default pull-right\" id=\"btn-edit-proj-funding\">Edit</a>";
 		$btnEditPhotos  = "<a href=\"#overlay=node/".$nid."/edit\" class=\"btn btn-xs btn-default pull-right\" id=\"btn-edit-proj-photos\">Edit</a>";
@@ -129,7 +132,25 @@
 	<div class="row" id="project-title-container">
 		<div id="project-title" class="col-sm-9"><?php if ($show_title && $title): ?><h2 class="title" id="page-title"><?php print $title; ?></h2><?php endif; ?></div>
 		<div id="project-function-buttons" class="col-sm-3 pull-right">
-			<a href="#" class="btn btn-primary" id="btn-edit" class="disabled">Edit</a>
+			<!--a href="#" class="btn btn-primary" id="btn-edit" class="disabled">Edit</a-->
+			<?php 
+				//print "editPerm: ".$editPerm;
+				//if (user_access('Edit any content')){
+				if (node_access('update',$node) && $user->uid != 0){
+					//create link for current node edit
+					print l(t('Edit'), 'node/' . $node->nid . '/edit');
+					$link = array(
+						'#theme' => 'link',
+						'#text' => $row->title,
+						'#path' => $base_path . 'node/' . $row->nid,
+						'#options' => array('attributes' => array('title' => $row->title)),
+						//'#prefix' => '<h3>',
+						//'#suffix' => '</h3>'
+					);
+				}
+				
+				//print $links;
+			?>
 		</div>
 	</div>
 	<div id="project-info-container">

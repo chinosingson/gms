@@ -39,77 +39,35 @@
 			//$('#block-menu-menu-add-project ul li a').attr("data-placement","auto");
 			//$('#block-menu-menu-add-project ul li a').prop("title","Add Project");
 
-			// project page
-			$('body.node-type-project').ready(function(){
-				$('html:has(body.node-type-project)').css('height','100%');
-				//console.log('ITO!');
-				//$('html:has(body.page-node-edit.node-type-project)').css('height','100%');
+			$('body.page-about, body.page-contact, body.page-disclaimer').ready(function(){
+				$('html').css('height','100%');
+				//$('div.main-container').css('height','100%');
 				// set to full page size on first render
-				var headerHeight = 0;
-				var titleHeight = 0;
-				var footerHeight = 0;
+				headerHeight = $('header#navbar').height();
+				pageHeaderHeight = $('h2.page-header').outerHeight();
+				//console.log('pageheaderheight: ' + pageHeaderHeight);
+				footerHeight = $('footer.footer').height();
+				totalHeight = window.innerHeight-headerHeight-pageHeaderHeight-footerHeight;
+				//console.log('totalheight: ' + totalHeight);
 				$(document).ready(function (){
 					//console.log('window ready');
-					headerHeight = $('header#navbar').height();
-					titleHeight = $('#project-title-container').outerHeight();
-					footerHeight = $('footer.footer.container-fluid').height();
-					console.log('headerheight: '+headerHeight);
-					console.log('titleheight: '+titleHeight);
-					console.log('footerheight: '+footerHeight);
-					console.log('innerWidth: '+window.innerWidth);
-					if (window.innerWidth > 991) {
-						offset = 5;
-					} else {
-						offset = 0;
-					}
-					
-					$('footer.footer').css('border','1px dotted red');
-					containerHeight = (window.innerHeight-headerHeight-titleHeight-footerHeight+offset);
-					console.log('innerheight: '+window.innerHeight);
-					console.log('containerheight: '+containerHeight);
-					//$('body.node-type-project #project-info-container').css('height',containerHeight);
-					$('#project-info-container').css('height',containerHeight);
-					//$('body.node-type-project #project-info-container').css('height',containerHeight);
+					$('body.page-about .main-container .region-content').css('height',totalHeight);
+					$('body.page-disclaimer .main-container .region-content').css('height',totalHeight);
+					$('body.page-contact .main-container .region-content').css('height',totalHeight);
 				});
-
-				// auto-resize on window resize
-				//console.log($(form));
-				//$(window).on('resize', function(){
-				$(window).bind('resize', function(){
-					//console.log('window resized');
+				
+				$(window).bind('resize',function (){
 					headerHeight = $('header#navbar').height();
-					titleHeight = $('#project-title-container').outerHeight();
+					pageHeaderHeight = $('h2.page-header').outerHeight();
+					//console.log('pageheaderheight: ' + pageHeaderHeight);
 					footerHeight = $('footer.footer').height();
-					if (window.innerWidth > 991) {
-						offset = 5;
-					} else {
-						offset = 0;
-					}
-					//console.log('offset: '+offset);
-					containerHeight = (window.innerHeight-headerHeight-titleHeight-footerHeight+offset);
-					console.log('containerheight: '+containerHeight);
-					console.log('footerheight: '+footerHeight);
-					console.log('innerWidth: '+window.innerWidth);
-					$('body.node-type-project #project-info-container').css('width',window.innerWidth);
-					$('body.node-type-project #project-info-container').css('height',containerHeight);
+					totalHeight = window.innerHeight-headerHeight-pageHeaderHeight-footerHeight;
+					$('body.page-about .main-container .region-content').css('height',totalHeight);
+					$('body.page-disclaimer .main-container .region-content').css('height',totalHeight);
+					$('body.page-contact .main-container .region-content').css('height',totalHeight);
 				});
-						
-				// project details
-				$('div.view-project-details table th').addClass('col-sm-5');
-				$('div.view-project-details table th').css('white-space','nowrap');
-				$('div.view-project-details table th').css('min-width','130px');
-				$('div.view-project-details table td').addClass('col-sm-7');
-
-				// photo carousel
-				$('#views-bootstrap-carousel-1 a.carousel-control span').removeClass('icon-next');
-				$('#views-bootstrap-carousel-1 a.carousel-control span').removeClass('icon-prev');
-				$('#views-bootstrap-carousel-1 a.carousel-control.right span').attr('id','carousel-control-right');
-				$('#views-bootstrap-carousel-1 a.carousel-control.left span').attr('id','carousel-control-left');
-				//$('body.node-type-project #views-bootstrap-carousel-1 a.carousel-control.right span').html('&gt;');
-				//$('body.node-type-project #views-bootstrap-carousel-1 a.carousel-control.left span').html('&lt;');
 			});
-
-
+			
 			// front page
 			// main map
 			// set height to full page
@@ -127,7 +85,6 @@
 				});
 				
 				// auto-resize on window resize
-				//$(window).on('resize', function(){
 				$(window).bind('resize', function(){
 					//console.log('window resized');
 					headerHeight = $('header#navbar').height();
@@ -167,7 +124,6 @@
 				});
 
 				// auto-resize on window resize
-				//$(window).on('resize', function(){
 				$(window).bind('resize', function(){
 					//console.log($('html').height());
 					//console.log($('body').height());
@@ -197,7 +153,6 @@
 				});
 
 				// auto-resize on window resize
-				//$(window).on('resize', function(){
 				$(window).bind('resize', function(){
 					//console.log('window resized');
 					headerHeight = $('header#navbar').height();
@@ -225,40 +180,58 @@
 				//$('#views-bootstrap-carousel-1 a.carousel-control.left span').html('&lt;');
 			});
 
+			// project page
+			$('body.node-type-project').ready(function(){
+				$('html:has(body.node-type-project)').css('height','100%');
+				// set to full page size on first render
+				$(document).ready(function (){
+					//console.log('window ready');
+					headerHeight = $('header#navbar').height();
+					titleHeight = $('#project-title-container').height();
+					footerHeight = $('footer.footer').height();
+					if (window.innerWidth > 991) {
+						offset = 5;
+					} else {
+						offset = 0;
+					}
+					containerHeight = (window.innerHeight-headerHeight-titleHeight-footerHeight+offset);
+					$('body.node-type-project #project-info-container').css('height',containerHeight);
+				});
 
+				// auto-resize on window resize
+				$(window).bind('resize', function(){
+					//console.log('window resized');
+					headerHeight = $('header#navbar').height();
+					titleHeight = $('#project-title-container').height();
+					footerHeight = $('footer.footer').height();
+					if (window.innerWidth > 991) {
+						offset = 5;
+					} else {
+						offset = 0;
+					}
+					//console.log('offset: '+offset);
+					containerHeight = (window.innerHeight-headerHeight-titleHeight-footerHeight+offset);
+					$('body.node-type-project #project-info-container').css('width',window.innerWidth);
+					$('body.node-type-project #project-info-container').css('height',containerHeight);
+				});
+			
+				// project details
+				$('div.view-project-details table th').addClass('col-sm-5');
+				$('div.view-project-details table th').css('white-space','nowrap');
+				$('div.view-project-details table th').css('min-width','130px');
+				$('div.view-project-details table td').addClass('col-sm-7');
+
+				// photo carousel
+				$('#views-bootstrap-carousel-1 a.carousel-control span').removeClass('icon-next');
+				$('#views-bootstrap-carousel-1 a.carousel-control span').removeClass('icon-prev');
+				$('#views-bootstrap-carousel-1 a.carousel-control.right span').attr('id','carousel-control-right');
+				$('#views-bootstrap-carousel-1 a.carousel-control.left span').attr('id','carousel-control-left');
+				//$('body.node-type-project #views-bootstrap-carousel-1 a.carousel-control.right span').html('&gt;');
+				//$('body.node-type-project #views-bootstrap-carousel-1 a.carousel-control.left span').html('&lt;');
+			});
 			// footer
 			$('#block-menu-menu-footer-menu').removeClass('clearfix');
 			$('#block-menu-menu-footer-menu ul').addClass('navbar-nav');
-			
-			$('body.page-about, body.page-contact, body.page-disclaimer').ready(function(){
-				$('html').css('height','100%');
-				//$('div.main-container').css('height','100%');
-				// set to full page size on first render
-				headerHeight = $('header#navbar').height();
-				pageHeaderHeight = $('h2.page-header').outerHeight();
-				//console.log('pageheaderheight: ' + pageHeaderHeight);
-				footerHeight = $('footer.footer').height();
-				totalHeight = window.innerHeight-headerHeight-pageHeaderHeight-footerHeight;
-				//console.log('totalheight: ' + totalHeight);
-				$(document).ready(function (){
-					//console.log('window ready');
-					$('body.page-about .main-container .region-content').css('height',totalHeight);
-					$('body.page-disclaimer .main-container .region-content').css('height',totalHeight);
-					$('body.page-contact .main-container .region-content').css('height',totalHeight);
-				});
-				
-				//$(window).on('resize',function (){
-				$(window).bind('resize',function (){
-					headerHeight = $('header#navbar').height();
-					pageHeaderHeight = $('h2.page-header').outerHeight();
-					//console.log('pageheaderheight: ' + pageHeaderHeight);
-					footerHeight = $('footer.footer').height();
-					totalHeight = window.innerHeight-headerHeight-pageHeaderHeight-footerHeight;
-					$('body.page-about .main-container .region-content').css('height',totalHeight);
-					$('body.page-disclaimer .main-container .region-content').css('height',totalHeight);
-					$('body.page-contact .main-container .region-content').css('height',totalHeight);
-				});
-			});
 			
 
 		}

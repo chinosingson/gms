@@ -1,0 +1,180 @@
+body {
+  margin: 1em;
+  background-color: #ffffff;
+  font-family: sans-serif !important;
+}
+th {
+  text-align: left; 
+  color: #333333;
+  border-bottom: 0px solid #ccc;
+}
+tr.odd {background-color: #ffffff;}
+tr.even {background-color: #ffffff;}
+td {padding: 5px;}
+#menu {visibility: hidden;}
+#main {margin: 1em;}
+a:link {color: #000;}
+a:visited {color: #000;}
+a:hover {color: #00f;}
+a:link img, a:visited img {border: 0;}
+.print-footnote {font-size: xx-small;}
+img.print-logo {border: 0;}
+.print-site_name {}
+.print-breadcrumb {font-size: x-small;}
+.print-title {}
+.print-submitted {font-size: small;}
+.print-created {font-size: small;}
+.print-taxonomy {text-align: right;}
+.print-taxonomy li {display: inline;}
+.print-content {}
+.print-hr {
+  border: 0;
+  height: 1px;
+  width: 100%;
+  color: #9E9E9E;
+  background-color: #9E9E9E;
+  display: none;
+}
+.print-message {
+  border: medium dotted blue;
+  padding: 1em;
+}
+.print-source_url {font-size: small;}
+.print-links {font-size: small;}
+.print-footer {text-align: center;}
+
+
+
+
+/* CUSTOM PRINT CSS */
+
+
+.print-logo{padding:8px 8px;background:#3b444d;}
+.print-name{display:none;}
+.print-breadcrumb {display:none;}
+/*.print-site_name{display:none !important;}*/
+.print-footer {display:none;}
+#edit-basic{display:none;}
+.print-title {padding-left:20px;}
+.print-content{margin-top:-20px !important;}
+
+
+
+#projects-table .print-title {padding:0px !important;}
+
+#projects-table .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td,
+#print-pdf-container .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td
+{
+	background-color: #ffffff !important;
+  border:0px !important;
+}
+
+.print-site_name {
+  float: right;
+  position: absolute;
+  margin-top: -60px;
+  color: #fff;
+  margin-left: 60px;
+
+}
+
+
+
+/*#search-results-container{padding-left:40px;}*/
+
+
+#dashboard-page {padding:22px 22px !important;}
+
+#dashboard-page .pane-projects-per-country {padding:18px 18px !important;}
+#dashboard-page .pane-projects-per-country .pane-title {  text-align: center !important;
+  background-color: #dedfe1;
+  padding: 10px;
+  font-size:20px;
+}
+
+#dashboard-page .pane-projects-per-type {padding:18px 18px !important;}
+#dashboard-page  .pane-projects-per-type .pane-title {  text-align: center !important;
+  background-color: #dedfe1;
+  padding: 10px;
+  font-size:20px;
+}
+
+#dashboard-page .pane-projects-per-sector  {padding:18px 18px !important;}
+#dashboard-page  .pane-projects-per-sector .pane-title {  text-align: center !important;
+  background-color: #dedfe1;
+  padding: 10px;
+  font-size:20px;
+}
+
+
+
+ .pane-dashboard-downloads .col-md-4 {width:100%;}
+  .pane-dashboard-downloads .col-md-3 {width:100%;}
+.pane-dashboard-downloads .col-md-2 {width:100%;}
+
+#dashboard-outcomes .pane-title {display: none !important;}
+
+
+#paragraph-outcomes-2 p {
+font-size: 11px;
+  margin-top: 20px;
+
+}
+
+
+.pane-dashboard-projects-print .pane-title {
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+.pane-dashboard-downloads .pane-title {
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+#column-one {width:100%;background:#f0f0f0;padding-bottom:15px;}
+#column-three {width:100%;background:#f0f0f0;padding-bottom:15px;}
+#column-five {width:100%;background:#f0f0f0;padding-bottom:15px;}
+#column-seven {width:100%;background:#f0f0f0;padding-bottom:15px;}
+#column-nine {width:100%;background:#f0f0f0;padding-bottom:15px;}
+#column-eleven {width:100%;background:#f0f0f0;padding-bottom:15px;}
+#column-thirteen {width:100%;background:#f0f0f0;padding-bottom:15px;}
+
+#column-two {width:100%;padding-bottom:15px;}
+#column-four {width:100%;padding-bottom:15px;}
+#column-six {width:100%;padding-bottom:15px;}
+#column-eight {width:100%;padding-bottom:15px;}
+#column-ten {width:100%;padding-bottom:15px;}
+#column-tweleve {width:100%;padding-bottom:15px;}
+
+
+
+#mini-panel-dashboard_downloads{padding:0px 15px;}
+
+
+.print-search .print-title {padding-left:60px !important;}
+
+#search-results-container{padding-left:40px !important;}
+
+body.print-pdf th { width: 120px !important; }
+
+body.print-pdf { font-family: arial; }
+body.print-pdf .print-site_name { font-weight: bold; }
+body.print-pdf #print-pdf-container { width: 100%; font-family: arial; }
+body.print-pdf .print-pdf-table-row td { width: 50% !important; vertical-align: top; }
+.print-pdf-table-row .print-image-row td.print-image,
+#print-pdf-outputs-impact,
+#print-pdf-details-funding { width: 50% !important; }
+body.print-pdf .print-details table, 
+body.print-pdf .print-funding table 
+{ width: 100%; }
+
+body.print-pdf #print-details .table>thead>tr>td, 
+body.print-pdf #print-details .table>thead>tr>th, 
+body.print-pdf #print-funding .table>tbody>tr>td, 
+body.print-pdf #print-funding .table>tbody>tr>th 
+{ background-color: #ffffff !important; }
+
+ 
+.print-pdf-table-row td.print-image-caption { width: 50% !important; vertical-align: top; border: 0px !important; font-size:28px;  }
+

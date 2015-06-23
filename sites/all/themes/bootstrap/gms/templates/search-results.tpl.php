@@ -26,19 +26,21 @@
  //$show_title = $variables['title'];
  //echo "TITLE: ".$title;
 ?>
-<div id="search-page-totals"><?php print $search_totals ?></div>
+<div id="search-page-results-container">
 <div id="search-page-list">
 	<div id="search-results-container">
 <?php if ($search_results): ?>
-  <ul class="search-results <?php print $module; ?>-results">
+  <ol class="search-results <?php print $module; ?>-results">
     <?php print $search_results; ?>
-  </ul>
+  </ol>
   <?php print $pager; ?>
 <?php else : ?>
-  <h3 id="search-no-results-header"><?php print t('Your search yielded no results');?></h3>
+  <!--h3 id="search-no-results-header"><?php //print t('Your search yielded no results');?></h3-->
+	<h3></h3>
 	<div id="search-no-results-help">
   <?php print search_help('search#noresults', drupal_help_arg()); ?>
 	</div>
 <?php endif; ?>
 	</div>
+</div>
 </div>

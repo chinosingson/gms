@@ -1,8 +1,15 @@
 ﻿<?php
+
 	// GMS
+
 	// template for project nodes
-	$node = menu_get_object(); 
+
+	//$node = menu_get_object(); 
 	$nid = $node->nid;
+	
+	//$args = arg($_GET['url']);
+	//print_r($args);
+	
 	
 	$editPerm = user_access('Edit any content');
 	if ($editPerm) {
@@ -19,12 +26,9 @@
 		$btnEditImpacts = "";
 	}
 	
-	//echo "<pre>";
-	//echo print_r($node,1);
-	//echo "</pre>";
-	
 	// Project Views
 	$view_map = views_get_view('leaflet_view_test');			// locations
+	$view_map->set_display('block_1');
 	$view_details = views_get_view('project_details');		// details
 	$view_details->set_display('block');
 	$view_funding = views_get_view('project_financing');	// funding
@@ -35,7 +39,6 @@
 	$view_stories->set_display('block_1');
 	$view_outputs = views_get_view('outputs');						// outputs
 	$view_outputs->set_display('block');
-
 	// FUNDING
 	// Pie Chart
 	// sources
@@ -47,32 +50,53 @@
 		'cof'=> (!empty($node->field_project_cost_cofinancing_) ? $node->field_project_cost_cofinancing_['und'][0]['value'] : 0),
 	);
 	
-
+	//if ($fundingSources['adb_jsf_jfpr']>0 || $fundingSources['adb_tasf']>0){
+	//	$header = array('ADB-JSF/JFPR','ADB-TASF','Government','Cofinancing');
+	//	$chartFunding = array(
+	//		'adb_jsf_jfpr'=> (!empty($node->field_project_cost_adb_jsf_jfpr) ? $node->field_project_cost_adb_jsf_jfpr['und'][0]['value'] : 0),
+	//		'adb_tasf'=> (!empty($node->field_project_cost_adb_tasf) ? $node->field_project_cost_adb_tasf['und'][0]['value'] : 0),
+	//		'gov'=> (!empty($node->field_project_cost_government) ? $node->field_project_cost_government['und'][0]['value'] : 0),
+	//		'cof'=> (!empty($node->field_project_cost_cofinancing_) ? $node->field_project_cost_cofinancing_['und'][0]['value'] : 0),
+	//	);
+	//} else {
+		$header = array('ADB','Government','Cofinancing');
+		$chartFunding = array(
+			'adb'=> (!empty($node->field_project_cost_adb) ? $node->field_project_cost_adb['und'][0]['value'] : 0),
+			'gov'=> (!empty($node->field_project_cost_government) ? $node->field_project_cost_government['und'][0]['value'] : 0),
+			'cof'=> (!empty($node->field_project_cost_cofinancing_) ? $node->field_project_cost_cofinancing_['und'][0]['value'] : 0),
+		);
+	//}
+	
+	//echo print_r($header,1);
+	//echo print_r($chartFunding,1);
+	
+	if (arg(0) == 'print') {
+		$chartFont = 'Arial';
+		$chartFontColor = '#000000';
+		$chartBgcolor = '#ffffff';
+	} else {
+		$chartFont = 'Source Sans Pro';
+		$chartFontColor = '#ffffff';
+		$chartBgcolor = '#3b444c';
+	}
+	
 	// settings
 	$chartSettings['chart']['chartOne'] = array(  
-		'header' => array('ADB', 'ADB-JSF/JFPR', 'ADB-TASF', 'Government', 'Cofinancing'),
-		'rows' => array(
-			array(
-				$fundingSources['adb'],
-				$fundingSources['adb_jsf_jfpr'],
-				$fundingSources['adb_tasf'],
-				$fundingSources['gov'],
-				$fundingSources['cof']
-			)
-		),
+		'header' => $header,
+		'rows' => array(array_values($chartFunding)),
 		'columns' => array('Funding Sources'),
 		'chartType' => 'PieChart',
 		'containerId' =>  'project-funding-chart',
 		'options' => array(
 			'format' => '###,###',
 			'fontSize'=>'16',
-			'fontName'=>'Source Sans Pro',
-			'backgroundColor'=>'#3b444c',
+			'fontName'=>$chartFont,
+			'backgroundColor'=>$chartBgcolor,
 			'legend'=> array(
 				'position'=>'right',
 				'alignment'=>'center',
 				'textStyle'=>array(
-					'color'=>'#ffffff'
+					'color'=>$chartFontColor
 				)
 			),
 			'forceIFrame' => FALSE, 
@@ -98,63 +122,71 @@
 	} else {
 		$fundingTotal = "";
 	}
-
 	$show_title = $variables['title'];
 ?>
+
 <div id="project-page" class="container-fluid">
 	<div class="row" id="project-title-container">
 		<div id="project-title" class="col-sm-9"><?php if ($show_title && $title): ?><h2 class="title" id="page-title"><?php print $title; ?></h2><?php endif; ?></div>
-		<!--div id="project-function-buttons" class="col-sm-3 pull-right">
-			<a href="#" class="btn btn-xs btn-primary disabled" id="btn-edit"><i class="project-btn project-btn-edit" data-toggle="tooltip" data-placement="auto" title="Edit Project Details">&nbsp;</i></a>
-			<a href="#" class="btn btn-xs btn-primary disabled" id="btn-print"><i class="project-btn project-btn-print" data-toggle="tooltip" data-placement="top" title="Print Factsheet">&nbsp;</i></a>
-			<a href="<?php //print base_path(); ?>" class="btn btn-xs btn-primary" id="btn-home"><i class="project-btn project-btn-portfolio" data-toggle="tooltip" data-placement="auto" title="Back to Portfolio View">&nbsp;</i></a>
-		</div-->
 		<div id="project-function-buttons" class="col-sm-3 pull-right">
 			<a href="#" class="btn btn-primary" id="btn-edit" class="disabled">Edit</a>
 		</div>
 	</div>
-	<div class="row">
-		<div id="project-map" class="col-lg-12"><?php print views_embed_view('leaflet_view_test', 'block_1', $node->nid); ?></div>
-	</div>
-	<div class="project-info">
+	<div id="project-info-container">
 		<div class="row">
-			<div id="project-details" class="col-sm-4">
-				<h4 class=""><?php print $view_details->get_title(); ?> <?php //print $btnEditDetails ?></h4>
-				<?php $view_details->set_arguments(array($node->nid)); $view_details->pre_execute(); $view_details->execute(); print $view_details->render(); ?>
-			</div>
-			<div id="project-funding-details" class="col-sm-4">
-				<h4><?php print $view_funding->get_title(); ?><?php //print $btnEditFunding ?></h4>
-				<div id="project-funding-total">
-					<span class='funding-total'><?php echo $fundingTotal ?></span>
-				</div>
-				<div id="project-funding-chart" class="chart">
-					<?php //$view_funding->set_display('block'); $view_funding->set_arguments(array($node->nid)); $view_funding->pre_execute(); $view_funding->execute(); print $view_funding->render(); ?>
-					
-					<?php 
-						if (array_sum($fundingSources) != 0) {
-							$ret = draw_chart($chartSettings); 
-							//echo "meron<br/>";
-							echo "";
-						} else {
-							echo "<div id=\"project-no-funding-sources\">Funding sources for this project have not been determined.<br/></div>";
-						//echo print_r($fundingSources,1)."<br/>";
-						}	?>
-				</div>
-			</div>
-			<div id="project-photos" class="col-sm-4">
-				<h4><?php print $view_photos->get_title(); ?> <?php //print $btnEditPhotos ?></h4>
-				<?php $view_photos->set_arguments(array($node->nid)); $view_photos->pre_execute(); $view_photos->execute(); print $view_photos->render(); ?>
-			</div>
+			<div id="project-map" class="col-lg-12"><?php
+			
+			
+			if($view_map){ 
+				//$block = module_invoke('views', 'leaflet_view_test', 'block_1');
+				//if ($block){
+				//print render($block['content']);
+				//}
+				//print views_embed_view('leaflet_view_test', 'block_1', $nid);
+				//$content .= views_embed_view('leaflet_view_test', 'block_1', $nid);
+				$view_map->set_arguments(array($nid)); $view_map->pre_execute(); $view_map->execute();
+				print $view_map->render(); 
+			}
+			
+			
+			?></div>
 		</div>
-		<div class="row">
-			<div id="project-outputs" class="col-sm-4">
-				<h4><?php print $view_outputs->get_title(); ?> <?php //print $btnEditOutputs ?></h4>
-				<?php $view_outputs->set_arguments(array($node->nid)); $view_outputs->pre_execute(); $view_outputs->execute(); print $view_outputs->render(); ?>
+		<div class="project-info">
+			<div class="row">
+				<div id="project-details" class="col-sm-4">
+					<h4 class=""><?php print $view_details->get_title(); ?> <?php //print $btnEditDetails ?></h4>
+					<?php $view_details->set_arguments(array($nid)); $view_details->pre_execute(); $view_details->execute(); print $view_details->render(); ?>
+				</div>
+				<div id="project-funding-details" class="col-sm-4">
+					<h4><?php print $view_funding->get_title(); ?><?php //print $btnEditFunding ?></h4>
+					<div id="project-funding-total">
+						<span class='funding-total'><?php echo $fundingTotal ?></span>
+					</div>
+					<div id="project-funding-chart" class="chart">
+						<?php 
+							if (array_sum($fundingSources) != 0) {
+								$ret = draw_chart($chartSettings); 
+								//echo "pie chart";
+							} else {
+								print "<div id=\"project-no-funding-sources\">Funding sources for this project have not been determined.<br/></div>";
+							}	?>
+					</div>
+				</div>
+				<div id="project-photos" class="col-sm-4">
+					<h4><?php print $view_photos->get_title(); ?> <?php //print $btnEditPhotos ?></h4>
+					<?php $view_photos->set_arguments(array($nid)); $view_photos->pre_execute(); $view_photos->execute(); print $view_photos->render(); ?>
+				</div>
 			</div>
-			<div id="project-impact-stories" class="col-sm-8">
-				<h4><?php print $view_stories->get_title(); ?> <?php //print $btnEditImpacts ?></h4>
-				<?php $view_stories->set_arguments(array($node->nid)); $view_stories->pre_execute(); $view_stories->execute(); print $view_stories->render(); ?>
-			</div>
-		</div>	
+			<div class="row">
+				<div id="project-outputs" class="col-sm-4">
+					<h4><?php print $view_outputs->get_title(); ?> <?php //print $btnEditOutputs ?></h4>
+					<?php $view_outputs->set_arguments(array($nid)); $view_outputs->pre_execute(); $view_outputs->execute(); print $view_outputs->render(); ?>
+				</div>
+				<div id="project-impact-stories" class="col-sm-8">
+					<h4><?php print $view_stories->get_title(); ?> <?php //print $btnEditImpacts ?></h4>
+					<?php $view_stories->set_arguments(array($nid)); $view_stories->pre_execute(); $view_stories->execute(); print $view_stories->render(); ?>
+				</div>
+			</div>	
+		</div>
 	</div>
 </div>

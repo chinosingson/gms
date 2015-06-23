@@ -79,7 +79,7 @@ class leaflet_views_ajax_popup_plugin_style extends leaflet_views_plugin_style {
               $point['label'] = $this->rendered_fields[$id][$this->options['name_field']];
             }
           }
-          if ($this->options['icon']['iconType'] == 'html') {
+          if (isset($this->options['icon']['iconType']) && $this->options['icon']['iconType'] == 'html') {
             foreach ($points as &$point) {
               $target_field = $this->options['icon']['html'];
               $point['rendered_html'] = isset($this->rendered_fields[$id][$target_field]) ? $this->rendered_fields[$id][$target_field] : '';

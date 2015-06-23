@@ -21,36 +21,108 @@ drupal_add_js(libraries_get_path('bcarousel').'/carousel.js',array('group' => JS
 			'path' => drupal_get_path('module', 'gms/templates'),//'project/%/details/edit',
 			//'arguments' => array('form' => NULL),
 		),
+		//'project_node_print' => array();
 	);
 }*/
+
+function gms_theme($variables) {
+	//drupal_set_message(t($variables['title']),'status');
+	return array(
+		'project_node_form' => array(
+			'arguments' => array('form' => NULL),
+			'render element' => 'form',
+			'path' => $base_path.drupal_get_path('theme',$GLOBALS['theme']).'/templates',
+			'template' => 'node--project--edit',
+		),
+	);
+}
 
 // remove fieldset wrapper from date fields
 /*function gms_date_combo($variables) {
   return theme('form_element', $variables);
 }*/
 
+/*function gms_views_pre_render($view = "leaflet_view_test"){
+	if ($view->name == "leaflet_view_test"){
+		print_r($view);
+	}
+}*/
+
+function gms_menu_link__main_menu(array $variables) {
+  $element = $variables['element'];
+  $sub_menu = '';
+
+  $element['#attributes']['class'][] = 'menu-' . $element['#original_link']['mlid'];
+
+  if ($element['#below']) {
+    $sub_menu = drupal_render($element['#below']);
+  }
+	if ($element['#original_link']['mlid'] == 1099){
+		if(arg(0) == "dashboard"){
+			$element['#href'] = 'printpdf/dashboard';
+		} 
+
+		if(arg(0) == "node"){
+			$alias =drupal_get_path_alias('node/'.arg(1));
+			$element['#href'] = "printpdf/".$alias;
+		}
+		
+		if(arg(0) == "maps") {
+			$element['#href'] = "printpdf/".arg(0)."/".arg(1);
+		}
+	}
+	
+  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
+
 function gms_preprocess_html(&$variables) {
 	drupal_add_css('http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' , array('type' => 'external'));
 }
 
 function gms_preprocess_page(&$variables) {
-  if (!empty($variables['node']) && $variables['node']->type == 'project') {
+  if (@is_object($variables['node']) 
+	&& count(get_object_vars($variables['node'])) > 0 
+	&& @$variables['node']->type == 'project') {
     //$variables['show_title'] = FALSE;
 		$variables['title'] = FALSE;
   }
 	
+	// search results title message
+	$itemsPerPage = @$GLOBALS['pager_limits'][0];
+	$total = isset($GLOBALS['pager_total_items'][0]) ? $GLOBALS['pager_total_items'][0] : 0;
 	if (arg(0) == 'search') {
 		//echo print_r($variables,1);
 		$keys = arg(2);
 		if (!$keys) $keys = $_REQUEST['keys'];
-		if ($keys) $variables['title'] = 'Search results for "'.$keys.'"';
+		if ($keys) { 
+			if ($total > 1 || $total == 0){
+				$label = 'projects';
+			} else {
+				$label = 'project';
+			}
+			$variables['title'] = 'Your search for "'.$keys.'" returned '.$total.' '.$label.'.';
+		}
 	}
-	//if(!empty($tabs)){
 	
-		//$tabs = array();
-	//}
-	
+	//if(arg(0) == 'print' && arg(1) == 'dashboard') {   //For node 4
+	//	$variables['title'] = "dashboard - preprocess page";
+  //  $variables['theme_hook_suggestions'][] =  'page__dashboard';
+  //}
 
+}
+
+function gms_preprocess_project_node_form(&$variables){
+	$form = $variables['form'];
+	//$form['title']['#title'] = t("Project Name");
+	$variables['myvar'] = "hello";
+	//$variables['form_title'] = $form['title'];
+	//$variables['buttons'] = $variables['form']['actions'];
+}
+
+function gms_theme_registry_alter(&$theme_registry){
+	$theme_registry['print__dashboard']['template'] = 'print--dashboard';
+	$theme_registry['print__dashboard']['path'] = drupal_get_path('theme', 'gms/templates');
 }
 
 function gms_preprocess_search_results(&$vars) {
@@ -74,19 +146,24 @@ function gms_preprocess_search_results(&$vars) {
 		$end = $total;
 	}
 
+	$keys = arg(2);
+	if(!$keys) $keys = $_REQUEST['keys'];
 	// If there is more than one page of results:
 	if ($total > $itemsPerPage) {
-		$vars['search_totals'] = t('Displaying !start - !end of !total results', array(
+		$vars['search_totals'] = t('Your search for \'!keys\' returned !total !results_label.', array(
+			'!keys' => $keys,
 			'!start' => $start,
 			'!end' => $end,
 			'!total' => $total,
+			'!results_label' => format_plural($total, 'project', 'projects'),
 		));
 	} else {
 		// Only one page of results, so make it simpler
-		$vars['search_totals'] = t('Displaying !total !results_label', array(
+		$vars['search_totals'] = t('Your search for \'!keys\' returned !total !results_label.', array(
+			'!keys' => $keys,
 			'!total' => $total,
 			// Be smart about labels: show "result" for one, "results" for multiple
-			'!results_label' => format_plural($total, 'result', 'results'),
+			'!results_label' => format_plural($total, 'project', 'projects'),
 		));
 	} 
 }
@@ -94,23 +171,27 @@ function gms_preprocess_search_results(&$vars) {
 
 function gms_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'search_block_form') {
+    $form['search_block_form']['#attributes'] = array("title"=>"Search project portfolio", 'placeholder'=>'');
+    $form['actions']['submit'] = array('#type' => 'submit', '#value' => 'Search');
     /*$form['search_block_form']['#title'] = t(''); // Change the text on the label element
     $form['search_block_form']['#title_display'] = 'invisible'; // Toggle label visibility
     $form['search_block_form']['#default_value'] = t(''); // Set a default value for the textfield
     //$form['actions']['submit']['#type'] = 'submit'; 
     //$form['actions']['submit']['#value'] = t('GO!'); // Change the text on the submit button
     $form['actions']['submit']['#attributes']['alt'] = "Search"; //add alt tag*/
-    $form['search_block_form']['#attributes'] = array("title"=>"Search project portfolio", 'placeholder'=>'');
     //unset($form['actions']['submit']['#value']); // Remove the value attribute from the input tag, since it is not valid when input type = image
 
-    $form['actions']['submit'] = array('#type' => 'submit', '#value' => 'Search');
 		//echo "<pre>".print_r($form['search_block_form'],1)."</pre>";
 		//echo "<pre>".print_r($form['actions'],1)."</pre>";
 
-// Add extra attributes to the text box
+		// Add extra attributes to the text box
     //$form['search_block_form']['#attributes']['onblur'] = "if (this.value == '') {this.value = 'Search Site';}";
     //$form['search_block_form']['#attributes']['onfocus'] = "if (this.value == 'Search Site') {this.value = '';}";
   }
+	
+	if ($form_id == 'project_node_form'){
+		dpm($form); //['#label'] = t('Start');
+	}
 }
 
 function gms_page_alter(&$page) {

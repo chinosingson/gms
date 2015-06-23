@@ -65,6 +65,7 @@
 
         var center = null;
         mapBounds[m] = new google.maps.LatLngBounds();
+				var markers = [];
 
         for (var key in locations) {
           var br = locations[key].balloon_text.indexOf('<br/>');
@@ -99,26 +100,41 @@
               new google.maps.Size(markerWidth, markerHeight));
           }
           var marker = new google.maps.Marker({ map: maps[m], icon: pinImage, /*shadow: shadowImage,*/ position: position, title: mouseOverText });
-
           var balloonText = '<div class="balloon">' + locations[key].balloon_text + '</div>';
           addMarkerBalloon(maps[m], marker, balloonText);
 
           if (locations[key].open) {
             new google.maps.InfoWindow({content: balloonText, maxWidth: 200}).open(maps[m], marker);
           }
+					markers.push(marker);
         }
         if (centerOption === 3 && locations.length > 0) {
           // Auto-box: ensure that all markers are visible on the initial map.
           maps[m].fitBounds(mapBounds[m]);
           //maps[m].panToBounds(mapBounds[m]);
         }
+				
+				// added by Chino 2015-06-05
+				// implement Marker Clusterer
+				//console.log(markers);
+				google.maps.markerClusterer = new MarkerClusterer(
+					maps[0],
+					markers,
+					{gridSize: 120,maxZoom: 5}
+				);
 
 				google.maps.event.addDomListener(window, 'resize', function() {
 					//console.log('resize');
 					//console.log(mapBounds[0]);
 					//console.log(mapBounds[0].getCenter());
-					maps[0].setCenter(mapBounds[0].getCenter());
-					maps[0].fitBounds(mapBounds[0]);
+					//console.log(mapOptions);
+					// Check for the special non-Google fixed-center option we provide.
+					if (mapOptions.centerLat && mapOptions.centerLng) {
+						maps[0].setCenter(new google.maps.LatLng(mapOptions.centerLat, mapOptions.centerLng));
+					} else {
+						maps[0].setCenter(mapBounds[0].getCenter());
+						maps[0].fitBounds(mapBounds[0]);
+					}
 				});
 
         if (visitorMarker || centerOption === 2 /* center on visitor */ || centerOption === 6 /* auto-box incl. visitor*/) {

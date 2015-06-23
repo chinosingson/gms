@@ -43,6 +43,7 @@
         Drupal.geolocationViews[mapId].markers = [];
         $.each(Drupal.settings.geolocationViewsMarkers[mapId], function() {
           var markerPosition = new google.maps.LatLng(this.lat, this.lng);
+					//console.log(markerPosition);
           var marker = new google.maps.Marker({
             position: markerPosition,
             map: Drupal.geolocationViews[mapId].map,
@@ -72,6 +73,7 @@
           
           Drupal.geolocationViews[mapId].markers.push(marker);
         });
+				console.log(Drupal.geolocationViews[mapId].markers);
 				Drupal.settings.geolocationViewsMarkers[mapId] = [];
  
          // Markers Clusterer

@@ -21,6 +21,7 @@ body.page-search #search-page-results-container,
 body.node-type-project #project-info-container,
 body.page-node-edit #project-info-container,
 body.page-dashboard #dashboard-page,
+body.page-user .main-container .region-content,
 body.page-about .main-container .region-content,
 body.page-contact .main-container .region-content,
 body.page-disclaimer .main-container .region-content
@@ -31,6 +32,7 @@ body.page-disclaimer .main-container .region-content
 body.page-maps-projects #navbar,
 body.page-maps-projects-ipgv #navbar,
 body.page-dashboard #navbar,
+body.page-user #navbar,
 body.page-about #navbar,
 body.page-contact #navbar,
 body.page-disclaimer #navbar,
@@ -41,6 +43,7 @@ body.page-search #navbar {
 body.page-maps-projects footer.footer,
 body.page-maps-projects-ipgv footer.footer,
 body.page-dashboard footer.footer,
+body.page-user footer.footer,
 body.page-about footer.footer,
 body.page-contact footer.footer,
 body.page-disclaimer footer.footer,
@@ -51,6 +54,9 @@ body.page-search footer.footer {
 	width: 100%;
 }
 
+body.page-user h2.page-header {
+	margin-top: 0px !important;
+}
 body.page-dashboard h2.page-header,
 body.page-dashboard #panel-bootstrap-region-center h2.pane-title 
 {
@@ -170,26 +176,75 @@ color: #fff;
 	background-position: 50% 150px;
 }
 
+.form-group {
+	margin-bottom: 5px;
+}
 
-body.page-node-edit.node-type-project .form-item {
+body.page-node-edit.node-type-project > .form-wrapper.form-group > .form-item.form-group,
+body.page-node-edit.node-type-project > .form-wrapper.form-group {
 	display: table-row;
 	width: 100%;
 }
-body.page-node-edit.node-type-project label {
+
+body.page-user .form-item > label,
+body.page-node-add.page-node-add-project .form-item > label,
+body.page-node-edit.node-type-project .form-item > label {
+	/*border: 1px dotted red;*/
+	/*display: table-cell;*/
+	/*width: 45%;*/
+	/*float: left;*/
 	color: #80dcfc;
 	white-space: nowrap;
-	display: table-cell;
-	width: 120px;
-	max-width: 120px;
-	float: left;
+	min-width: 130px;
+	font-size: 13pt;
 }
 
-body.page-node-edit.node-type-project input.form-text,
-body.page-node-edit.node-type-project select.form-select {
+.date-year {
+	display: inline !important;
+}
+
+body.page-user .form-item > .form-control,
+body.page-node-add.page-node-add-project .form-item > input.form-control,
+body.page-node-add.page-node-add-project .form-item > select.form-control,
+body.page-node-add.page-node-add-project .form-item > div > input.form-control,
+body.page-node-add.page-node-add-project .form-item > div > select.form-control,
+body.page-node-add.page-node-add-project .form-item > div.date-year > .form-control,
+body.page-node-edit.node-type-project .form-item > input.form-control,
+body.page-node-edit.node-type-project .form-item > select.form-control,
+body.page-node-edit.node-type-project .form-item > div > input.form-control,
+body.page-node-edit.node-type-project .form-item > div > select.form-control,
+body.page-node-edit.node-type-project .form-item > div.date-year > .form-control {
+	/*float: left;*/
+	/*border: 1px dotted green;*/
 	display: table-cell;
-	border : 0px dotted red;
+	width: 55%;
+	height: 30px;
+	padding: 4px 4px 4px 8px;
+}
+
+
+td.field-multiple-drag {
+	display: none;
+}
+/*.form-item > div > textarea.form-control {
+	width: 100%;
+}*/
+
+
+body.page-node-add.page-node-add-project #edit-title,
+body.page-node-edit.node-type-project #edit-title {
+	font-size: 30px;
+	line-height: 32px !important;
+	font-weight: 600 !important;
+	display: table-cell;
 	width: 100%;
 	float: left;
+	height: 37px;
+	padding: 0px 0px 0px 0px;
+	margin: 10px 0px 5px 15px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 table#field-outputs-values, table#field-impact-stories-values {

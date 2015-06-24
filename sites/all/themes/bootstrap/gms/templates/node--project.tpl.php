@@ -1,6 +1,7 @@
 ﻿<?php
 
 	// GMS
+	drupal_add_js(libraries_get_path('bcarousel').'/carousel.js',array('group' => JS_THEME, 'every_page' => FALSE));
 
 	// template for project nodes
 
@@ -138,15 +139,17 @@
 				//if (user_access('Edit any content')){
 				if (node_access('update',$node) && $user->uid != 0){
 					//create link for current node edit
-					print l(t('Edit'), 'node/' . $node->nid . '/edit');
+					//print l(t('Edit'), 'node/' . $node->nid . '/edit');
 					$link = array(
 						'#theme' => 'link',
-						'#text' => $row->title,
-						'#path' => $base_path . 'node/' . $row->nid,
-						'#options' => array('attributes' => array('title' => $row->title)),
+						'#text' => 'Edit',
+						'#path' => 'node/' . $node->nid . '/edit',
+						'#options' => array('attributes' => array('class' => 'btn btn-primary', 'id' => 'btn-edit')),
 						//'#prefix' => '<h3>',
 						//'#suffix' => '</h3>'
 					);
+					
+					print render($link);
 				}
 				
 				//print $links;

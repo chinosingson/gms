@@ -88,9 +88,14 @@ function gms_preprocess_page(&$variables) {
 		$variables['title'] = FALSE;
   }
 	
-	if ($variables['node']->type == 'project') {
-		drupal_add_js(libraries_get_path('bcarousel').'/carousel.js',array('group' => JS_THEME, 'every_page' => FALSE));
+	if(arg(1) == 'add'){
+		$variables['title'] = FALSE;
 	}
+	
+	//if (@$variables['node']->type == 'project') {
+	//if (arg(2)!='edit' || arg(1) != 'add') {
+	//	drupal_add_js(libraries_get_path('bcarousel').'/carousel.js',array('group' => JS_THEME, 'every_page' => FALSE));
+	//}
 	
 	// search results title message
 	$itemsPerPage = @$GLOBALS['pager_limits'][0];
@@ -204,6 +209,7 @@ function gms_form_alter(&$form, &$form_state, $form_id) {
 		);*/
 		//$form['field_project_number']['und'][0]['value']['#title'] = t('Proj No');
 		$form['title']['#title_display'] = 'invisible';
+		$form['title']['#attributes'] = array('placeholder'=>'Project Name');
 		$form['field_project_type']['und']['#title'] = t('Type');
 		$form['field_adb_sector']['und']['#title'] = t('Sector');
 		$form['field_project_cost_total']['und'][0]['value']['#title'] = t('Total');

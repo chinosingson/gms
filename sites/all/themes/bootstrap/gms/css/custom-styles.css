@@ -92,6 +92,7 @@ h2{
   border-top: 0px !important;
 }
 
+body.page-user .main-container .region-content,
 #project-page-edit .project-info,
 #project-page .project-info {
   padding: 20px 20px;
@@ -1132,7 +1133,7 @@ nav .navbar-nav{float: none !important;
   #block-search-form input{width:215px !important;}
 }
 #dashboard-downloads {padding-left:15px;padding-top:15px;}
-#btn-edit
+#btn-edit, #project-function-buttons #edit-submit
 {
 margin-top:2px !important;;
 float:right !important;

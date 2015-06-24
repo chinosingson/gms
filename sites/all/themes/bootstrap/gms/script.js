@@ -20,7 +20,7 @@
 			//$('a.menu_icon.menu-dashboard.menu-915').prop("title", "Dashboard");
 			
 			// login icon
-			$('#menu-link-login').addClass('btn disabled');
+			//$('#menu-link-login').addClass('btn disabled');
 			//$('#block-user-login div a.btn').html('&nbsp;');
 			//$('#block-user-login div a.btn').attr("data-toggle","tooltip");
 			//$('#block-user-login div a.btn').attr("data-placement","auto");
@@ -39,7 +39,7 @@
 			//$('#block-menu-menu-add-project ul li a').attr("data-placement","auto");
 			//$('#block-menu-menu-add-project ul li a').prop("title","Add Project");
 
-			$('body.page-about, body.page-contact, body.page-disclaimer').ready(function(){
+			$('body.page-about, body.page-contact, body.page-disclaimer, body.page-user').ready(function(){
 				$('html').css('height','100%');
 				//$('div.main-container').css('height','100%');
 				// set to full page size on first render
@@ -51,8 +51,10 @@
 				//console.log('totalheight: ' + totalHeight);
 				$(document).ready(function (){
 					//console.log('window ready');
+					$('body.page-user .main-container .region-content').css('height',totalHeight);
 					$('body.page-about .main-container .region-content').css('height',totalHeight);
 					$('body.page-disclaimer .main-container .region-content').css('height',totalHeight);
+					$('body.page-contact .main-container .region-content').css('height',totalHeight);
 					$('body.page-contact .main-container .region-content').css('height',totalHeight);
 				});
 				

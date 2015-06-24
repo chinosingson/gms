@@ -50,7 +50,7 @@
 				//print views_embed_view('leaflet_view_test', 'block_1', $nid);
 				//$content .= views_embed_view('leaflet_view_test', 'block_1', $nid);
 				$view_map->set_arguments(array($nid)); $view_map->pre_execute(); $view_map->execute();
-				print $view_map->render(); 
+				//print $view_map->render(); 
 			}
 			
 			
@@ -76,6 +76,7 @@
 						<span class='funding-total'><?php //print drupal_render($form['field_project_cost_total']); ?></span>
 					</div>
 					<div id="project-funding-chart" class="chart">
+						<?php print drupal_render($form['field_project_cost_total']); ?>
 						<?php print drupal_render($form['field_project_cost_adb']); ?>
 						<?php print drupal_render($form['field_project_cost_government']); ?>
 						<?php print drupal_render($form['field_project_cost_cofinancing_']); ?>

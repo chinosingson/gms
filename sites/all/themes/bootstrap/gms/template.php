@@ -207,16 +207,33 @@ function gms_form_alter(&$form, &$form_state, $form_id) {
 			'#prefix' => '',
 			'#suffix' => '',
 		);*/
-		//$form['field_project_number']['und'][0]['value']['#title'] = t('Proj No');
+		
+		// HIDE UNNEEDED ELEMENTS
 		$form['title']['#title_display'] = 'invisible';
-		$form['title']['#attributes'] = array('placeholder'=>'Project Name');
+		//$form['field_outputs']['#title_display'] = 'invisible';
+		hide($form['field_outputs']['#title']);
+		hide($form['field_project_temp_id']);
+		hide($form['field_project_approval_date']);
+		hide($form['field_project_closing_date']);
+		hide($form['field_project_geog_locn']);
+		hide($form['field_project_subtype']);
+		hide($form['field_project_tgl_no']);
+		hide($form['field_adb_primary_subsector']);
+		hide($form['field_project_source_cofinancing']);
+		hide($form['field_project_other_website']);
+		hide($form['field_project_cost_adb_jsf_jfpr']);
+		hide($form['field_project_cost_adb_tasf']);
+		hide($form['body']);
+		hide($form['actions']['preview']);
+		
+		// ALTER FORM LABELS
+		$form['title']['#attributes'] = array('placeholder'=>'Project Name*');
 		$form['field_project_type']['und']['#title'] = t('Type');
 		$form['field_adb_sector']['und']['#title'] = t('Sector');
 		$form['field_project_cost_total']['und'][0]['value']['#title'] = t('Total');
 		$form['field_project_cost_adb']['und'][0]['value']['#title'] = t('ADB');
 		$form['field_project_cost_government']['und'][0]['value']['#title'] = t('Government');
 		$form['field_project_cost_cofinancing_']['und'][0]['value']['#title'] = t('Cofinancing');
-		$form['field_project_year_start']['und'][0]['value']['#title'] = t('Start');
 		//$form['field_outputs']['#title_display'] = 'invisible';
 		//$form['field_impact_stories']['#title_display'] = 'invisible';
 		//$form['field_project_number']['und'][0]['value']['#prefix'] = '<div class="my-class">';
@@ -226,6 +243,40 @@ function gms_form_alter(&$form, &$form_state, $form_id) {
 		//$form['field_project_number']['und'][0]['value']['#attributes']['class'][] = 'input_class';
 	}
 }
+
+/*function gms_date_part_label_date($vars) {
+  $part_type = $vars['year'];
+  $element = $vars['element'];
+  return t('Date', array(), array('context' => 'datetime'));
+	//print print_r($vars,1);
+}*/
+
+/*function gms_date_text_parts(&$variables){ //, $hook) {
+	//if($variables['element']['#field_name'] == 'field_project_year_start') {
+	//if($variables['element']['#field_name'] == 'field_project_cost_adb') {
+	//	$variables['label'] = "your label name";
+	//}
+  //$element = $variables['element'];
+	//if ($element['#field_name'] == 'field_project_year_start'){
+	//	$element['year']['label'] = t('Start');
+	//}
+  $rows = array();
+  foreach (date_granularity_names() as $key => $part) {
+    if ($element[$key]['#type'] == 'hidden') {
+      $rows[] = drupal_render($element[$key]);
+    }
+    else {
+      $rows[] = array($part, drupal_render($element[$key][0]), drupal_render($element[$key][1]));
+    }
+  }
+  if ($element['year']['#type'] == 'hidden') {
+    return implode($rows) . drupal_render_children($element);
+  }
+  else {
+    $header = array(t('Date part'), t('Select list'), t('Text field'));
+    return theme('table', array('header' => $header, 'rows' => $rows)) . drupal_render_children($element);
+  }
+}*/
 
 function gms_page_alter(&$page) {
 	

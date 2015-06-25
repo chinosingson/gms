@@ -4,7 +4,7 @@
 ?>
 <?php
 	// something
-	dpm($form);
+	//dpm($form);
   //print drupal_render_children($form);
 	//hide($form['body']);
 	//hide($form);
@@ -18,11 +18,15 @@
 	//echo "<pre>".print_r($form,1)."</pre>";
   //print drupal_render_children($form['field_custom_image']);
   
+	// ALTER FORM LABELS
+	$form['field_project_year_start']['und'][0]['value']['year']['#title'] = 'Start';
+	$form['field_project_year_end']['und'][0]['value']['year']['#title'] = 'End';
+	// HIDE UNNEEDED FIELDS
 	//hide($form['field_project_number']);
-	hide($form['field_outputs']['#title']); //['#title_display'] = 'invisible';
-	hide($form['field_impact_stories']['#title']); //['#title_display'] = 'invisible';
-	//$form['field_project_year_start']['und'][0]['#title'] = t('Start');
-	//$form['field_project_year_end']['#title'] = t('End');
+	//hide($form['field_outputs']['#title']); //['#title_display'] = 'invisible';
+	hide($form['field_photos']['#title']); //['#title_display'] = 'invisible';
+	//$form['field_outputs']['#title_display'] = 'invisible';
+	//$form['field_project_cost_adb']['#prefix'] = "";
 	//hide($form['group_tab_general']);
 	
 	//echo print_r($form['actions']);
@@ -31,7 +35,18 @@
 	<div class="row" id="project-title-container">
 		<div id="project-title" class="col-sm-9"><?php print drupal_render($form['title']); ?></div>
 		<div id="project-function-buttons" class="col-sm-3 pull-right">
-			<?php print drupal_render($form['actions']['submit']); ?>
+			<?php 
+					$link_cancel = array(
+						'#theme' => 'link',
+						'#text' => 'Cancel',
+						'#path' => drupal_get_path_alias('node/'.$nid),
+						'#options' => array('attributes' => array('class' => 'btn btn-primary', 'id' => 'btn-edit')),
+					);
+					
+					print drupal_render($form['actions']['submit']);
+					print render($link_cancel);
+
+			?>
 		</div>
 	</div>
 	<div id="project-info-container">
@@ -52,8 +67,6 @@
 				$view_map->set_arguments(array($nid)); $view_map->pre_execute(); $view_map->execute();
 				//print $view_map->render(); 
 			}
-			
-			
 			?></div>
 		</div>
 		<div class="project-info">
@@ -84,7 +97,8 @@
 				</div>
 				<div id="project-photos" class="col-sm-4">
 					<h4>Photos</h4>
-					<?php //print drupal_render($form['field_photos']) ?>
+					<?php print drupal_render($form['field_photos']) ?>
+					<?php //print_r($form['field_photos']); ?>
 				</div>
 			</div>
 			<div class="row">
@@ -97,6 +111,7 @@
 					<?php print drupal_render($form['field_impact_stories']) ?>
 				</div>
 			</div>	
+		<?php print drupal_render_children($form); ?>
 		</div>
 	</div>
 </div>

@@ -27,7 +27,7 @@
 			//$('#block-user-login div a.btn').prop("title","Login");
 			
 			// add project
-			$('#menu-link-add-project').addClass('btn disabled');
+			//$('#menu-link-add-project').addClass('btn disabled');
 
 			// print
 			$('body.page-maps-projects #menu-link-print').addClass('btn disabled');

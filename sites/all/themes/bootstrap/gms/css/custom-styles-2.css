@@ -205,15 +205,10 @@ body.page-node-edit.node-type-project .form-item > label {
 
 body.page-user .form-item > .form-control,
 body.page-node-add.page-node-add-project .form-item > input.form-control,
-body.page-node-add.page-node-add-project .form-item > select.form-control,
 body.page-node-add.page-node-add-project .form-item > div > input.form-control,
-body.page-node-add.page-node-add-project .form-item > div > select.form-control,
-body.page-node-add.page-node-add-project .form-item > div.date-year > .form-control,
 body.page-node-edit.node-type-project .form-item > input.form-control,
-body.page-node-edit.node-type-project .form-item > select.form-control,
-body.page-node-edit.node-type-project .form-item > div > input.form-control,
-body.page-node-edit.node-type-project .form-item > div > select.form-control,
-body.page-node-edit.node-type-project .form-item > div.date-year > .form-control {
+body.page-node-edit.node-type-project .form-item > div > input.form-control
+ {
 	/*float: left;*/
 	/*border: 1px dotted green;*/
 	display: table-cell;
@@ -222,14 +217,39 @@ body.page-node-edit.node-type-project .form-item > div.date-year > .form-control
 	padding: 4px 4px 4px 8px;
 }
 
-
-td.field-multiple-drag {
-	display: none;
+body.page-node-add.page-node-add-project .form-item > div.date-year > .form-control,
+body.page-node-edit.node-type-project .form-item > div.date-year > .form-control,
+body.page-node-edit.node-type-project .form-item > select.form-control,
+body.page-node-add.page-node-add-project .form-item > select.form-control,
+body.page-node-add.page-node-add-project .form-item > div > select.form-control,
+body.page-node-edit.node-type-project .form-item > div > select.form-control {
+	display: table-cell;
+	width: 55%;
+	height: 30px;
+	padding: 4px 4px 4px 4px;
 }
-/*.form-item > div > textarea.form-control {
-	width: 100%;
-}*/
 
+body.page-node-edit.node-type-project .form-item > textarea.form-control,
+body.page-node-add.page-node-add-project .form-item > textarea.form-control,
+body.page-node-add.page-node-add-project .form-item > div > textarea.form-control,
+body.page-node-edit.node-type-project .form-item > div > textarea.form-control {
+	display: table-cell;
+	width: 100%;
+	padding: 4px 4px 4px 4px;
+}
+
+
+#edit-field-photos-und-table td,
+#edit-field-photos-und {
+	border: none;
+  background-color:#3b444c;
+  color:#ffffff;
+}
+
+#edit-field-photos-und .panel-body 
+{
+	padding: 0px 0px 0px 0px;
+}
 
 body.page-node-add.page-node-add-project #edit-title,
 body.page-node-edit.node-type-project #edit-title {
@@ -240,7 +260,7 @@ body.page-node-edit.node-type-project #edit-title {
 	width: 100%;
 	float: left;
 	height: 37px;
-	padding: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 4px;
 	margin: 10px 0px 5px 15px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -250,19 +270,35 @@ body.page-node-edit.node-type-project #edit-title {
 table#field-outputs-values, table#field-impact-stories-values {
 	width: 100%;
 }
-table#field-outputs-values td, table#field-impact-stories-values td {
+
+.table-striped>tbody>tr:nth-child(odd)>td,
+#field-impact-stories-values--2 > tbody > tr.draggable.odd > td:nth-child(2),
+#field-impact-stories-values--2 > tbody > tr.draggable.even > td:nth-child(2),
+table#field-impact-stories-values td,
+table#field-outputs-values td {
 	background-color: #3b444c;
 }
 
+
+#project-page .project-info legend,
+#edit-field-project-number,
+#edit-field-project-year-start,
+#edit-field-project-year-end,
+.tabledrag-toggle-weight-wrapper,
+#field-impact-stories-values .field-label,
 #field-outputs-values .field-label,
-#field-impact-stories-values .field-label {
+td.field-multiple-drag, tr.draggable > td > a.tabledrag-handle,
+#edit-field-photos-und-table .text-format-wrapper,
+#edit-field-photos-und-table thead {
 	display: none;
 }
 
-.tabledrag-toggle-weight-wrapper {
-	display: none;
-}
+#edit-field-photos-und-0-image-field-caption-format
 
-/*#project-node-form {
-	margin-top: -20px;
-}*/
+/*#edit-field-photos-und-table > tbody > tr.draggable.odd > td:nth-child(1) > div > div.image-widget-data > div.form-type-textfield.form-item-field-photos-und-0-alt.form-item.form-group*/
+
+#edit-field-photos-und-table > tbody > tr.draggable.odd > td:nth-child(1) > div > div.image-widget-data > div.form-type-textfield.form-item-field-photos-und-0-alt.form-item.form-group,
+.image-widget-data span.file-size + .form-type-textfield {
+    border: 0px solid pink !important;
+		display: none;
+}

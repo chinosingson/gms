@@ -140,7 +140,7 @@
 				if (node_access('update',$node) && $user->uid != 0){
 					//create link for current node edit
 					//print l(t('Edit'), 'node/' . $node->nid . '/edit');
-					$link = array(
+					$link_edit = array(
 						'#theme' => 'link',
 						'#text' => 'Edit',
 						'#path' => 'node/' . $node->nid . '/edit',
@@ -149,7 +149,8 @@
 						//'#suffix' => '</h3>'
 					);
 					
-					print render($link);
+					print render($link_edit);
+					
 				}
 				
 				//print $links;

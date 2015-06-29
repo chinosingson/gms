@@ -26,14 +26,13 @@ drupal_add_js(drupal_get_path('theme', 'gms') .'/script.js');
 }*/
 
 function gms_theme($variables) {
-	//drupal_set_message(t($variables['title']),'status');
+	
 	return array(
 		'project_node_form' => array(
 			'arguments' => array('form' => NULL),
 			'render element' => 'form',
-			'path' => $base_path.drupal_get_path('theme',$GLOBALS['theme']).'/templates',
-			'template' => 'node--project--edit',
-		),
+			'path' => base_path().drupal_get_path('theme','gms').'/templates',
+			'template' => 'node--project--edit'),
 	);
 }
 
@@ -78,6 +77,8 @@ function gms_menu_link__main_menu(array $variables) {
 
 function gms_preprocess_html(&$variables) {
 	drupal_add_css('http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' , array('type' => 'external'));
+	
+	
 }
 
 function gms_preprocess_page(&$variables) {

@@ -31,7 +31,8 @@ function gms_theme($variables) {
 		'project_node_form' => array(
 			'arguments' => array('form' => NULL),
 			'render element' => 'form',
-			'path' => base_path().drupal_get_path('theme','gms').'/templates',
+			//'path' => base_path().drupal_get_path('theme','gms').'/templates',
+			'path' => drupal_get_path('theme','gms').'/templates',
 			'template' => 'node--project--edit'),
 	);
 }
@@ -224,6 +225,7 @@ function gms_form_alter(&$form, &$form_state, $form_id) {
 		hide($form['field_project_other_website']);
 		hide($form['field_project_cost_adb_jsf_jfpr']);
 		hide($form['field_project_cost_adb_tasf']);
+		//hide($form['field_project_locations']);
 		hide($form['body']);
 		hide($form['actions']['preview']);
 		

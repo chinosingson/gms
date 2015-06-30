@@ -2,18 +2,24 @@
 	$node = menu_get_object(); 
 	@$nid = $node->nid;
 
+	//drupal_add_css(base_path().drupal_get_path('theme', 'gms') . '/js/leaflet/leaflet.css', array('type'=>'file','group'=>CSS_THEME));
 	//drupal_add_js(base_path().drupal_get_path('theme', 'gms') . '/js/leaflet/leaflet.js');
-	//drupal_add_css(base_path().drupal_get_path('theme', 'gms') . '/js/leaflet/leaflet.css');
-	//drupal_add_css('http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css');
-	//drupal_add_js('http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js');
-	drupal_add_js(base_path(). drupal_get_path('theme', 'gms'). '/js/leaflet/app.js');
+	//drupal_add_js('http://maps.google.com/maps/api/js?v=3.2&sensor=false');
+	//drupal_add_js('http://matchingnotes.com/javascripts/leaflet-google.js');
+	drupal_add_css('http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css', array('type'=>'external', 'group'=>CSS_DEFAULT));
+	drupal_add_js('http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js');
+	drupal_add_css(base_path().drupal_get_path('theme','gms').'/js/leaflet-draw/leaflet.draw.css', array('type'=>'file', 'group'=>CSS_DEFAULT));
+	drupal_add_js(base_path().drupal_get_path('theme','gms').'/js/leaflet-draw/leaflet.draw.js');
+	//drupal_add_js(base_path(). drupal_get_path('theme', 'gms'). '/js/leaflet/app.js');
+	drupal_add_js(base_path(). drupal_get_path('theme', 'gms'). '/js/leaflet/appgms.js');
 
 	drupal_add_css('
 	
 	  #project-map-container { height: 300px; }
-      #map-canvas { width: 100%; height: 300px; z-index: 1;}
+      #map-canvas { width: 100%; height: 300px; z-index: 1; }
+		.leaflet-map-pane { border: 1px dotted red; width: 100%; height: 300px; }
 	  
-	  ', 'inline');
+	  ', array('type'=>'inline'));
 
 ?>
 <?php
@@ -63,10 +69,12 @@
 			?>
 		</div>
 	</div>
-	<div id="project-map-container"><div id="map-canvas"></div></div>
 	<div id="project-info-container">
 		<div class="row">
-			<div id="project-map" class="col-lg-12"><?php
+			<div id="project-map" class="col-lg-12">
+			<div id="project-map-container"><div id="map-canvas"></div></div>
+			<!--div id="map-canvas"></div-->
+			<?php
 				// Project Views
 				$view_map = views_get_view('leaflet_view_test');			// locations
 				$view_map->set_display('block_1');
@@ -82,7 +90,7 @@
 				$view_map->set_arguments(array($nid)); $view_map->pre_execute(); $view_map->execute();
 				//print $view_map->render(); 
 			}
-			?></div>
+			?><!--/div-->
 		</div>
 		<div class="project-info">
 			<div class="row">

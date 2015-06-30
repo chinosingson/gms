@@ -1,22 +1,23 @@
 jQuery(document).ready(function(){	
 
 		var map;
-		var ctiMapCenter = new google.maps.LatLng(9.622, 111.137);
+		//var gmsMapCenter = new google.maps.LatLng(9.622, 111.137);
+		var gmsMapCenter = new google.maps.LatLng(17.180,104.124);
 
 		function initialize() {
 			var mapDiv = document.getElementById('map-canvas');
 			var markers = [];
 			var mapOptions = {
-				center: ctiMapCenter,
+				center: gmsMapCenter,
 				//center: new google.maps.LatLng(0, 0),
 				zoom: 5,
 				mapTypeId: google.maps.MapTypeId.ROADMAP,
-				scrollwheel: true,
-				panControl: true,
+				scrollwheel: false,
+				panControl: false,
 				streetViewControl: false,
-				overviewMapControl: true,
+				overviewMapControl: false,
 				overviewMapControlOptions: {
-					opened: true,
+					opened: false,
 				},
 				mapTypeControl: false,
 				mapTypeControlOptions: {
@@ -24,14 +25,14 @@ jQuery(document).ready(function(){
 					position: google.maps.ControlPosition.BOTTOM_CENTER
 				},
 
-				panControl: true,
+				panControl: false,
 				panControlOptions: {
 					position: google.maps.ControlPosition.LEFT_BOTTOM
 				},
 				zoomControl: true,
 				zoomControlOptions: {
-					style: google.maps.ZoomControlStyle.LARGE,
-					position: google.maps.ControlPosition.LEFT_BOTTOM
+					style: google.maps.ZoomControlStyle.DEFAULT,
+					position: google.maps.ControlPosition.TOP_LEFT
 				},				
 			};
 

@@ -27,6 +27,7 @@ regions[page_bottom]    = 'Page bottom'
 stylesheets[all][] = css/custom-styles.css
 ;stylesheets[all][] = css/project-buttons.css
 stylesheets[all][] = css/custom-styles-2.css
+;stylesheets[all][] = js/leaflet/leaflet.css
 
 
 ; Excludes

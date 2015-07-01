@@ -3,23 +3,25 @@
 	@$nid = $node->nid;
 	global $base_url;
 	
-	drupal_add_css(drupal_get_path('theme', 'gms') . '/js/leaflet/leaflet.css', array('type'=>'file','group'=>CSS_DEFAULT));
-	drupal_add_js(drupal_get_path('theme', 'gms') . '/js/leaflet/leaflet.js');
+	drupal_add_css(libraries_get_path('leaflet') . '/leaflet.css', array('type'=>'file','group'=>CSS_DEFAULT));
+	drupal_add_js(libraries_get_path('leaflet') . '/leaflet.js');
 	//drupal_add_js('http://maps.google.com/maps/api/js?v=3.2&sensor=false');
 	drupal_add_js('http://matchingnotes.com/javascripts/leaflet-google.js');
-	drupal_add_css(drupal_get_path('theme','gms').'/js/leaflet-draw/leaflet.draw.css', array('type'=>'file', 'group'=>CSS_DEFAULT));
-	drupal_add_js(drupal_get_path('theme','gms').'/js/leaflet-draw/leaflet.draw.js');
+	drupal_add_css(libraries_get_path('leaflet.draw').'/dist/leaflet.draw.css', array('type'=>'file', 'group'=>CSS_DEFAULT));
+	drupal_add_js(libraries_get_path('leaflet.draw').'/dist/leaflet.draw.js');
 	//drupal_add_js(base_path(). drupal_get_path('theme', 'gms'). '/js/leaflet/app.js');
-	drupal_add_js(base_path(). drupal_get_path('theme', 'gms'). '/js/leaflet/appgms.js');
+	drupal_add_js(base_path(). drupal_get_path('theme', 'gms'). '/js/map.js');
 	drupal_add_js(array('pathToTheme' => array('pathToTheme' => $base_url."/".path_to_theme())), 'setting');
 
 	drupal_add_css('
-	
-	  #project-map-container { height: 300px; }
-      #map-canvas { width: 100%; height: 300px; }
+		#project-map-container { height: 300px; }
+		#map-canvas { width: 100%; height: 300px; }
 		.leaflet-map-pane { border: 0px dotted red; width: 100%; height: 300px; z-index: 1 !important; }
 		.leaflet-google-layer { z-index: 0 !important; }
-	  
+		.leaflet-top.leaflet-left .leaflet-control-zoom,
+		.leaflet-top.leaflet-right .leaflet-draw.leaflet-control {
+			margin-top: 10px !important;
+		}	  
 	  ', array('type'=>'inline'));
 
 ?>

@@ -3,6 +3,7 @@
 	
 	Drupal.behaviors.display = {
 		attach: function (context, settings) {
+			//console.log(Drupal.settings.pathToTheme.pathToTheme);
 			$('table').addClass('table table-condensed');
 
 			// navigation
@@ -31,6 +32,7 @@
 
 			// print
 			$('body.page-maps-projects #menu-link-print').addClass('btn disabled');
+			$('body.page-node-edit #menu-link-print').addClass('btn disabled');
 			//$('body.page-dashboard #menu-link-print').addClass('btn disabled');
 			//$('body.page-search-node #menu-link-print').addClass('btn disabled');
 			//$('#block-menu-menu-add-project ul li a').html('&nbsp');

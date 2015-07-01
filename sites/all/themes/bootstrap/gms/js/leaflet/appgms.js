@@ -1,7 +1,8 @@
 ﻿jQuery(document).ready(function(){	
+	//console.log(Drupal.settings.pathToTheme.pathToTheme);
 
 	var map;
-	//var googleRoad = new L.Google('ROADMAP');
+	var googleRoad = new L.Google('ROADMAP');
 	/* Basemap Layers */
 	/*var mapquestOSM = L.tileLayer("http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png", {
 		maxZoom : 19,
@@ -40,15 +41,16 @@
 	map = new L.Map("map-canvas", {
 			zoom : 5,
 			center : [17.180,104.124],
-			layers : [HERE_normalDay],
+			//layers : [HERE_normalDay],
+			layers : [googleRoad],
 			zoomControl : true,
 			drawControl : false,
 			attributionControl : true,
-			scrollWheelZoom : false,
+			scrollWheelZoom : true,
 	});
 	
 	var defaultMarkerIcon = {
-		iconUrl : "images/marker-icon.png",
+		iconUrl : Drupal.settings.pathToTheme.pathToTheme+"/js/leaflet/images/marker-icon.png",
 		//iconSize : [25, 41],
 		iconAnchor : [15, 50],
 		popupAnchor : [0, -25]
@@ -70,7 +72,7 @@
 				}
 			});
 		}
-	}); //.addTo(map);
+	});//.addTo(map);
 
 	var drawControl = new L.Control.Draw({
 		position: 'topright',
@@ -93,8 +95,78 @@
 	//var center = [17.180,104.124];	
 	//map.setView(center, 5);
 	
-	/*$('#map-canvas').bind('click',function (){
-		console.log('map clicked!');
+	/* MAP FUNCTIONS and EVENTS */
+	var markerCount = 1;
+	var currentProjectLayer = L.geoJson(null);
+	
+	//console.log(Drupal.settings.locations.markers);
+	if(Drupal.settings.locations.markers){ //drawnItems.addData(Drupal.settings.locations.markers);
+		jQuery.each(Drupal.settings.locations.markers, function(index, marker){
+			drawnItems.addData(marker);
+			var projectBounds = drawnItems.getBounds();
+			map.setView(projectBounds.getCenter(),5);
+		});
+	}
+	
+	//console.log(drawnItems);
+	//drawnItems.addData(currentProjectLayer);
+	drawnItems.addTo(map);
+	
+	function createPoint(e) {
+			var layer = e.layer,
+			mLatLng = layer.getLatLng();
+			console.log(e.layerType + ' ' + mLatLng);
+			// optionally add reverse geocode here
+			// - to automatically fill in details
+			// new geojsonfeature
+			var marker = {
+					"type": "Feature",
+					"properties": {
+						"id": markerCount,
+					},
+					"geometry": {
+						"type": "Point",
+						"coordinates": [mLatLng.lng, mLatLng.lat]
+					}
+			};
+			// add geojsonfeature to drawnItems
+			var shortLongitude = parseFloat(mLatLng.lat).toFixed(2);
+			var shortLatitude = parseFloat(mLatLng.lng).toFixed(2);
+			
+			layer.bindPopup('<b>Coordinates</b><br/>Latitude: ' + shortLatitude + '<br/>Longitude: ' + shortLongitude);
+			//markerCount++;
+			console.log(marker);
+			drawnItems.addData(marker);
+			//console.log(drawnItems);
+	}	
+	
+	/*map.on('draw:drawstart', function (e){
+		console.log('drawstart');
+		//console.log(e);
+		//e.layer.setIcon(L.icon(yellowMarkerIcon));
 	});*/
+	 
+	map.on('draw:created', function (e) {
+		//alert(e.layerType);
+		//console.log(e.layer);
+		createPoint(e);
+		//$('#layers').html(drawnItems);
+	});
+
+	map.on('draw:drawstop', function (e) {
+		console.log('drawstop');
+		//$('#map-location-details').append('123456');
+		//map.addControl(new locInfoControl());
+		//locInfoControlAdded = true;
+		markerCount++;
+	});
+
+	map.on('draw:deletestop', function (e) {
+		jQuery.each(drawnItems._layers, function (index, layer) {
+			//$('#loc-info-'+layer.feature.properties.id).show();
+			console.log(layer);
+		});
+	});
+
 	
 });

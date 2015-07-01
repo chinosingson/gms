@@ -74,7 +74,6 @@
 					);
 					
 					print drupal_render($form['actions']['submit']);
-					//print render($link_cancel);
 					print l($link_cancel['#text'],$link_cancel['#path'],$link_cancel['#options']);
 
 			?>
@@ -91,6 +90,7 @@
 				//$view_map->set_arguments(array($nid));
 				$view_map_result = views_get_view_result('leaflet_view_test','block_1', $nid);
 				$x=0;
+				$markers = array();
 				foreach ($view_map_result as $locations){
 					$coord_info = $locations->field_field_google_coordinates;
 					if (count($coord_info)<>0){
@@ -117,8 +117,9 @@
 			
 					//echo print_r($locations->field_field_google_coordinates,1)."<br/>";
 				}
-				$projectSector = taxonomy_term_load($node->field_adb_sector['und'][0]['tid']);
-				if(count($projectSector) > 0){
+				
+				if(@count($node->field_adb_sector) > 0){
+					$projectSector = taxonomy_term_load($node->field_adb_sector['und'][0]['tid']);
 					$markerPath = $projectSector->field_marker_path['und'][0]['value'];
 					drupal_add_js(array('mapMarker' => array('imagePath' => $base_url."/".$markerPath)), 'setting');
 				} else {

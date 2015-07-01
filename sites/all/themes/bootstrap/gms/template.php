@@ -52,6 +52,8 @@ function gms_menu_link__main_menu(array $variables) {
   $element = $variables['element'];
   $sub_menu = '';
 
+	$element['#localized_options']['html'] = FALSE;
+	//$element['#localized_options']['language'] = LANGUAGE_NONE;
   $element['#attributes']['class'][] = 'menu-' . $element['#original_link']['mlid'];
 
   if ($element['#below']) {
@@ -72,6 +74,7 @@ function gms_menu_link__main_menu(array $variables) {
 		}
 	}
 
+	//print print_r($element['#localized_options'],1)."<br/>";
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
@@ -225,7 +228,7 @@ function gms_form_alter(&$form, &$form_state, $form_id) {
 		hide($form['field_project_other_website']);
 		hide($form['field_project_cost_adb_jsf_jfpr']);
 		hide($form['field_project_cost_adb_tasf']);
-		//hide($form['field_project_locations']);
+		hide($form['field_project_locations']);
 		hide($form['body']);
 		hide($form['actions']['preview']);
 		

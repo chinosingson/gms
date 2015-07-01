@@ -72,7 +72,7 @@ function gms_menu_link__main_menu(array $variables) {
 		}
 	}
 	
-  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+  $output = @l($element['#title'], $element['#href'], $element['#localized_options']);
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
 

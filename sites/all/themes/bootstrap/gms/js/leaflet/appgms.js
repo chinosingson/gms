@@ -49,10 +49,17 @@
 			scrollWheelZoom : true,
 	});
 	
+	var markerPath = "";
+	if (Drupal.settings.mapMarker.imagePath){
+		markerPath = Drupal.settings.mapMarker.imagePath;
+	} else {
+		markerPath = Drupal.settings.pathToTheme.pathToTheme+"/js/leaflet/images/marker-icon.png";
+	}
+	
 	var defaultMarkerIcon = {
-		iconUrl : Drupal.settings.pathToTheme.pathToTheme+"/js/leaflet/images/marker-icon.png",
-		//iconSize : [25, 41],
-		iconAnchor : [15, 50],
+		iconUrl : markerPath,
+		iconSize : [33, 38],
+		iconAnchor : [12, 40],
 		popupAnchor : [0, -25]
 	}	
 

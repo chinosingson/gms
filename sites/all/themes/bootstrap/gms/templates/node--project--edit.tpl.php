@@ -116,6 +116,12 @@
 			
 					//echo print_r($locations->field_field_google_coordinates,1)."<br/>";
 				}
+				
+				$projectSector = taxonomy_term_load($node->field_adb_sector['und'][0]['tid']);
+				$markerPath = $projectSector->field_marker_path['und'][0]['value'];
+				drupal_add_js(array('mapMarker' => array('imagePath' => $base_url."/".$markerPath)), 'setting');
+				//echo $base_url."/".$markerPath."<br/>";
+				
 				drupal_add_js(array('locations' => array('markers'=>$markers)),'setting'); // json_encode($markers);
 			
 			if($view_map){ 

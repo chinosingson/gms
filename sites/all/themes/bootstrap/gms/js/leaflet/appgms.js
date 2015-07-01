@@ -50,16 +50,20 @@
 	});
 	
 	var markerPath = "";
-	if (Drupal.settings.mapMarker.imagePath){
+	/*if (Drupal.settings.mapMarker.imagePath!=''){
 		markerPath = Drupal.settings.mapMarker.imagePath;
+		console.log("1. "+markerPath);
 	} else {
 		markerPath = Drupal.settings.pathToTheme.pathToTheme+"/js/leaflet/images/marker-icon.png";
-	}
+		console.log("2. "+markerPath);
+	}*/
+	
+	console.log (Drupal.settings.mapMarker.imagePath);
 	
 	var defaultMarkerIcon = {
-		iconUrl : markerPath,
+		iconUrl : Drupal.settings.mapMarker.imagePath,
 		iconSize : [33, 38],
-		iconAnchor : [12, 40],
+		iconAnchor : [16, 38],
 		popupAnchor : [0, -25]
 	}	
 

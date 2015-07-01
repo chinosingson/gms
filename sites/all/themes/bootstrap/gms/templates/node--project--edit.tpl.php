@@ -70,11 +70,12 @@
 						'#theme' => 'link',
 						'#text' => 'Cancel',
 						'#path' => drupal_get_path_alias('node/'.$nid),
-						'#options' => array('attributes' => array('class' => 'btn btn-primary', 'id' => 'btn-edit')),
+						'#options' => array('attributes' => array('class' => 'btn btn-primary', 'id' => 'btn-edit'), 'html' => FALSE, 'language'=>LANGUAGE_NONE),
 					);
 					
 					print drupal_render($form['actions']['submit']);
-					print render($link_cancel);
+					//print render($link_cancel);
+					print l($link_cancel['#text'],$link_cancel['#path'],$link_cancel['#options']);
 
 			?>
 		</div>
@@ -116,13 +117,18 @@
 			
 					//echo print_r($locations->field_field_google_coordinates,1)."<br/>";
 				}
-				
 				$projectSector = taxonomy_term_load($node->field_adb_sector['und'][0]['tid']);
-				$markerPath = $projectSector->field_marker_path['und'][0]['value'];
-				drupal_add_js(array('mapMarker' => array('imagePath' => $base_url."/".$markerPath)), 'setting');
-				//echo $base_url."/".$markerPath."<br/>";
-				
-				drupal_add_js(array('locations' => array('markers'=>$markers)),'setting'); // json_encode($markers);
+				if(count($projectSector) > 0){
+					$markerPath = $projectSector->field_marker_path['und'][0]['value'];
+					drupal_add_js(array('mapMarker' => array('imagePath' => $base_url."/".$markerPath)), 'setting');
+				} else {
+					drupal_add_js(array('mapMarker' => array('imagePath' => $base_url."/".path_to_theme()."/js/leaflet/images/marker-icon.png")), 'setting');
+				}
+				if (count($markers) > 0){
+					drupal_add_js(array('locations' => array('markers'=>$markers)),'setting'); // json_encode($markers);
+				} else {
+					drupal_add_js(array('locations' => array('markers'=>NULL)),'setting'); // json_encode($markers);
+				}
 			
 			if($view_map){ 
 				//$block = module_invoke('views', 'leaflet_view_test', 'block_1');

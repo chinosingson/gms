@@ -15,7 +15,7 @@ function gms_misc_menu() {
   $items['gms_misc_map'] = array(
 	'title' => t('GMS Map Coordinates'),
     'page callback' => 'gms_misc_map_location',
-	//'page arguments' => array(1),
+		'page arguments' => array(1),
     'access arguments' => array('access content'), 
 	//'type' => MENU_CALLBACK,
   );
@@ -24,12 +24,13 @@ function gms_misc_menu() {
 }
 
 
-function gms_misc_map_location() {
+function gms_misc_map_location($arguments) {
 	
 
-  $output = $_POST;
+  //$output = $_POST;
+  $output = $arguments;
 
-  print_r($_POST);
+  //print_r($_POST);
 
   return $output;
 

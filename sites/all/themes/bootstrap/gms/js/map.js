@@ -1,64 +1,16 @@
 ﻿jQuery(document).ready(function(){	
-	//console.log(Drupal.settings.pathToTheme.pathToTheme);
-
 	var map;
 	var googleRoad = new L.Google('ROADMAP');
-	/* Basemap Layers */
-	/*var mapquestOSM = L.tileLayer("http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png", {
-		maxZoom : 19,
-		subdomains : ["otile1", "otile2", "otile3", "otile4"],
-		attribution : 'Tiles courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">. Map data (c) <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, CC-BY-SA.'
-	});
-	var mapquestOAM = L.tileLayer("http://{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg", {
-		maxZoom : 18,
-		subdomains : ["oatile1", "oatile2", "oatile3", "oatile4"],
-		attribution : 'Tiles courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a>. Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency'
-	});
-	var mapquestHYB = L.layerGroup([L.tileLayer("http://{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg", {
-				maxZoom : 18,
-				subdomains : ["oatile1", "oatile2", "oatile3", "oatile4"]
-			}), L.tileLayer("http://{s}.mqcdn.com/tiles/1.0.0/hyb/{z}/{x}/{y}.png", {
-				maxZoom : 19,
-				subdomains : ["oatile1", "oatile2", "oatile3", "oatile4"],
-				attribution : 'Labels courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">. Map data (c) <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, CC-BY-SA. Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency'
-			})]);
-			
-	var Esri_WorldStreetMap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-		attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
-	});	*/
-
-	var HERE_normalDay = L.tileLayer('http://{s}.{base}.maps.cit.api.here.com/maptile/2.1/maptile/{mapID}/normal.day/{z}/{x}/{y}/256/png8?app_id=Fw3lzrFk4fHWP8VnBsGF&app_code=J2HoQBUXj_bIuNbI9rQ-oQ', {
-		attribution: 'Map &copy; 1987-2014 <a href="http://developer.here.com">HERE</a>',
-		subdomains: '1234',
-		mapID: 'newest',
-		app_id: 'Fw3lzrFk4fHWP8VnBsGF',
-		app_code: 'J2HoQBUXj_bIuNbI9rQ-oQ',
-		base: 'base',
-		minZoom: 0,
-		maxZoom: 20
-	});
 
 	map = new L.Map("map-canvas", {
 			zoom : 5,
-			center : [17.180,104.124],
-			//layers : [HERE_normalDay],
+			center : [17.180,104.124], // provisional center of GMS program locations
 			layers : [googleRoad],
 			zoomControl : true,
 			drawControl : false,
 			attributionControl : true,
 			scrollWheelZoom : true,
 	});
-	
-	var markerPath = "";
-	/*if (Drupal.settings.mapMarker.imagePath!=''){
-		markerPath = Drupal.settings.mapMarker.imagePath;
-		console.log("1. "+markerPath);
-	} else {
-		markerPath = Drupal.settings.pathToTheme.pathToTheme+"/js/leaflet/images/marker-icon.png";
-		console.log("2. "+markerPath);
-	}*/
-	
-	console.log (Drupal.settings.mapMarker.imagePath);
 	
 	var defaultMarkerIcon = {
 		iconUrl : Drupal.settings.mapMarker.imagePath,
@@ -110,7 +62,6 @@
 	var markerCount = 1;
 	var currentProjectLayer = L.geoJson(null);
 	
-	//console.log(Drupal.settings.locations.markers);
 	if(Drupal.settings.locations.markers){ //drawnItems.addData(Drupal.settings.locations.markers);
 		jQuery.each(Drupal.settings.locations.markers, function(index, marker){
 			drawnItems.addData(marker);
@@ -119,8 +70,6 @@
 		});
 	}
 	
-	//console.log(drawnItems);
-	//drawnItems.addData(currentProjectLayer);
 	drawnItems.addTo(map);
 	
 	function createPoint(e) {

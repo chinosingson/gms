@@ -37,10 +37,21 @@
 			  });
 
   */ 
-$.post( "/gms/gms_misc_map", { name: "John", time: "2pm" })
+/*$.post( "/gms/gms_misc_map", { name: "John", time: "2pm" })
   .done(function( data ) {
     console.log( "Data Loaded: " + data );
-  });
+  });*/
+	
+	var myJsonData = { name: "John", time: "2pm", foo: "bar" };
+	
+	$.ajax({
+		url     : '/gms/gms_misc_map',
+		type    : 'GET',
+		data    : myJsonData,
+		success : function (data){
+			console.log("Data Loaded:" + data);
+		},
+	});
 	
 				
 		}

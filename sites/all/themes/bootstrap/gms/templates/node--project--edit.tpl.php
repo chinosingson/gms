@@ -77,38 +77,50 @@
 			<div id="project-map" class="col-lg-12">
 			<div id="project-map-container"><div id="map-canvas"></div></div>
 			<?php
-				// Project Location Views
-				$view_map = views_get_view('leaflet_view_test');			// locations
-				$view_map->set_display('block_1');
-				//$view_map->set_arguments(array($nid));
-				$view_map_result = views_get_view_result('leaflet_view_test','block_1', $nid);
-				$x=0;
-				$markers = array();
-				foreach ($view_map_result as $locations){
-					$coord_info = $locations->field_field_google_coordinates;
-					if (count($coord_info)<>0){
-						//$latlngpair = number_format($coord_info[0]['raw']['lat'], 2, '.', '').",".number_format($coord_info[0]['raw']['lng'], 2, '.', '');
-						$latlngpair = array((float)number_format($coord_info[0]['raw']['lng'], 4, '.', ''),(float)number_format($coord_info[0]['raw']['lat'], 4, '.', ''));
-						//$latlngs[]=$latlngpair;
-						//$markers[]=array('type'=>'Feature','Properties'=>array('id'=>'marker_'.$x),'geometry'=>array('type'=>'Point','coordinates'=>$latlngpair));
-						
-						$markers[] = array(
-							"type"=>"Feature",
-							"properties"=> array(
-								"id"=> 'marker_'.$x,
-							),
-							"geometry"=>array(
-								"type"=>"Point",
-								"coordinates"=>$latlngpair
-							)
-						);
-						//$markers[]=array('id'=>"marker_".$x,'lat'=>number_format($coord_info[0]['raw']['lat']),'lon'=>number_format($coord_info[0]['raw']['lng']));
-						//print $x.". ".$latlngpair."<br/>";
-						//if ($x == 50) break 1;
-						$x++;
-					}
 			
-					//echo print_r($locations->field_field_google_coordinates,1)."<br/>";
+				if (count($node->field_project_locations)>0){
+					echo print_r($node->field_project_locations,1)."<br/>";
+				} else {
+					// Project Location Views
+					$view_map = views_get_view('leaflet_view_test');			// locations
+					$view_map->set_display('block_1');
+					//$view_map->set_arguments(array($nid));
+					$view_map_result = views_get_view_result('leaflet_view_test','block_1', $nid);
+					$x=0;
+					$markers = array();
+					foreach ($view_map_result as $locations){
+						//if (count($coord_info)<>0){
+						if (is_object($locations)){
+							$coord_info = $locations->field_field_google_coordinates;
+							//$latlngpair = number_format($coord_info[0]['raw']['lat'], 2, '.', '').",".number_format($coord_info[0]['raw']['lng'], 2, '.', '');
+							$latlngpair = array((float)number_format($coord_info[0]['raw']['lng'], 4, '.', ''),(float)number_format($coord_info[0]['raw']['lat'], 4, '.', ''));
+							//$latlngs[]=$latlngpair;
+							//$markers[]=array('type'=>'Feature','Properties'=>array('id'=>'marker_'.$x),'geometry'=>array('type'=>'Point','coordinates'=>$latlngpair));
+							
+							$markers[] = array(
+								"type"=>"Feature",
+								"properties"=> array(
+									"id"=> 'marker_'.$x,
+								),
+								"geometry"=>array(
+									"type"=>"Point",
+									"coordinates"=>$latlngpair
+								)
+							);
+							//$markers[]=array('id'=>"marker_".$x,'lat'=>number_format($coord_info[0]['raw']['lat']),'lon'=>number_format($coord_info[0]['raw']['lng']));
+							//print $x.". ".$latlngpair."<br/>";
+							//if ($x == 50) break 1;
+							$x++;
+						}
+				
+						//echo print_r($locations->field_field_google_coordinates,1)."<br/>";
+					}
+
+					if (count($markers) > 0){
+						drupal_add_js(array('locations' => array('markers'=>$markers)),'setting'); // json_encode($markers);
+					} else {
+						drupal_add_js(array('locations' => array('markers'=>NULL)),'setting'); // json_encode($markers);
+					}
 				}
 				
 				if(@count($node->field_adb_sector) > 0){
@@ -117,11 +129,6 @@
 					drupal_add_js(array('mapMarker' => array('imagePath' => $base_url."/".$markerPath)), 'setting');
 				} else {
 					drupal_add_js(array('mapMarker' => array('imagePath' => $base_url."/".path_to_theme()."/js/leaflet/images/marker-icon.png")), 'setting');
-				}
-				if (count($markers) > 0){
-					drupal_add_js(array('locations' => array('markers'=>$markers)),'setting'); // json_encode($markers);
-				} else {
-					drupal_add_js(array('locations' => array('markers'=>NULL)),'setting'); // json_encode($markers);
 				}
 			
 			if($view_map){ 

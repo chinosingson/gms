@@ -1,0 +1,51 @@
+<?php
+// $Id$
+
+/**
+ * @file   GMS Misc module.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function gms_misc_menu() {
+
+  $items = array();
+  
+  $items['gms_misc_map'] = array(
+	'title' => t('GMS Map Coordinates'),
+    'page callback' => 'gms_misc_map_location',
+	//'page arguments' => array(1),
+    'access arguments' => array('access content'), 
+	//'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+
+function gms_misc_map_location() {
+	
+
+  $output = $_POST;
+
+  print_r($_POST);
+
+  return $output;
+
+}
+
+
+
+
+/*
+function gms_misc_node_presave($node) {
+  if ($node->type == "project") {
+  
+  
+  
+  
+  }
+}
+*/
+

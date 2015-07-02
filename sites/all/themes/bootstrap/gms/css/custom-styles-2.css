@@ -234,7 +234,7 @@ body.page-node-add.page-node-add-project .form-item > textarea.form-control,
 body.page-node-add.page-node-add-project .form-item > div > textarea.form-control,
 body.page-node-edit.node-type-project .form-item > div > textarea.form-control {
 	display: table-cell;
-	width: 100%;
+	width: 90%;
 	padding: 4px 4px 4px 4px;
 }
 
@@ -277,21 +277,28 @@ table#field-outputs-values, table#field-impact-stories-values {
 table#field-impact-stories-values td,
 table#field-outputs-values td {
 	background-color: #3b444c;
+	padding-left: 0px;
 }
 
-
+/*#field-impact-stories-values .field-label,
+#field-outputs-values .field-label,*/
+div.grippie,
+#edit-field-project-approval-date,
+#edit-field-project-closing-date,
+#edit-field-photos-und-ajax-wrapper .sticky-header,
+#edit-field-photos-und > div > div.form-type-mfw-managed-file.form-item-field-photos-und-10.form-item.form-group,
 #project-page .project-info legend,
 #edit-field-project-number,
 #edit-field-project-year-start,
 #edit-field-project-year-end,
 .tabledrag-toggle-weight-wrapper,
-#field-impact-stories-values .field-label,
-#field-outputs-values .field-label,
 td.field-multiple-drag, tr.draggable > td > a.tabledrag-handle,
 #edit-field-photos-und-table .text-format-wrapper,
 #edit-field-photos-und-table thead {
 	display: none;
 }
+
+
 
 #edit-field-photos-und-0-image-field-caption-format
 

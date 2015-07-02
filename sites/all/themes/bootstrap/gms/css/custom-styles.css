@@ -115,10 +115,19 @@ h2.page-header, h2.pane-title {
 .region .region-navigation{
   padding-bottom: 10px;
 }
+
+#field-outputs-values th,
+#field-impact-stories-values th{
+	border-bottom: none;
+}
+
+#field-outputs-values th label,
+#field-impact-stories-values th label,
 #project-page .project-info h4,
 body.page-node-edit.node-type-project h4
 {
   font-size: 26px;
+	font-weight: normal !important;
   color: #0cbbfa;
   font-family: 'Source Sans Pro', arial,sans-serif;
   border-bottom: 1px solid #fff;
@@ -126,6 +135,15 @@ body.page-node-edit.node-type-project h4
   width: 80%;
   margin-top:-10px;
 }
+
+/*#field-outputs-values th label,
+#field-impact-stories-values th label
+{
+	width: 90%;
+}*/
+
+
+
 .project-info .field-content{
   font-family: 'Source Sans Pro', arial,sans-serif;
   color:#000;

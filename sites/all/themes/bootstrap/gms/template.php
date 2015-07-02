@@ -216,10 +216,10 @@ function gms_form_alter(&$form, &$form_state, $form_id) {
 		// HIDE UNNEEDED ELEMENTS
 		$form['title']['#title_display'] = 'invisible';
 		//$form['field_outputs']['#title_display'] = 'invisible';
-		hide($form['field_outputs']['#title']);
+		//hide($form['field_outputs']['#title']);
 		hide($form['field_project_temp_id']);
-		hide($form['field_project_approval_date']);
-		hide($form['field_project_closing_date']);
+		//hide($form['field_project_approval_date']);
+		//hide($form['field_project_closing_date']);
 		hide($form['field_project_geog_locn']);
 		hide($form['field_project_subtype']);
 		hide($form['field_project_tgl_no']);

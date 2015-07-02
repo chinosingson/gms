@@ -9,7 +9,6 @@
 	drupal_add_js('http://matchingnotes.com/javascripts/leaflet-google.js');
 	drupal_add_css(libraries_get_path('leaflet.draw').'/dist/leaflet.draw.css', array('type'=>'file', 'group'=>CSS_DEFAULT));
 	drupal_add_js(libraries_get_path('leaflet.draw').'/dist/leaflet.draw.js');
-	//drupal_add_js(base_path(). drupal_get_path('theme', 'gms'). '/js/leaflet/app.js');
 	drupal_add_js(base_path(). drupal_get_path('theme', 'gms'). '/js/map.js');
 	drupal_add_js(array('pathToTheme' => array('pathToTheme' => $base_url."/".path_to_theme())), 'setting');
 
@@ -52,14 +51,6 @@
 	//$form['field_outputs']['#title_display'] = 'invisible';
 	//$form['field_project_cost_adb']['#prefix'] = "";
 	//hide($form['group_tab_general']);
-	
-	//echo print_r($form['actions']);
-	//$temp_locations [] = array('lat'=>25.697758,'lng'=>100.153351);
-	//$temp_locations [] = array('lat'=>25.45282,'lng'=>100.55451);
-	//$temp_locations [] = array('lat'=>25.21685,'lng'=>101.26067);
-	//$temp_locations [] = array('lat'=>25.033356,'lng'=>101.540283);
-	
-	//drupal_add_js(array(''),'inline');
 	
 	
 ?>
@@ -173,17 +164,17 @@
 				</div>
 				<div id="project-photos" class="col-sm-4">
 					<h4>Photos</h4>
-					<?php print drupal_render($form['field_photos']) ?>
+					<?php print drupal_render($form['field_photos']); ?>
 					<?php //print_r($form['field_photos']); ?>
 				</div>
 			</div>
 			<div class="row">
 				<div id="project-outputs" class="col-sm-4">
-					<h4>Outputs</h4>
+					<!--h4>Outputs</h4-->
 					<?php print drupal_render($form['field_outputs']) ?>
 				</div>
 				<div id="project-impact-stories" class="col-sm-8">
-					<h4>Impact Stories</h4>
+					<!--h4>Impact Stories</h4-->
 					<?php print drupal_render($form['field_impact_stories']) ?>
 				</div>
 			</div>	

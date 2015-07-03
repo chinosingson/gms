@@ -12,41 +12,85 @@ function gms_misc_menu() {
 
   $items = array();
   
-  $items['gms_misc_map'] = array(
+  /*
+    $items['gms_misc_map/%'] = array(
 	'title' => t('GMS Map Coordinates'),
     'page callback' => 'gms_misc_map_location',
-		'page arguments' => array(1),
+	'page arguments' => array(1),
     'access arguments' => array('access content'), 
-	//'type' => MENU_CALLBACK,
+	'type' => MENU_CALLBACK,
   );
-
+  */
+  
+    $items['gms_misc_map'] = array(
+	'title' => t('GMS Map Coordinates'),
+    'page callback' => 'gms_misc_map_location',
+    'access arguments' => array('access content'), 
+	'type' => MENU_CALLBACK,
+  );
+  
+  
+  $items['gms_misc/map'] = array(
+    'title' => 'Test Page',
+    'page callback' => 'gms_misc_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  
   return $items;
 }
 
 
-function gms_misc_map_location($arguments) {
+function gms_misc_map_location(&$form_state) {
 	
+  global $mydata;	
+	
+  $data = $_POST;
+  
 
-  //$output = $_POST;
-  $output = $arguments;
 
-  //print_r($_POST);
-
-  return $output;
+  $form_state['values']['title'] = $data['name'];
+  
+  
+  
+  drupal_json_output($data['name']);
+  exit();
 
 }
 
 
 
+function gms_misc_page() {
 
-/*
+	
+	$form['button'] = array(
+	'#type' =>'button', 
+	'#value' => t('button'), 
+	'#weight' => 19,
+	);
+	
+	$form['status'] = array(
+	'#markup' =>t('<div id="status"></div>'),
+
+	);
+	
+	return $form;
+	
+}
+
+
+
+
 function gms_misc_node_presave($node) {
   if ($node->type == "project") {
+
+  global $mydata;
   
-  
+   dpm($node);
+  //$node->title = $mydata;
   
   
   }
 }
-*/
+
 

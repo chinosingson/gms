@@ -233,6 +233,8 @@ function gms_form_alter(&$form, &$form_state, $form_id) {
 		hide($form['actions']['preview']);
 		
 		// ALTER FORM LABELS
+		//$form['field_photos']['und'][0]['remove_button']['#value'] = t('x');
+		//echo print_r($form['field_photos']['und'][0]['remove_button'],1);
 		$form['title']['#attributes'] = array('placeholder'=>'Project Name*');
 		$form['field_project_type']['und']['#title'] = t('Type');
 		$form['field_adb_sector']['und']['#title'] = t('Sector');
@@ -248,6 +250,8 @@ function gms_form_alter(&$form, &$form_state, $form_id) {
 		//$form['field_project_number']['#title']['#suffix'] = '</div>';
 		//$form['field_project_number']['und'][0]['value']['#attributes']['class'][] = 'input_class';
 	}
+	
+	return $form;
 }
 
 /*function gms_date_part_label_date($vars) {
@@ -313,4 +317,46 @@ function gms_page_alter(&$page) {
     unset($vars['form']['submit']['#printed']);
     $vars['button'] = drupal_render($vars['form']['submit']);
   }
+}*/
+
+function gms_image_style($variables){
+	$variables['attributes'] = array('class'=>'img-responsive img-rounded');
+	return theme('image', $variables);
+}
+
+function gms_image_widget($variables) {
+  $element = $variables['element'];
+  $output = '';
+  $output .= '<div class="image-widget form-managed-file clearfix edit-photos-container">';
+	//$output .= print_r($element['preview'])."<br/>";
+
+  if (isset($element['preview'])) {
+    $output .= '<div class="image-preview">';
+    $output .= drupal_render($element['preview']);
+    $output .= '</div>';
+  }
+
+	//$element['remove_button']['#value'] = 'x';
+	//$element['remove_button'] = FALSE;
+	//$output .= "<pre>".print_r($element['remove_button'],1)."</pre>";
+  $output .= '<div class="image-widget-data">';
+  if ($element['fid']['#value'] != 0) {
+		$element['title']['#attributes']['class'][] = 'edit-project-photo-title';
+		hide($element['filename']);
+    //$element['filename']['#markup'] .= ' <span class="file-size">(' . format_size($element['#file']->filesize) . ')</span> ';
+  }
+  $output .= drupal_render_children($element);
+  $output .= '</div>';
+  $output .= '</div>';
+
+  return $output;
+}
+
+/*function gms_image_field_widget_process($element, &$form_state, $form) {
+  //dpm($element);
+  // Hide the remove button
+  $element['remove_button']['#type'] = 'hidden';
+
+  // Return the altered element
+  return $element;
 }*/

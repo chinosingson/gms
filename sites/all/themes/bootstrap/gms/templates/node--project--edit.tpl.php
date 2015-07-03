@@ -47,7 +47,7 @@
 	// HIDE UNNEEDED FIELDS
 	//hide($form['field_project_number']);
 	//hide($form['field_outputs']['#title']); //['#title_display'] = 'invisible';
-	hide($form['field_photos']['#title']); //['#title_display'] = 'invisible';
+	//hide($form['field_photos']['#title']); //['#title_display'] = 'invisible';
 	//$form['field_outputs']['#title_display'] = 'invisible';
 	//$form['field_project_cost_adb']['#prefix'] = "";
 	//hide($form['group_tab_general']);

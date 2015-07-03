@@ -236,6 +236,11 @@ body.page-node-edit.node-type-project .form-item > div > textarea.form-control {
 	display: table-cell;
 	width: 90%;
 	padding: 4px 4px 4px 4px;
+	border-radius: 4px 4px 4px 4px;
+}
+
+#edit-field-photos-und-table textarea.form-control {
+	width: 100%;
 }
 
 
@@ -281,31 +286,36 @@ table#field-outputs-values td {
 }
 
 /*#field-impact-stories-values .field-label,
-#field-outputs-values .field-label,*/
+#field-outputs-values .field-label,
+#edit-field-photos-und > div > div.form-type-mfw-managed-file.form-item-field-photos-und-10.form-item.form-group,
+
+*/
+#project-page .project-info legend,
 div.grippie,
 #edit-field-project-approval-date,
 #edit-field-project-closing-date,
-#edit-field-photos-und-ajax-wrapper .sticky-header,
-#edit-field-photos-und > div > div.form-type-mfw-managed-file.form-item-field-photos-und-10.form-item.form-group,
-#project-page .project-info legend,
 #edit-field-project-number,
 #edit-field-project-year-start,
 #edit-field-project-year-end,
 .tabledrag-toggle-weight-wrapper,
 td.field-multiple-drag, tr.draggable > td > a.tabledrag-handle,
-#edit-field-photos-und-table .text-format-wrapper,
-#edit-field-photos-und-table thead {
+.edit-project-photo-title,
+#edit-field-photos-und-table .text-format-wrapper > fieldset,
+#edit-field-photos-und-ajax-wrapper .sticky-header,
+#edit-field-photos-und-table thead,
+#edit-field-photos-und-table > tbody > tr > td > div > div.image-widget-data > div.form-type-textfield,
+#edit-field-photos-und-table > tbody > tr.draggable.odd > td:nth-child(1) > div > div.image-widget-data > div.form-type-textfield.form-item-field-photos-und-0-alt.form-item.form-group,
+.image-widget-data span.file-size + .form-type-textfield {
 	display: none;
 }
 
+.form-textarea {
+	resize: none;
+}
 
 
-#edit-field-photos-und-0-image-field-caption-format
-
-/*#edit-field-photos-und-table > tbody > tr.draggable.odd > td:nth-child(1) > div > div.image-widget-data > div.form-type-textfield.form-item-field-photos-und-0-alt.form-item.form-group*/
-
-#edit-field-photos-und-table > tbody > tr.draggable.odd > td:nth-child(1) > div > div.image-widget-data > div.form-type-textfield.form-item-field-photos-und-0-alt.form-item.form-group,
-.image-widget-data span.file-size + .form-type-textfield {
-    border: 0px solid pink !important;
-		display: none;
+/*#edit-field-photos-und-0-image-field-caption-format,*/
+/*#edit-field-photos-und-table > tbody > tr:nth-child(1) > td:nth-child(1) > div > div.image-widget-data > div.form-type-textfield.form-item-field-photos-und-0-title.form-item.form-group*/
+#edit-field-photos-und-table > tbody > tr > td > div > div.image-widget-data > div.form-type-textfield {
+	border: 1px solid pink !important;
 }

@@ -1,0 +1,12 @@
+name = GMS Importers
+description = GMS Import Feed Configurations
+core = 7.x
+package = Features
+dependencies[] = ctools
+dependencies[] = feeds
+features[ctools][] = feeds:feeds_importer_default:1
+features[features_api][] = api:2
+features[feeds_importer][] = gms_locations
+features[feeds_importer][] = gms_outputs
+features[feeds_importer][] = gms_projects
+features[feeds_importer][] = impact_stories

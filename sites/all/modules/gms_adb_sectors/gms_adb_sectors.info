@@ -1,0 +1,8 @@
+name = GMS ADB Sectors
+description = GMS ADB Sectors
+core = 7.x
+package = Features
+dependencies[] = features
+dependencies[] = taxonomy
+features[features_api][] = api:2
+features[taxonomy][] = adb_sector

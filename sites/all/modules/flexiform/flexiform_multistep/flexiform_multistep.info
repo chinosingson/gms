@@ -1,0 +1,14 @@
+name = Flexiform Multi-Step
+description = Helper module for creating CTools Multi-Step forms in Flexiform.
+core = 7.x
+
+dependencies[] = flexiform
+dependencies[] = flexiform_element_group
+dependencies[] = ctools
+
+; Information added by Drupal.org packaging script on 2016-04-19
+version = "7.x-1.0-rc5"
+core = "7.x"
+project = "flexiform"
+datestamp = "1461073141"
+

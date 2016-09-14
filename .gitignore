@@ -1,0 +1,23 @@
+# Ignore configuration files that may contain sensitive information.
+sites/*/settings*.php
+
+# Ignore paths that contain user-generated content.
+sites/*/files
+sites/*/private
+tmp_photos/
+drupal-backups/
+dev/
+
+# Ignore kludgy scrcipts and files
+coords.php
+impacts.php
+outputs.php
+photo.php
+*.csv
+file-copy-fail.txt
+file-copy-fail_1.txt
+
+
+# Ignore error logs
+error_log
+error_log_prod

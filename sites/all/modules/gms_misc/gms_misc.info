@@ -1,0 +1,7 @@
+; $Id$
+name = GMS Misc Module
+description = Custom codes for GMS
+package = gms
+core = 7.x
+
+;scripts[] = gms_misc.js

@@ -1,0 +1,16 @@
+name = Workflow Rules
+description = Provides Rules integration for workflows.
+core = 7.x
+package = Workflow
+
+dependencies[] = workflow
+dependencies[] = rules
+
+configure = admin/config/workflow/rules
+
+; Information added by Drupal.org packaging script on 2014-01-29
+version = "7.x-2.0-beta10"
+core = "7.x"
+project = "workflow"
+datestamp = "1391030607"
+

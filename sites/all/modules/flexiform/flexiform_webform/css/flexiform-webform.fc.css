@@ -1,0 +1,4 @@
+div.field-fc-included label:after {
+  content: '†';
+  color: orange;
+}

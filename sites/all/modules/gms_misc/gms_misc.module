@@ -66,7 +66,7 @@ function gms_misc_node_presave($node) {
 	//if (isset($node->body['und'])) {	// uncomment this line for php imports or disable gms_misc module
 		// json decode the value of the node body
 		// (previously set by map.js)
-		$json = $node->body['und'][0]['value'];
+		$json = $node->field_location_temp['und'][0]['value'];
 		//echo "gms_misc.module | json: ".$json."<br/>";
 		  
 		$data = json_decode($json);
@@ -124,7 +124,9 @@ function gms_misc_ajax_callback($page_callback_result) {
 function gms_misc_js_alter(&$javascript, &$vars) {
 	// Swap out jQuery to use an updated version of the library.
 	//$javascript['misc/jquery.js']['data'] = drupal_get_path('module', 'jquery_update') . '/jquery.js';
-  if ($vars['type'] == 'project') {
+  $path = current_path();
+  //drupal_set_message(t($path),'status');
+  if ($vars['type'] == 'project' || $path == 'maps/projects') {
     $ip_geoloc_path = drupal_get_path('module','ip_geoloc').'/js/ip_geoloc_gmap_multi_loc.js';
     $gms_ip_geoloc_path = drupal_get_path('module', 'gms_misc') . '/gms_ipgeoloc.js';
     $javascript[$ip_geoloc_path] = $gms_ip_geoloc_path;

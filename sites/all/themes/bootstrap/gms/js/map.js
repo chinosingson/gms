@@ -204,7 +204,8 @@
 				var locJson = jsonifyLocations(drawnItems);
 				//console.log('locJson:'+locJson);
 				// set the string as the value of the Body field
-				$('#edit-body-und-0-value').val(locJson);
+				//$('#edit-body-und-0-value').val(locJson);
+				$('#edit-field-location-temp-und-0-value').val(locJson);
 				//console.log($('#edit-body-und-0-value')[0].value);
 			});
 			var mydata = 'test';

@@ -20,21 +20,103 @@ function template_preprocess_views_flipped_table(&$vars) {
   // Let the base table preprocessor act first.
   template_preprocess_views_view_table($vars);
 
+  // If views_fieldsets is enabled run its preprocess function
+  if (module_exists('views_fieldsets')) {
+    views_fieldsets_preprocess_views_view_table($vars);
+  }
+
+  // Get wrapper fields for table rows (this is inconsistent with standard views
+  // table, which ignores the rows. See https://drupal.org/node/1122130
+  $view     = $vars['view'];
+  $fields   = &$view->field;
+  $view     = $vars['view'];
+  $handler  = $view->style_plugin;
+  $options  = $view->style_plugin->options;
+  $columns  = $handler->sanitize_columns($options['columns'], $fields);
+  foreach ($columns as $field => $column) {
+    $vars['wrapper_classes'][$field] = array();
+    // Set up the wrapper label class.
+    if ($fields[$field]->options['element_default_classes']) {
+      $vars['wrapper_classes'][$field][] = "views-field views-field-" . $vars['fields'][$field];
+    }
+    $class = $fields[$field]->element_wrapper_classes(0);
+    if ($class) {
+      $vars['wrapper_classes'][$field][] = $class;
+    }
+  }
+
   // Flip the table.
   $vars['rows_flipped'] = array();
-  foreach ($vars['rows'] as $col) {
+  foreach ($vars['rows'] as $key => $col) {
     foreach ($col as $ltr => $value) {
-      $vars['rows_flipped'][$ltr][] = $value;
+      $vars['rows_flipped'][$ltr][$key] = $value;
+    }
+  }
+
+  // Remove rows if the option hide empty column is checked and the field is empty.
+  foreach ($vars['rows_flipped'] as $ltr => $columns) {
+    if (!empty($options['info'][$ltr]['empty_column'])) {
+      $empty = TRUE;
+      foreach ($columns as $column) {
+        $empty &= empty($column);
+      }
+      if ($empty) {
+        unset($vars['rows_flipped'][$ltr]);
+        unset($vars['header'][$ltr]);
+      }
     }
   }
 
   // Determine if the first row is to be shown as a table header.
   $vars['first_row_header'] = (boolean) $vars['view']->style_plugin->options['flipped_table_header_first_field'];
 
-  // Set up classes for odd and even rows.
+  $default_row_class = isset($options['default_row_class']) ? $options['default_row_class'] : FALSE;
+  $row_class_special = isset($options['row_class_special']) ? $options['row_class_special'] : FALSE;
+  // Set up striping values.
   $count = 0;
+  $max = count($vars['rows_flipped']);
   foreach ($vars['rows_flipped'] as $field_name => $row) {
-    $vars['row_classes_flipped'][$field_name] = ($count++ % 2 == 0) ? 'even' : 'odd';
+    $count++;
+    if ($default_row_class) {
+      $vars['wrapper_classes'][$field_name][] = 'views-row';
+      $vars['wrapper_classes'][$field_name][] = 'views-row-' . $count;
+    }
+    if ($row_class_special) {
+      $vars['wrapper_classes'][$field_name][] = 'views-row-' . ($count % 2 ? 'odd' : 'even');
+      if ($count == 1) {
+        $vars['wrapper_classes'][$field_name][] = 'views-row-first';
+      }
+      if ($count == $max) {
+        $vars['wrapper_classes'][$field_name][] = 'views-row-last';
+      }
+    }
+
+    if ($row_class = $view->style_plugin->get_row_class($field_name)) {
+      $vars['wrapper_classes'][$field_name][] = $row_class;
+    }
+
+    // Flatten the classes to a string for each row for the template file.
+    $vars['wrapper_classes'][$field_name] = isset($vars['wrapper_classes'][$field_name]) ? implode(' ', $vars['wrapper_classes'][$field_name]) : '';
+  }
+
+  // Set up field striping values
+  $column_class_special = isset($options['column_class_special']) ? $options['column_class_special'] : FALSE;
+
+  if ($column_class_special) {
+    foreach ($vars['field_classes'] as $field_name => $field_column) {
+      $count = 0;
+      $max = count($field_column);
+      foreach ($field_column as $index => $column) {
+        $count++;
+        $vars['field_classes'][$field_name][$index] .= ' views-column-' . ($count % 2 ? 'odd' : 'even');
+        if ($count == 1) {
+          $vars['field_classes'][$field_name][$index] .= ' views-column-first';
+        }
+        if ($count == $max) {
+          $vars['field_classes'][$field_name][$index] .= ' views-column-last';
+        }
+      }
+    }
   }
 
 }

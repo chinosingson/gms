@@ -23,14 +23,30 @@ define('CLIENTSIDE_VALIDATION_CUSTOM_ERROR_FUNCTION', 7);
  * Implements hook_js_alter().
  */
 function clientside_validation_js_alter(&$javascript) {
-  $clientside_validation_settings = &drupal_static('clientside_validation_settings', array());
-  // Provide conversion table between translated month names, both full and abbreviated, and their number.
-  foreach (range(1, 12) as $month_number) {
-    $date = mktime(12, 0, 0, $month_number, 1, 1970);
-    $clientside_validation_settings['clientsideValidation']['general']['months'][t(date('F', $date))] = $month_number;
-    $clientside_validation_settings['clientsideValidation']['general']['months'][t(date('M', $date))] = $month_number;
+  $path = drupal_get_path('module', 'clientside_validation') ;
+  if (isset($javascript[$path. '/clientside_validation.js'])) {
+    $clientside_validation_settings = &drupal_static('clientside_validation_settings', array());
+    // Provide conversion table between translated month names, both full and abbreviated, and their number.
+    foreach (range(1, 12) as $month_number) {
+      $date = mktime(12, 0, 0, $month_number, 1, 1970);
+      $clientside_validation_settings['clientsideValidation']['general']['months'][t(date('F', $date))] = $month_number;
+      $clientside_validation_settings['clientsideValidation']['general']['months'][t(date('M', $date))] = $month_number;
+    }
+    $javascript['settings']['data'][] = $clientside_validation_settings;
+    $scripts = array_keys($javascript);
+    foreach ($scripts as $script) {
+      if (strpos($script, 'ckeditor') !== FALSE) {
+        $javascript[$path . '/clientside_validation.ckeditor.js'] = $javascript[$path. '/clientside_validation.js'];
+        $javascript[$path . '/clientside_validation.ckeditor.js']['weight'] -= 0.001;
+        $javascript[$path . '/clientside_validation.ckeditor.js']['data'] = $path . '/clientside_validation.ckeditor.js';
+      }
+      if (strpos($script, 'chosen') !== FALSE) {
+        $javascript[$path . '/clientside_validation.chosen.js'] = $javascript[$path. '/clientside_validation.js'];
+        $javascript[$path . '/clientside_validation.chosen.js']['weight'] -= 0.001;
+        $javascript[$path . '/clientside_validation.chosen.js']['data'] = $path . '/clientside_validation.chosen.js';
+      }
+    }
   }
-  $javascript['settings']['data'][] = $clientside_validation_settings;
 }
 
 function clientside_validation_ajax_render_alter(&$commands) {

@@ -397,7 +397,21 @@
                     x = $("#" + errorel).offset().top - $("#" + errorel).height() - 100; // provides buffer in viewport
                   }
                   else {
-                    x = $(validator.errorList[0].element).offset().top - $(validator.errorList[0].element).height() - 100;
+                    var first_element = $(validator.errorList[0].element);
+                    var hidden_element = first_element.is(":hidden");
+                    if (hidden_element) {
+                      var original_visibility = first_element.css('visibility');
+                      var original_position = first_element.css('position');
+                      first_element.css('visibility', 'hidden');
+                      first_element.css('position', 'absolute');
+                      first_element.show();
+                    }
+                    x = first_element.offset().top - first_element.height() - 100;
+                    if (hidden_element) {
+                      first_element.hide();
+                      first_element.css('position', original_position);
+                      first_element.css('visibility', original_visibility);
+                    }
                   }
                   $('html, body').addClass('cv-scrolling').animate(
                     {scrollTop: x},
@@ -601,7 +615,7 @@
           }
         }
         else {
-          validate_options.ignore += ', .horizontal-tab-hidden :input';
+          validate_options.ignore += (validate_options.ignore === '') ? '.horizontal-tab-hidden :input' : ', .horizontal-tab-hidden :input';
         }
         //Since we can only give boolean false to onsubmit, onfocusout and onkeyup, we need
         //a lot of if's (boolean true can not be passed to these properties).
@@ -701,6 +715,13 @@
             };
           }
         }
+        /**
+         * Let other modules alter the validation options for this form.
+         * @event clientsideValidationAlterOptions
+         * @name clientsideValidationAlterOptions
+         * @memberof Drupal.clientsideValidation
+         */
+        $.event.trigger('clientsideValidationAlterOptions', [validate_options, f]);
         self.validators[f] = $('#' + f).validate(validate_options);
 
         // Disable HTML5 validation

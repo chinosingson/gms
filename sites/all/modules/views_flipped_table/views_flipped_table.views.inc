@@ -16,6 +16,7 @@ function views_flipped_table_views_plugins() {
         'handler' => 'views_flipped_table_plugin_style_flipped_table',
         'parent' => 'table',
         'uses row plugin' => FALSE,
+        'uses row class' => TRUE,
         'uses fields' => TRUE,
         'uses options' => TRUE,
         'type' => 'normal',

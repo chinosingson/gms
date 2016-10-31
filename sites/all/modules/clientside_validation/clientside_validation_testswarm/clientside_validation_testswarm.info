@@ -21,9 +21,9 @@ dependencies[] = context
 dependencies[] = defaultcontent
 dependencies[] = elements
 
-; Information added by Drupal.org packaging script on 2016-01-06
-version = "7.x-1.42"
+; Information added by Drupal.org packaging script on 2016-10-14
+version = "7.x-1.44"
 core = "7.x"
 project = "clientside_validation"
-datestamp = "1452085168"
+datestamp = "1476439457"
 

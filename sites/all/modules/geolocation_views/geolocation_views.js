@@ -17,17 +17,7 @@
           minZoom: parseInt($this.data('map-min-zoom'), 10) || null,
           mapTypeId: google.maps.MapTypeId[$this.data('map-type')],
           scrollwheel: $this.data('scroll-wheel'),
-					streetViewControl: false,
-					panControl: false,
-          disableDoubleClickZoom: $this.data('disable-double-click-zoom'),
-					mapTypeControlOptions: {
-						style: google.maps.MapTypeControlStyle.DEFAULT,
-						position: google.maps.ControlPosition.TOP_LEFT
-					},
-					zoomControlOptions: {
-						style: google.maps.ZoomControlStyle.DEFAULT,
-						position: google.maps.ControlPosition.TOP_LEFT
-					},
+          disableDoubleClickZoom: $this.data('disable-double-click-zoom')
         });
 
         // Creating Info Window
@@ -43,7 +33,6 @@
         Drupal.geolocationViews[mapId].markers = [];
         $.each(Drupal.settings.geolocationViewsMarkers[mapId], function() {
           var markerPosition = new google.maps.LatLng(this.lat, this.lng);
-					//console.log(markerPosition);
           var marker = new google.maps.Marker({
             position: markerPosition,
             map: Drupal.geolocationViews[mapId].map,
@@ -73,14 +62,14 @@
           
           Drupal.geolocationViews[mapId].markers.push(marker);
         });
-				console.log(Drupal.geolocationViews[mapId].markers);
-				Drupal.settings.geolocationViewsMarkers[mapId] = [];
- 
-         // Markers Clusterer
-         if ($this.data('use-marker-clusterer')) {
-					var markerClastererOptions = {gridSize: parseInt($this.data('marker-clusterer-grid-size'))};
+
+        // Markers Clusterer
+        if ($this.data('use-marker-clusterer')) {
+          var markerClastererOptions = {
+            gridSize: parseInt($this.data('marker-clusterer-grid-size')),
+            imagePath: Drupal.settings.geolocationViews.modulePath + '/markerclusterer/images/m'
+          };
           if ($this.data('marker-clusterer-max-zoom')) {
-						//console.log('marker clusterer max zoom: '+ $this.data('marker-clusterer-max-zoom'));
             markerClastererOptions.maxZoom = parseInt($this.data('marker-clusterer-max-zoom'));
           }
           if ($this.data('marker-clusterer-icon-url')) {
@@ -104,15 +93,6 @@
             Drupal.geolocationViews[mapId].map.fitBounds(Drupal.geolocationViews[mapId].markersBounds)
           );
         }
-
-				$(window).on('resize', function(){
-					//console.log('geolocation_views.js: window resized');
-          Drupal.geolocationViews[mapId].map.setCenter(
-            Drupal.geolocationViews[mapId].markersBounds.getCenter(),
-            Drupal.geolocationViews[mapId].map.fitBounds(Drupal.geolocationViews[mapId].markersBounds)
-          );
-				});
-				
       });
     }
   };

@@ -14,7 +14,7 @@ drupal_add_js(libraries_get_path('google_markerclusterer').'/src/markerclusterer
 
 
 function gms_theme($variables) {
-	
+
 	return array(
 		'project_node_form' => array(
 			'arguments' => array('form' => NULL),
@@ -89,7 +89,7 @@ function gms_form_element($variables) {
 	if (in_array($element['#id'], array('edit-name','edit-pass'))){
 		$attributes['class'][] = 'row';
 	}
-	
+
   // Add element's #type and #name as class to aid with JS/CSS selectors.
   $attributes ['class'] = array('form-item');
   if (!empty($element ['#type'])) {
@@ -102,7 +102,7 @@ function gms_form_element($variables) {
   if (!empty($element ['#attributes']['disabled'])) {
     $attributes ['class'][] = 'form-disabled';
   }
-	
+
 	//echo print_r($element['#id'],1)."<br/>";
   $output = '<div' . drupal_attributes($attributes) . '>' . "\n";
 
@@ -174,7 +174,7 @@ function gms_menu_link__main_menu(array $variables) {
 			$element['#href'] = 'user/logout';
     }
 	}
-	
+
 	/*if($element['#title'] == 'Add Project'){
 		if ($user->uid == 0){
 			//$element['#original_link']['options']['attributes']['class'][] = 'btn';
@@ -185,7 +185,7 @@ function gms_menu_link__main_menu(array $variables) {
 			//echo "<pre>".print_r($element,1)."</pre>";
 		}
 	}*/
-	
+
 	if ($element['#original_link']['mlid'] == 1099){
 		if(arg(0) == "dashboard"){
 			$element['#href'] = 'printpdf/dashboard';
@@ -195,7 +195,7 @@ function gms_menu_link__main_menu(array $variables) {
 			$alias =drupal_get_path_alias('node/'.arg(1));
 			$element['#href'] = "printpdf/".$alias;
 		}
-		
+
 		if(arg(0) == "maps" || arg(0) == "user" ) {
 			//$element['#href'] = "printpdf/".arg(0)."/".arg(1);
 			//$element['#original_link']['hidden'] = TRUE;
@@ -208,6 +208,11 @@ function gms_menu_link__main_menu(array $variables) {
 			//echo '<pre>'.print_r($element,1).'</pre>';
 		}
 	}
+
+	//if ($element['#original_link']['mlid'] == 1312){
+		//$element['#attributes']['class'] = array();
+    //echo print_r($element['#localized_options'],1);
+	//}
 
   if ($element['#below']) {
     $sub_menu = drupal_render($element['#below']);
@@ -226,6 +231,11 @@ function gms_menu_link($variables) {
 		$element['#localized_options']['fragment'] = 'none';
 	}
 
+	//if ($element['#original_link']['mlid'] == 1312){
+		//$element['#localized_options']['attributes']['class'][] = '123';
+    //echo print_r($element['#localized_options'],1);
+	//}
+
   if ($element ['#below']) {
     $sub_menu = drupal_render($element ['#below']);
   }
@@ -235,27 +245,27 @@ function gms_menu_link($variables) {
 
 function gms_preprocess_html(&$variables) {
 	drupal_add_css('http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' , array('type' => 'external'));
-	
-	
+
+
 }
 
 function gms_preprocess_page(&$variables) {
 	//dpm($variables);
-  if (@is_object($variables['node']) 
-	&& count(get_object_vars($variables['node'])) > 0 
+  if (@is_object($variables['node'])
+	&& count(get_object_vars($variables['node'])) > 0
 	&& @$variables['node']->type == 'project') {
     //$variables['show_title'] = FALSE;
 		$variables['title'] = FALSE;
 		// hide system messages for project nodes
 		$variables['show_messages'] = FALSE;
   }
-	
+
 	if(arg(1) == 'add' || arg(2) == 'edit'){
 		$variables['title'] = FALSE;
 		$variables['show_messages'] = FALSE;
 	}
-	
-	
+
+
 	//if (@$variables['node']->type == 'project') {
 	//if (arg(2)!='edit' || arg(1) != 'add') {
 	//	drupal_add_js(libraries_get_path('bcarousel').'/carousel.js',array('group' => JS_THEME, 'every_page' => FALSE));
@@ -263,8 +273,8 @@ function gms_preprocess_page(&$variables) {
 	/*if ($variables['messages']){
 		echo "<pre>".print_r($variables['messages'],1)."</pre>";
 	}*/
-	
-	
+
+
 	// search results title message
 	$itemsPerPage = @$GLOBALS['pager_limits'][0];
 	$total = isset($GLOBALS['pager_total_items'][0]) ? $GLOBALS['pager_total_items'][0] : 0;
@@ -272,7 +282,7 @@ function gms_preprocess_page(&$variables) {
 		//echo print_r($variables,1);
 		$keys = arg(2);
 		if (!$keys) $keys = $_REQUEST['keys'];
-		if ($keys) { 
+		if ($keys) {
 			if ($total > 1 || $total == 0){
 				$label = 'projects';
 			} else {
@@ -281,7 +291,7 @@ function gms_preprocess_page(&$variables) {
 			$variables['title'] = 'Your search for "'.$keys.'" returned '.$total.' '.$label.'.';
 		}
 	}
-	
+
 	//if(arg(0) == 'print' && arg(1) == 'dashboard') {   //For node 4
 	//	$variables['title'] = "dashboard - preprocess page";
   //  $variables['theme_hook_suggestions'][] =  'page__dashboard';
@@ -307,7 +317,7 @@ function gms_preprocess_project_node_form(&$variables){
 
 function gms_theme_registry_alter(&$theme_registry){
 	$theme_registry['print__dashboard']['template'] = 'print--dashboard';
-	$theme_registry['print__dashboard']['path'] = drupal_get_path('theme', 'gms/templates');
+	$theme_registry['print__dashboard']['path'] = drupal_get_path('theme', 'gms').'/templates';
 }
 
 function gms_preprocess_search_results(&$vars) {
@@ -350,7 +360,7 @@ function gms_preprocess_search_results(&$vars) {
 			// Be smart about labels: show "result" for one, "results" for multiple
 			'!results_label' => format_plural($total, 'project', 'projects'),
 		));
-	} 
+	}
 }
 
 
@@ -366,7 +376,7 @@ function gms_form_alter(&$form, &$form_state, $form_id) {
     /*$form['search_block_form']['#title'] = t(''); // Change the text on the label element
     $form['search_block_form']['#title_display'] = 'invisible'; // Toggle label visibility
     $form['search_block_form']['#default_value'] = t(''); // Set a default value for the textfield
-    //$form['actions']['submit']['#type'] = 'submit'; 
+    //$form['actions']['submit']['#type'] = 'submit';
     //$form['actions']['submit']['#value'] = t('GO!'); // Change the text on the submit button
     $form['actions']['submit']['#attributes']['alt'] = "Search"; //add alt tag*/
     //unset($form['actions']['submit']['#value']); // Remove the value attribute from the input tag, since it is not valid when input type = image
@@ -378,14 +388,14 @@ function gms_form_alter(&$form, &$form_state, $form_id) {
     //$form['search_block_form']['#attributes']['onblur'] = "if (this.value == '') {this.value = 'Search Site';}";
     //$form['search_block_form']['#attributes']['onfocus'] = "if (this.value == 'Search Site') {this.value = '';}";
   }
-	
+
 	if ($form_id == 'project_node_form'){
 		//dpm($form); //['#label'] = t('Start');
 		/*$form['field_project_number'] = array(
 			'#prefix' => '',
 			'#suffix' => '',
 		);*/
-		
+
 		// HIDE UNNEEDED ELEMENTS
 		$form['title']['#title_display'] = 'invisible';
 		//$form['field_outputs']['#title_display'] = 'invisible';
@@ -403,13 +413,13 @@ function gms_form_alter(&$form, &$form_state, $form_id) {
 		hide($form['field_project_cost_adb_tasf']);
 		//hide($form['field_project_locations']);
 		//hide($form['body']);
-		
+
 		hide($form['field_project_financing_avail']);
 		hide($form['field_project_implementation']);
 		//hide($form['field_project_approved_by']);
 		hide($form['field_project_completed']);
 		hide($form['actions']['preview']);
-		
+
 		// ALTER FORM LABELS
 		//$form['field_photos']['und'][0]['remove_button']['#value'] = t('x');
 		//echo print_r($form['field_photos']['und'][0]['remove_button'],1);
@@ -431,14 +441,14 @@ function gms_form_alter(&$form, &$form_state, $form_id) {
 		//$form['field_project_number']['und'][0]['value']['#attributes']['class'][] = 'input_class';
 		//echo "<pre>".print_r($form['field_photos'],1)."</pre>";
 	}
-	
+
 	return $form;
 }
 
 
 
 function gms_page_alter(&$page) {
-	
+
 	// remove search form in search results page
   // This assumes everything being output in the "content" page region.
   // Logged in
@@ -489,7 +499,7 @@ function gms_image_widget($variables) {
 			$output .= '</div>';
 		}
 
-		
+
 		//$element['remove_button']['#value'] = 'x';
 		//$element['remove_button'] = FALSE;
 		//$output .= "<pre>".print_r($element['remove_button'],1)."</pre>";
@@ -503,7 +513,7 @@ function gms_image_widget($variables) {
 			$output .= '</div>';
 
 			$element['title']['#attributes']['class'][] = 'edit-project-photo-title';
-			
+
 			$output .= '<div class="edit-project-photo-title-container">';
 			$output .= drupal_render($element['title']);
 			$output .= '</div>';
@@ -514,9 +524,9 @@ function gms_image_widget($variables) {
 			//$output .= "<pre>".print_r(array_keys($element),1)."</pre>";
 			//$output .= "<pre>".print_r($variables,1)."</pre>";
 		}*/
-		
+
 		//$element['upload']['#theme_wrappers'] = array('image_widget');
-		
+
 		$output .= drupal_render_children($element);
 		$output .= '</div>';
 		$output .= '</div>';
@@ -573,7 +583,7 @@ function gms_image_widget($variables) {
       $widget ['#description'] = $element ['#file_upload_description'];
       continue;
     }
-		
+
 
     // Delay rendering of the buttons, so that they can be rendered later in the
     // "operations" column.
@@ -671,7 +681,7 @@ function gms_image_widget($variables) {
   // only alter the jobs search exposed filter form
   if ($vars['form']['#id'] == 'views-exposed-form-project-locations-maps-projects') {
 
-		
+
     // Change the text on the submit button
     $vars['form']['submit']['#value'] = t('Filter');
 

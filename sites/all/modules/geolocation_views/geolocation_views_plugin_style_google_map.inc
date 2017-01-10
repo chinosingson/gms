@@ -193,7 +193,7 @@ class geolocation_views_plugin_style_google_map extends views_plugin_style {
     if (isset($this->view->live_preview) && $this->view->live_preview) {
       return t('Selected style are not compatible with live preview.');
     }
-    
+
     $geolocation_field = '';
     foreach ($this->view->field as $field_name => $field_handler) {
       if (isset($field_handler->field_info) && $field_handler->field_info['type'] == 'geolocation_latlng') {
@@ -204,7 +204,7 @@ class geolocation_views_plugin_style_google_map extends views_plugin_style {
     if (!$geolocation_field) {
       return t('Add Geolocation field to fields list.');
     }
-    
+
     $this->view->field[$geolocation_field]->options['exclude'] = TRUE;
     $this->render_fields($this->view->result);
 
@@ -246,7 +246,7 @@ class geolocation_views_plugin_style_google_map extends views_plugin_style {
       }
     }
     unset($this->view->row_index);
-    
+
     $map_id = drupal_html_id('geolocation-views-' . $this->view->name . '-' . $this->view->current_display);
     drupal_alter('geolocation_views_markers', $markers, $this->view);
     drupal_add_js(array(
@@ -255,19 +255,28 @@ class geolocation_views_plugin_style_google_map extends views_plugin_style {
       ),
     ), 'setting');
 
-    $protocol = empty($_SERVER['HTTPS']) ? 'http' : 'https';
-    drupal_add_js($protocol . '://maps.google.com/maps/api/js?sensor=false', array('type' => 'external'));
-    if ($this->options['use_marker_clusterer']) {
-      drupal_add_js($protocol . '://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js', array('type' => 'external'));
+    $query = array('sensor' => 'false');
+    if ($googlemaps_api_key = variable_get('geolocation_googlemaps_api_key')) {
+      $query['key'] = $googlemaps_api_key;
     }
-    drupal_add_js(drupal_get_path('module', 'geolocation_views') . '/geolocation_views.js');
+    drupal_add_js('//maps.google.com/maps/api/js?' . drupal_http_build_query($query), array('type' => 'external'));
+    $module_path = drupal_get_path('module', 'geolocation_views');
+    if ($this->options['use_marker_clusterer']) {
+      drupal_add_js(array(
+        'geolocationViews' => array(
+          'modulePath' => $module_path,
+        ),
+      ), array('type' => 'setting'));
+      drupal_add_js($module_path . '/markerclusterer/markerclusterer.js');
+    }
+    drupal_add_js($module_path . '/geolocation_views.js');
 
     return theme($this->theme_functions(), array(
       'view' => $this->view,
       'options' => $this->options,
       'attributes_array' => array(
         'id' => $map_id,
-        'class' => 'geolocation-views-map',
+        'class' => array('geolocation-views-map'),
         'style' => 'width:' . $this->options['map_width'] . '; height:' . $this->options['map_height'],
         'data-map-center' => $this->options['map_center'],
         'data-map-zoom' => $this->options['map_zoom'],

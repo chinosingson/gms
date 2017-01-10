@@ -1,6 +1,6 @@
 ﻿// We define a function that takes one parameter named $.
 (function ($) {
-	
+
 	Drupal.behaviors.display = {
 		attach: function (context, settings) {
 			/*jQuery.validator.setDefaults({
@@ -15,7 +15,7 @@
 					}
 				}
 });*/
-		
+
 			//$('#test-btn').on('click', function(e){
 			$('#edit-submit').on('click', function(e){
 				console.log('set caption value to title and alt!');
@@ -39,9 +39,9 @@
 				jQuery.each($('#edit-field-photos input.edit-project-photo-alt'),function(i, val){
 					console.log(i +' '+val.id);
 				});*/
-			
+
 			});
-			
+
 			var tutorialModal = '<div id="tutorial-modal" class="custom-modal modal fade" tabindex="-1" role="dialog" aria-hidden="true">'
 			+'<div class="modal-dialog" style="width: 65%">'
 			+'<div class="modal-content" style="background-color: #3b444d; color: #ffffff;">'
@@ -59,16 +59,18 @@
 			+'</div>'
 			+'</div>'
 			+'</div>';
-			
+
 			var customTutorialModal = $(tutorialModal);
-			
+
+      $('#menu-item-tutorial').removeClass('active');
+      $('#tutorial').removeClass('active');
 			$('#tutorial').unbind('click').on('click', function(){
 				event.preventDefault();
 				$('.main-container').append(customTutorialModal);
 				$('#tutorial-modal').show();
 				$('#tutorial-modal').modal();
 			});
-		
+
 			//console.log(Drupal.settings.pathToTheme.pathToTheme);
 			$('table').addClass('table table-condensed');
 
@@ -85,14 +87,14 @@
 			//$('a.menu_icon.menu-dashboard.menu-915').attr("data-toggle","tooltip");
 			//$('a.menu_icon.menu-dashboard.menu-915').attr("data-placement","auto");
 			//$('a.menu_icon.menu-dashboard.menu-915').prop("title", "Dashboard");
-			
+
 			// login icon
 			//$('#menu-link-login').addClass('btn disabled');
 			//$('#block-user-login div a.btn').html('&nbsp;');
 			//$('#block-user-login div a.btn').attr("data-toggle","tooltip");
 			//$('#block-user-login div a.btn').attr("data-placement","auto");
 			//$('#block-user-login div a.btn').prop("title","Login");
-			
+
 			// add project
 			$('body.page-node-edit #menu-link-add-project').addClass('btn disabled');
 			$('body.page-node-add-project #menu-link-add-project').addClass('btn disabled');
@@ -108,7 +110,7 @@
 			//$('#block-menu-menu-add-project ul li a').attr("data-toggle", "tooltip");
 			//$('#block-menu-menu-add-project ul li a').attr("data-placement","auto");
 			//$('#block-menu-menu-add-project ul li a').prop("title","Add Project");
-			
+
 			/*$('body.page-node-edit, body.page-node-add-project').ready(function(){
 				$('#edit-field-project-cost-total-und-0-value').attr('type','number');
 			});*/
@@ -131,7 +133,7 @@
 					$('body.page-contact .main-container .region-content').css('height',totalHeight);
 					$('body.page-contact .main-container .region-content').css('height',totalHeight);
 				});
-				
+
 				$(window).bind('resize',function (){
 					headerHeight = $('header#navbar').height();
 					pageHeaderHeight = $('h2.page-header').outerHeight();
@@ -143,13 +145,13 @@
 					$('body.page-contact .main-container .region-content').css('height',totalHeight);
 				});
 			});
-			
+
 			// front page
 			// main map
 			// set height to full page
 			$('body.page-maps-projects').ready(function(){
 				$('html:has(body.page-maps-projects)').css('height','100%');
-				
+
 				// set to full page size on first render
 				headerHeight = $('header#navbar').height();
 				footerHeight = $('footer.footer').height();
@@ -159,7 +161,7 @@
 					$('#ip-geoloc-map-of-view-project_locations-maps_projects').css('height',window.innerHeight-headerHeight-footerHeight);
 					$('#ip-geoloc-map-of-view-project_locations-maps_no_results').css('height',window.innerHeight-headerHeight-footerHeight);
 				});
-				
+
 				// auto-resize on window resize
 				$(window).bind('resize', function(){
 					//console.log('window resized');
@@ -172,7 +174,7 @@
 					$('#ip-geoloc-map-of-view-project_locations-maps_no_results').css('width',window.innerWidth);
 					$('#ip-geoloc-map-of-view-project_locations-maps_no_results').css('height',window.innerHeight-headerHeight-footerHeight);
 				});
-				
+
 				/*$('#edit-c').attr('size',2);
 				$('#edit-t').attr('size',2);
 				$('#edit-st').attr('size',2);*/
@@ -181,8 +183,8 @@
 				$('#edit-submit-project-locations').addClass('btn-primary');
 				$('#edit-reset').removeClass('btn-default');
 				$('#edit-reset').addClass('btn-primary');
-				
-				
+
+
 				// toggle expand/collapse arrows on sidebar collapse
 				$('#collapse-markers, #collapse-corridors, #collapse-edit-c, #collapse-edit-t, #collapse-edit-st, #collapse-edit-se').on('show.bs.collapse',function(e){
 					//console.log(e.currentTarget.id+' '+e.type);
@@ -202,7 +204,7 @@
 					toggleArrow(togglerElement[0].id);
 				});
 						//this.removeClass('glyphicon-chevron-down')
-				
+
 				function toggleArrow(togglerId){
 					//console.log(togglerId);
 					//var togglerId = event.currentTarget.id;
@@ -217,7 +219,7 @@
 						togglerElement.addClass('glyphicon-chevron-down');
 					}
 				};
-				
+
 				var filterItems = new Object();
 				// filter summary
 				$('#edit-c, #edit-t, #edit-st, #edit-se').change(function (e) {
@@ -254,10 +256,10 @@
 				//$("ip-geoloc-map-of-view-project_locations-maps_projects").ready(function(){
 				//	console.log(Drupal.behaviors.addGMapMultiLocation);
 				//});
-				
-				
+
+
 			});
-			
+
 			// search page
 			// set height to full page
 			//$('body.page-search').css('height','100%');
@@ -288,7 +290,7 @@
 					$('body.page-search #search-page-results-container').css('height',containerHeight);
 				});
 			});
-			
+
 			// dashboard
 			$('body.page-dashboard').ready(function(){
 				$('html:has(body.page-dashboard)').css('height','100%');
@@ -313,14 +315,14 @@
 					$('body.page-dashboard #dashboard-page').css('width',window.innerWidth);
 					$('body.page-dashboard #dashboard-page').css('height',containerHeight);
 				});
-			
+
 				// charts
 				$('#mini-panel-dashboard_charts div.panel-panel').removeClass('col-lg-4');
 				$('#mini-panel-dashboard_charts div.panel-panel').addClass('col-sm-4 col-md-4');
-				
+
 				//$('#projects-per-sector-block-1 > div > div:nth-child(1) > div > svg > g:nth-child(3) > path:nth-child(7)').attr('fill','#cccccc');
 				//$('#projects-per-sector-block-1 > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > svg:nth-child(1) > g:nth-child(3) > path:nth-child(7)').attr('fill','#cccccc');
-				
+
 				//var ctrlnext = $('#projects-per-sector-block-1 > div > div:nth-child(1) > div > svg');
 				// photo carousel
 				/*$('#views-bootstrap-carousel-1 a.carousel-control span').removeClass('icon-next');
@@ -374,7 +376,7 @@
 					$('body.node-type-project #project-info-container, body.page-node-add-project #project-info-container').css('width',window.innerWidth);
 					$('body.node-type-project #project-info-container, body.page-node-add-project #project-info-container').css('height',containerHeight);
 				});
-			
+
 				// project details
 				$('div.view-project-details table th').addClass('col-sm-5');
 				$('div.view-project-details table th').css('white-space','nowrap');
@@ -392,10 +394,10 @@
 			// footer
 			$('#block-menu-menu-footer-menu').removeClass('clearfix');
 			$('#block-menu-menu-footer-menu ul').addClass('navbar-nav');
-			
+
 		}
 	};
-	
+
 	Drupal.behaviors.projectEdit = {
 		attach: function (context, settings) {
 			//console.log("project edit");
@@ -404,33 +406,33 @@
 				//$('div#form-project-details').show();
 				//$('div#edit-project-details').show();
 			});
-			
+
 			$('a#btn-edit-proj-funding').click(function() {
 				console.log('edit proj funding button clicked');
 				$("a[href='#funding']").parent().addClass('selected');
 				//$('div#form-project-funding').show();
 			});
-			
+
 			$('a#btn-edit-proj-photos').click(function() {
 				console.log('edit proj photos button clicked');
 				$("a[href='#photos']").parent().addClass('selected');
 				//$('div#form-project-photos').show();
 			});
-			
+
 			$('button#btn-edit-proj-outputs').click(function() {
 				console.log('edit proj outputs button clicked');
 				//$('div#form-project-outputs').show();
 			});
-			
+
 			$('button#btn-edit-proj-impacts').click(function() {
 				console.log('edit proj impacts button clicked');
 				//$('div#form-project-impacts').show();
 			}); */
-			
-			
+
+
 		}
 	};
-	
+
 	/*Drupal.behaviors.extendIPGeoloc = {
 		attach: function (context, settings){
 			//console.log(Drupal.behaviors.);
@@ -457,8 +459,8 @@
 				// toggle KML on and off
 				$('#kmz-toggle').on('click', function(){
 					toggleKMZ(maps[0],kmzLayer);
-				}); 
-				
+				});
+
 			} else if(divId == 'ip-geoloc-map-of-view-project_node_locations-block_proj_node_loc' || divId == 'ip-geoloc-map-of-view-leaflet_view_test-block_1') {
 				//console.log('project view');
 				if (markers.length > 1){
@@ -471,6 +473,6 @@
 		}
 	};*/
 
-	
+
 // Here we immediately call the function with jQuery as the parameter.
 }(jQuery));

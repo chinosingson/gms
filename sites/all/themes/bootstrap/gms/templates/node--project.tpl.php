@@ -5,15 +5,15 @@
 
 	// template for project nodes
 
-	//$node = menu_get_object(); 
+	//$node = menu_get_object();
 	$nid = $node->nid;
-	
+
 	//$args = arg($_GET['url']);
 	//print_r($args);
-	
+
 	//print_r($page);
-	
-	
+
+
 	/*$editPerm = user_access('Edit any content');
 	if ($editPerm) {
 		//echo "123";
@@ -29,25 +29,25 @@
 		$btnEditOutputs = "";
 		$btnEditImpacts = "";
 	}*/
-	
+
 	// Project Views
 	$view_map = views_get_view('leaflet_view_test');			// locations
 	$view_map->set_display('block_1');
-	
+
 	$view_proj_node_loc = views_get_view('project_node_locations');
 	$view_proj_node_loc->set_display('block_proj_node_loc');
-	
+
 	$view_details = views_get_view('project_details');		// details
 	$view_details->set_display('block');
 	$view_funding = views_get_view('project_financing');	// funding
-	
+
 	$view_photos = views_get_view('project_photos');			// photos
 	$view_photos->set_display('carousel1');
 	$view_stories = views_get_view('impact_stories');			// impacts
 	$view_stories->set_display('block_1');
 	$view_outputs = views_get_view('outputs');						// outputs
 	$view_outputs->set_display('block');
-	
+
 	$project_type = $node->field_project_type['und'][0]['taxonomy_term']->name;
 	$project_status = $node->field_project_status['und'][0]['taxonomy_term']->name;
 	// FUNDING
@@ -60,7 +60,7 @@
 		'gov'=> (!empty($node->field_project_cost_government) ? $node->field_project_cost_government['und'][0]['value'] : 0),
 		'cof'=> (!empty($node->field_project_cost_cofinancing_) ? $node->field_project_cost_cofinancing_['und'][0]['value'] : 0),
 	);
-	
+
 	//if ($fundingSources['adb_jsf_jfpr']>0 || $fundingSources['adb_tasf']>0){
 	//	$header = array('ADB-JSF/JFPR','ADB-TASF','Government','Cofinancing');
 	//	$chartFunding = array(
@@ -77,10 +77,10 @@
 			'cof'=> (!empty($node->field_project_cost_cofinancing_) ? $node->field_project_cost_cofinancing_['und'][0]['value'] : 0),
 		);
 	//}
-	
+
 	//echo print_r($header,1);
 	//echo print_r($chartFunding,1);
-	
+
 	if (arg(0) == 'print') {
 		$chartFont = 'Arial';
 		$chartFontColor = '#000000';
@@ -90,9 +90,9 @@
 		$chartFontColor = '#ffffff';
 		$chartBgcolor = '#3b444c';
 	}
-	
+
 	// settings
-	$chartSettings['chart']['chartOne'] = array(  
+	$chartSettings['chart']['chartOne'] = array(
 		'header' => $header,
 		'rows' => array(array_values($chartFunding)),
 		'columns' => array('Funding Sources'),
@@ -110,7 +110,7 @@
 					'color'=>$chartFontColor
 				)
 			),
-			'forceIFrame' => FALSE, 
+			'forceIFrame' => FALSE,
 			'pieSliceText'=> 'value',
 			'pieSliceBorderColor' => 'transparent',
 			'title' => '',
@@ -124,9 +124,9 @@
 				'width'=>'82%',
 				'height'=>'82%'
 			)
-		)   
+		)
 	);
-	
+
 	// total - reformatted for block heading
 	if (isset($node->field_project_cost_total['und'][0]['value'])){
 		$fundingTotal = "US$('000) ".number_format($node->field_project_cost_total['und'][0]['value']);
@@ -144,7 +144,7 @@
 			<?php endif; ?>
 			<span id="project-function-buttons"> <!-- class="col-sm-3 pull-right"-->
 				<!--a href="#" class="btn btn-primary" id="btn-edit" class="disabled">Edit</a-->
-				<?php 
+				<?php
 					if (node_access('update',$node) && $user->uid != 0){
 						//create link for current node edit
 						$link_edit = array(
@@ -163,9 +163,9 @@
 		<div class="row">
 			<div id="messages"><?php if ($messages) print $messages; ?></div>
 			<div id="project-map" class="col-lg-12"><?php
-			
+
 			//echo print_r($node->field_project_locations,1)."<br/>";
-			//if($view_map){ 
+			//if($view_map){
 			//if (count($view_proj_node_loc->result) > 0){
 			if (count($node->field_project_locations) > 0){
 				//echo "field_project_locations<br/>";
@@ -177,7 +177,7 @@
 					echo print_r($result,1)."<br/>";
 				}*/
 				$view_proj_node_loc->set_arguments(array($nid)); $view_proj_node_loc->pre_execute(); $view_proj_node_loc->execute();
-				print $view_proj_node_loc->render(); 
+				print $view_proj_node_loc->render();
 			} else {
 				//echo "leaflet_view_test";
 				//$block = module_invoke('views', 'leaflet_view_test', 'block_1');
@@ -187,10 +187,10 @@
 				//print views_embed_view('leaflet_view_test', 'block_1', $nid);
 				//$content .= views_embed_view('leaflet_view_test', 'block_1', $nid);
 				$view_map->set_arguments(array($nid)); $view_map->pre_execute(); $view_map->execute();
-				print $view_map->render(); 
+				print $view_map->render();
 			}
-			
-			
+
+
 			?></div>
 		</div>
 		<!--div id="body"><?php //print "node->body:".$node->body['und'][0]['value']; ?></div-->
@@ -210,9 +210,9 @@
 					<div id="project-source-confinancing">Confinancing Source: <?php print $node->field_project_source_cofinancing['und'][0]['value']; ?></div>
 					<?php endif; ?>
 					<div id="project-funding-chart" class="chart">
-						<?php 
+						<?php
 							if (array_sum($fundingSources) != 0) {
-								$ret = draw_chart($chartSettings); 
+								$ret = draw_chart($chartSettings);
 								//echo "pie chart";
 							} else {
 								print "<div id=\"project-no-funding-sources\">Funding sources for this project have not been determined.<br/></div>";
@@ -221,13 +221,15 @@
 				</div>
 				<div class="col-sm-4" id="project-description">
 					<h4>Project Description</h4>
-					<p><?php echo $node->body[LANGUAGE_NONE][0]['value']; ?></p>
+					<p><?php echo (isset($node->body[LANGUAGE_NONE]) ? $node->body[LANGUAGE_NONE][0]['value'] : ""); ?></p>
 					<!--p>The Asian Development Bank (ADB), at the request of the Government of the Republic of the Union of Myanmar, provided financial assistance for the improvement of 66.4 kilometer (km) of road between Eindu and Kawkareik, in Kayin State. The project road will be improved to the Greater Mekong Subregion (GMS) road network standard of two lanes with appropriate width paved shoulders, suitable for all standard highway traffic. The section will require complete reconstruction, with some short sections of realignment for improved vehicle operating speed and road safety. The project also includes design features for climate resilience in this flood-prone area, including raising the road to a level that takes into account potentially higher future flood levels to provide year-round access. </p -->
 				</div>
 			</div>
 			<div class="row" id="project-row-2">
 				<div id="project-progress" class="col-sm-4">
-					<h4>Progress</h4>
+					<h4>Progress
+              <span class="progress-as-of">(as of <?php print date('F Y',$node->changed); ?>)</span>
+          </h4>
 					<div>
 						<?php if ($project_status == "Future" || $project_status == "Ongoing"): ?>
 						<table class="table table-condensed">
@@ -250,7 +252,7 @@
 								<tr>
 									<th class="col-sm-5">Project Approved</th>
 									<td class="col-sm-7"><?php if (!empty($node->field_project_approval_date)) {
-										$ad = new DateTime($node->field_project_approval_date['und'][0]['value']); echo $ad->format("d M Y"); 
+										$ad = new DateTime($node->field_project_approval_date['und'][0]['value']); echo $ad->format("d M Y");
 										} else { echo "-";
 										} ?></td>
 								</tr>
@@ -281,12 +283,14 @@
 				<div id="project-contacts" class="col-sm-4">
 					<h4>Contacts</h4>
 					<div>
-						<?php 
+						<?php
 							//$node_wrapper = entity_metadata_wrapper('node', $node);
 							//$raw_coll = $node_wrapper->field_project_contact[0]->value();
 							//$coll = entity_metadata_wrapper('field_collection_item',$raw_coll);
-							$contact1 = entity_load('field_collection_item',array($node->field_project_contact['und'][0]['value']));
-							$contact2 = entity_load('field_collection_item',array($node->field_project_contact['und'][1]['value']));
+              if (isset($node->field_project_contact['und'])){
+                $contact1 = entity_load('field_collection_item',array($node->field_project_contact['und'][0]['value']));
+                $contact2 = entity_load('field_collection_item',array($node->field_project_contact['und'][1]['value']));
+              }
 							//echo "<pre>".print_r($contact1[1]->field_contact_name['und'][0]['value'],1)."</pre>";
 							//echo "<pre>".print_r($contact2[2]->field_contact_name['und'][0]['value'],1)."</pre>";
 						?>
@@ -326,7 +330,7 @@
 					<h4>News and Multimedia<?php //print $view_photos->get_title(); ?> <?php //print $btnEditPhotos ?></h4>
 					<?php $view_photos->set_arguments(array($nid)); $view_photos->pre_execute(); $view_photos->execute(); print $view_photos->render(); ?>
 					<br/>
-					<?php 
+					<?php
 					//echo "<pre>".print_r($node->field_impact_stories,1)."</pre>";
 					if (count($node->field_impact_stories) > 0): ?>
 					<div class="project-impact-stories">
@@ -344,23 +348,23 @@
 			<div class="row element-invisible">
 				<div id="project-outputs" class="col-sm-4">
 					<h4><?php //print $view_outputs->get_title(); ?> <?php //print $btnEditOutputs ?></h4>
-					<?php 
+					<?php
 						//echo "<pre>".print_r($node->field_outputs,1)."</pre>";
 						if (count($node->field_outputs) > 0): ?>
 					<div class="project-outputs">
 					<ul>
 					<?php foreach($node->field_outputs[LANGUAGE_NONE] as $op){
-					 //echo "<li class='views-row'><span class='views-field views-field-body'><span class='field-content'>".$op['value']."</span></span><div class=\"list-spacer\">&nbsp;</div></li>"; 
-					} 
+					 //echo "<li class='views-row'><span class='views-field views-field-body'><span class='field-content'>".$op['value']."</span></span><div class=\"list-spacer\">&nbsp;</div></li>";
+					}
 					?>
 					</ul>
 					</div>
-					<?php else: $view_outputs->set_arguments(array($nid)); $view_outputs->pre_execute(); $view_outputs->execute(); //print $view_outputs->render(); 
+					<?php else: $view_outputs->set_arguments(array($nid)); $view_outputs->pre_execute(); $view_outputs->execute(); //print $view_outputs->render();
 					endif; ?>
 				</div>
 				<div id="project-impact-stories" class="col-sm-8">
 					<h4><?php //print $view_stories->get_title(); ?> <?php //print $btnEditImpacts ?></h4>
-					<?php 
+					<?php
 					//echo "<pre>".print_r($node->field_impact_stories,1)."</pre>";
 					if (count($node->field_impact_stories) > 0): ?>
 					<div class="project-impact-stories">
@@ -374,7 +378,7 @@
 						//$view_stories->set_arguments(array($nid)); $view_stories->pre_execute(); $view_stories->execute(); //print $view_stories->render();
 					 endif; ?>
 				</div>
-			</div>	
+			</div>
 		</div>
 	</div>
 </div>

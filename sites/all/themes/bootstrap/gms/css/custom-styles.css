@@ -58,7 +58,22 @@ h2{
 #project-page {
   background:#fff;
   margin-top:-40px;
+  padding-right: 0px !important;
+  padding-left: 0px !important;
 }
+
+body.page-about div.main-container.container-fluid,
+body.page-disclaimer div.main-container.container-fluid,
+body.page-contact div.main-container.container-fluid,
+body.page-user div.main-container.container-fluid,
+body.page-search div.main-container.container-fluid,
+body.page-dashboard div.main-container.container-fluid,
+body.page-maps-projects div.main-container.container-fluid,
+body.node-type-project div.main-container.container-fluid {
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+}
+
 #project-functions-authoring-container{
   padding-left:10px;
   padding-bottom:13px;
@@ -105,6 +120,11 @@ body.page-user .main-container .region-content,
   background-color:#3b444c;
   color:#fff;
 }
+
+body.page-user .main-container .region-content {
+  padding: 0px 20px 0px 20px;
+}
+
 #project-map{
   margin-top: 0px;
 }
@@ -245,8 +265,12 @@ body.page-node-edit.node-type-project h4
   padding-left: 18px;
 }
 #project-page .row{
-margin-right:0px !important;
+/*margin-right:0px !important;
 margin-left:0px !important;
+margin-top: 5px;*/
+
+margin: 0px 0px 0px 0px !important;
+
 }
 #project-page .col-sm-12{
 margin-right:15px !important;
@@ -547,7 +571,7 @@ margin-right:5px;
 }
 
 .page-dashboard .carousel-control.right{
-  background: url('http://gmsprogram.org/sites/default/files/images/buttons/next.png')no-repeat;
+  background: url('http://greatermekong.org/projects/sites/default/files/images/buttons/next.png')no-repeat;
   width: 27px;
   height: 31px;
   position: absolute;
@@ -555,7 +579,7 @@ margin-right:5px;
   margin-right: 20px;
 }
 .page-dashboard .carousel-control.left{
-  background: url('http://gmsprogram.org/sites/default/files/images/buttons/previous.png')no-repeat;
+  background: url('http://greatermekong.org/projects/sites/default/files/images/buttons/previous.png')no-repeat;
   width: 27px;
   height: 31px;
   position: absolute;
@@ -563,7 +587,7 @@ margin-right:5px;
   margin-left: 20px;
 }
 #project-photos .carousel-control.right{
-  background: url('http://gmsprogram.org/sites/default/files/images/buttons/next.png')no-repeat;
+  background: url('http://greatermekong.org/projects/sites/default/files/images/buttons/next.png')no-repeat;
   width: 27px;
   height: 31px;
   position: absolute;
@@ -571,7 +595,7 @@ margin-right:5px;
   margin-right: 20px;
 }
 #project-photos .carousel-control.left{
-  background: url('http://gmsprogram.org/sites/default/files/images/buttons/previous.png')no-repeat;
+  background: url('http://greatermekong.org/projects/sites/default/files/images/buttons/previous.png')no-repeat;
   width: 27px;
   height: 31px;
   position: absolute;

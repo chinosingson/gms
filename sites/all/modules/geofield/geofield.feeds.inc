@@ -142,6 +142,13 @@ function geofield_set_target_simple($source, $entity, $target, $values) {
     $delta++;
   }
 
+  foreach ($field[LANGUAGE_NONE] as $delta => $value) {
+    if (!empty($value['lat']) && !empty($value['lon'])) {
+      // Build up geom data.
+      $field[LANGUAGE_NONE][$delta] = geofield_compute_values($value, 'latlon');
+    }
+  }
+
   $entity->$field_name = $field;
 }
 

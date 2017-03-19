@@ -11,24 +11,24 @@
 function gms_misc_menu() {
 
   $items = array();
-  
+
   /*
     $items['gms_misc_map/%'] = array(
 	'title' => t('GMS Map Coordinates'),
     'page callback' => 'gms_misc_map_location',
 	'page arguments' => array(1),
-    'access arguments' => array('access content'), 
+    'access arguments' => array('access content'),
 	'type' => MENU_CALLBACK,
   );
   */
-  
+
     $items['gms_misc_map'] = array(
 	'title' => t('GMS Map Coordinates'),
     'page callback' => 'gms_misc_map_location',
-    'access arguments' => array('access content'), 
+    'access arguments' => array('access content'),
 	'type' => MENU_CALLBACK,
   );
-  
+
 	// render any drupal page via ajax
 	$items['get/ajax'] = array(
     'page callback' => 'gms_misc_ajax_get_ajax', // Render HTML
@@ -36,24 +36,24 @@ function gms_misc_menu() {
     'type' => MENU_CALLBACK,
     'access arguments' => array('access content'),
     'delivery callback' => 'gms_misc_ajax_callback',  // Magic goes here
-  );  
-	
+  );
+
   return $items;
 }
 
 
 function gms_misc_map_location() {
-	
-  global $mydata;	
-	
+
+  global $mydata;
+
   $data = $_POST;
-  
+
 	//$data['myVar'] = 'hello';
 	//$data['formState'] = $form_state;
 
   //$form_state['values']['title'] = $data['name'];
-  
-  
+
+
   drupal_json_output($data);
   exit();
 
@@ -68,27 +68,27 @@ function gms_misc_node_presave($node) {
 		// (previously set by map.js)
 		$json = $node->field_location_temp['und'][0]['value'];
 		//echo "gms_misc.module | json: ".$json."<br/>";
-		  
+
 		$data = json_decode($json);
-		 
+
 		$ctr = 0;
 
 		echo "gms_misc.module | data:".print_r($data,1)."<br/>";
 		// set the values of the json string to discrete values in field_project_locations
 		$node->field_project_locations['und'] = null;	// comment out this line for php imports
-		foreach ($data as $val) {  
+		foreach ($data as $val) {
 			$lat = $val->geometry->coordinates[1];
 			$lng = $val->geometry->coordinates[0];
 			$node->field_project_locations['und'][$ctr]['lat'] = $lat;
 			$node->field_project_locations['und'][$ctr]['lng'] = $lng;
 			$node->field_project_locations['und'][$ctr]['lat_sin'] = sin(deg2rad($lat));
 			$node->field_project_locations['und'][$ctr]['lat_cos'] = cos(deg2rad($lat));
-			$node->field_project_locations['und'][$ctr]['lng_rad'] = deg2rad($lng);  
+			$node->field_project_locations['und'][$ctr]['lng_rad'] = deg2rad($lng);
 			$ctr++;
 		}
 
 		//dpm($node);
-	//}	// uncomment this line for php imports  
+	//}	// uncomment this line for php imports
   }
 }
 
@@ -97,7 +97,7 @@ function gms_misc_user_login(&$edit, $account)
 {
   // Your logic will set $redirection to the desired location
   $redirection = 'maps/projects';
-  
+
 // Unless there is already a redirection going, or the user is trying to reset his password, we redirect to $redirection.
   if (empty($_GET['destination'])
     && !is_null($redirection)
@@ -132,5 +132,5 @@ function gms_misc_js_alter(&$javascript, &$vars) {
     $javascript[$ip_geoloc_path] = $gms_ip_geoloc_path;
     drupal_add_js($gms_ip_geoloc_path);
   }
-	
+
 }

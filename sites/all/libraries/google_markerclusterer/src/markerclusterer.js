@@ -60,8 +60,8 @@
  * @constructor
  * @extends google.maps.OverlayView
  */
- 
-//console.log('markerclusterer: '+Drupal.settings.basePath); 
+
+//console.log('markerclusterer: '+Drupal.settings.basePath);
 function MarkerClusterer(map, opt_markers, opt_options) {
   // MarkerClusterer implements google.maps.OverlayView interface. We use the
   // extend function to extend MarkerClusterer with google.maps.OverlayView

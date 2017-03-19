@@ -5,17 +5,16 @@ sites/*/settings*.php
 sites/*/files
 sites/*/private
 
-# ignore user scripts
-coords.php
+# Ignore these folders
+tmp_photos
+drupal-backups
+dev
+error_log
+error_log_prod
+
+# Ignore these files
 outputs.php
 photo.php
 impacts.php
-
-# ignore dev folders
-dev/
-drupal-backups/
-tmp_photos/
-
-# ignore error logs
-error_log
-error_log_prod
+coords.php
+*.~csv

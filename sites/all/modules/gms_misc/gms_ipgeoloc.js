@@ -52,7 +52,7 @@
         var markerHeight  = settings[m].ip_geoloc_multi_location_marker_height;
         var markerAnchor  = settings[m].ip_geoloc_multi_location_marker_anchor;
         var markerColor   = settings[m].ip_geoloc_multi_location_marker_default_color;
-        
+
         var defaultPinImage = !markerColor ? null : new google.maps.MarkerImage(
           markerDirname + '/' + markerColor + imageExt,
           new google.maps.Size(markerWidth, markerHeight),
@@ -128,16 +128,18 @@
 
 			// add economic corridor KML
 			var kmzLayer = new google.maps.KmlLayer({
-				url: 'http://gmsprogram.org/sites/default/files/kmz/ec_roads.kmz',
+				url: 'http://greatermekong.org/projects/sites/default/files/kmz/ec_roads.kmz?aaa',
+				//url: 'http://gmsprogram.org/sites/default/files/kmz/ec_roads.kmz?aaa',
+				//url: 'http://localhost/gms/sites/default/files/kmz/ec_roads.kmz',
 				preserveViewport: true,
-				suppressInfoWindows: false,
+				suppressInfoWindows: true,
 				map: maps[0]
 			});
 			// toggle KML on and off
 			$('#kmz-toggle').on('click', function(){
 				toggleKMZ(maps[0],kmzLayer);
-			}); 
-			
+			});
+
 		} else if(divId == 'ip-geoloc-map-of-view-project_node_locations-block_proj_node_loc' || divId == 'ip-geoloc-map-of-view-leaflet_view_test-block_1') {
 			//console.log('project view');
 			if (markers.length > 1){
@@ -147,7 +149,7 @@
 			}
 			//console.log(maps[0].getZoom());
 		}
-		
+
 		google.maps.event.addDomListener(window, 'resize', function() {
 			//console.log(maps[0].getZoom());
 			//console.log('resize');
@@ -186,9 +188,10 @@
 		  $('#kmz-toggle').html('Corridors OFF');
 		  layer.setMap(baseMap);
 		} else {
+      //console.log(layer);
 		  $('#kmz-toggle').html('Corridors ON');
 		  layer.setMap(null);
-		}			
+		}
 		  //baseMap.setZoom(currzoom);
 	  }
 
@@ -252,7 +255,7 @@
             position: position,
             zIndex: 9999,
             title: mouseOverText,
-            icon: pinImage 
+            icon: pinImage
           //shadow: shadowImage
           });
         }

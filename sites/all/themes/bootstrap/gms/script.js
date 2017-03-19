@@ -115,7 +115,7 @@
 				$('#edit-field-project-cost-total-und-0-value').attr('type','number');
 			});*/
 
-			$('body.page-about, body.page-contact, body.page-disclaimer, body.page-user').ready(function(){
+			$('body.page-about, body.page-contact, body.page-disclaimer, body.page-user, body.page-all-projects').ready(function(){
 				$('html').css('height','100%');
 				//$('div.main-container').css('height','100%');
 				// set to full page size on first render
@@ -132,6 +132,7 @@
 					$('body.page-disclaimer .main-container .region-content').css('height',totalHeight);
 					$('body.page-contact .main-container .region-content').css('height',totalHeight);
 					$('body.page-contact .main-container .region-content').css('height',totalHeight);
+					$('body.page-project-list .main-container .region-content').css('height',totalHeight);
 				});
 
 				$(window).bind('resize',function (){
@@ -391,7 +392,20 @@
 				//$('body.node-type-project #views-bootstrap-carousel-1 a.carousel-control.right span').html('&gt;');
 				//$('body.node-type-project #views-bootstrap-carousel-1 a.carousel-control.left span').html('&lt;');
 			});
-			// footer
+
+      // project list
+      $('body.page-project-list').ready(function(){
+
+        $('#pl-export').on('click', function(){
+          console.log('pl-export');
+          //$(this).attr('data-query');
+
+        });
+
+      });
+
+
+      // footer
 			$('#block-menu-menu-footer-menu').removeClass('clearfix');
 			$('#block-menu-menu-footer-menu ul').addClass('navbar-nav');
 

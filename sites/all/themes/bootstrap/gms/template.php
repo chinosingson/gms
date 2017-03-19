@@ -196,7 +196,8 @@ function gms_menu_link__main_menu(array $variables) {
 			$element['#href'] = "printpdf/".$alias;
 		}
 
-		if(arg(0) == "maps" || arg(0) == "user" ) {
+    // hide the Print PDF link on these pages
+		if(arg(0) == "maps" || arg(0) == "user" || arg(0) == "project-list" ) {
 			//$element['#href'] = "printpdf/".arg(0)."/".arg(1);
 			//$element['#original_link']['hidden'] = TRUE;
 			$element['#attributes']['class'][] = 'btn';
